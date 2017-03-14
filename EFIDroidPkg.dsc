@@ -20,7 +20,7 @@
 ################################################################################
 [Defines]
   PLATFORM_NAME                  = EFIDroidPkg
-  PLATFORM_GUID                  = 37d7e986-f7e9-45c2-8067-e371421a626c
+  PLATFORM_GUID                  = 20c92237-999e-4d37-9325-7b1a90455c34
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
   OUTPUT_DIRECTORY               = Build/EFIDroid-$(ARCH)

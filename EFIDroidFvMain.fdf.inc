@@ -24,7 +24,7 @@
 ################################################################################
 
 [FV.FvMain]
-FvNameGuid         = 64074afe-340a-4be6-94ba-91b5b4d0f71e
+FvNameGuid         = 8ff51dbd-b856-4acb-b859-8536d892ed3a
 BlockSize          = 0x40
 NumBlocks          = 0         # This FV gets compressed so make it just big enough
 FvAlignment        = 16        # FV alignment and FV attributes setting.
