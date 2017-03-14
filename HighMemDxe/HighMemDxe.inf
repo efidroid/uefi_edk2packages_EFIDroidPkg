@@ -30,7 +30,7 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   ArmPkg/ArmPkg.dec
-  ArmVirtPkg/ArmVirtPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
 
 [LibraryClasses]
   BaseLib

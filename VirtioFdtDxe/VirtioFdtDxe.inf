@@ -26,7 +26,7 @@
   VirtioFdtDxe.c
 
 [Packages]
-  ArmVirtPkg/ArmVirtPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
   MdePkg/MdePkg.dec
   OvmfPkg/OvmfPkg.dec
 

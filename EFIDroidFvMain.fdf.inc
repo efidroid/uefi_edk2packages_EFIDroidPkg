@@ -46,9 +46,9 @@ READ_LOCK_STATUS   = TRUE
 
   INF MdeModulePkg/Core/Dxe/DxeMain.inf
   INF MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
-  INF ArmVirtPkg/VirtioFdtDxe/VirtioFdtDxe.inf
-  INF ArmVirtPkg/FdtClientDxe/FdtClientDxe.inf
-  INF ArmVirtPkg/HighMemDxe/HighMemDxe.inf
+  INF EFIDroidPkg/VirtioFdtDxe/VirtioFdtDxe.inf
+  INF EFIDroidPkg/FdtClientDxe/FdtClientDxe.inf
+  INF EFIDroidPkg/HighMemDxe/HighMemDxe.inf
 
   #
   # PI DXE Drivers producing Architectural Protocols (EFI Services)

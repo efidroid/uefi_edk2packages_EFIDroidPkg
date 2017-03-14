@@ -27,7 +27,7 @@
 
 [Packages]
   ArmPkg/ArmPkg.dec
-  ArmVirtPkg/ArmVirtPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
   MdeModulePkg/MdeModulePkg.dec
   MdePkg/MdePkg.dec
 
