@@ -44,7 +44,7 @@
   CpuLib|MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
 
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
-  HobLib|EFIDroidPkg/Library/ArmVirtDxeHobLib/ArmVirtDxeHobLib.inf
+  HobLib|EFIDroidPkg/Library/EFIDroidDxeHobLib/EFIDroidDxeHobLib.inf
   UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
   DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
   UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
@@ -93,15 +93,15 @@
   ArmDisassemblerLib|ArmPkg/Library/ArmDisassemblerLib/ArmDisassemblerLib.inf
   DmaLib|ArmPkg/Library/ArmDmaLib/ArmDmaLib.inf
   ArmGicLib|ArmPkg/Drivers/ArmGic/ArmGicLib.inf
-  ArmGicArchLib|EFIDroidPkg/Library/ArmVirtGicArchLib/ArmVirtGicArchLib.inf
+  ArmGicArchLib|EFIDroidPkg/Library/EFIDroidGicArchLib/EFIDroidGicArchLib.inf
   ArmPlatformStackLib|ArmPlatformPkg/Library/ArmPlatformStackLib/ArmPlatformStackLib.inf
   ArmSmcLib|ArmPkg/Library/ArmSmcLib/ArmSmcLib.inf
   ArmHvcLib|ArmPkg/Library/ArmHvcLib/ArmHvcLib.inf
   ArmGenericTimerCounterLib|ArmPkg/Library/ArmGenericTimerVirtCounterLib/ArmGenericTimerVirtCounterLib.inf
 
   PlatformPeiLib|EFIDroidPkg/Library/PlatformPeiLib/PlatformPeiLib.inf
-  MemoryInitPeiLib|EFIDroidPkg/Library/ArmVirtMemoryInitPeiLib/ArmVirtMemoryInitPeiLib.inf
-  EfiResetSystemLib|EFIDroidPkg/Library/ArmVirtPsciResetSystemLib/ArmVirtPsciResetSystemLib.inf
+  MemoryInitPeiLib|EFIDroidPkg/Library/EFIDroidMemoryInitPeiLib/EFIDroidMemoryInitPeiLib.inf
+  EfiResetSystemLib|EFIDroidPkg/Library/EFIDroidPsciResetSystemLib/EFIDroidPsciResetSystemLib.inf
 
   # ARM PL031 RTC Driver
   RealTimeClockLib|ArmPlatformPkg/Library/PL031RealTimeClockLib/PL031RealTimeClockLib.inf
@@ -131,8 +131,6 @@
 
   # USB Libraries
   UefiUsbLib|MdePkg/Library/UefiUsbLib/UefiUsbLib.inf
-
-  XenIoMmioLib|OvmfPkg/Library/XenIoMmioLib/XenIoMmioLib.inf
 
   #
   # Secure Boot dependencies

@@ -52,7 +52,7 @@
   VirtioMmioDeviceLib|OvmfPkg/Library/VirtioMmioDeviceLib/VirtioMmioDeviceLib.inf
   QemuFwCfgLib|EFIDroidPkg/Library/QemuFwCfgLib/QemuFwCfgLib.inf
 
-  ArmPlatformLib|EFIDroidPkg/Library/ArmQemuRelocatablePlatformLib/ArmQemuRelocatablePlatformLib.inf
+  ArmPlatformLib|EFIDroidPkg/Library/EFIDroidRelocatablePlatformLib/EFIDroidRelocatablePlatformLib.inf
   ArmPlatformSysConfigLib|ArmPlatformPkg/Library/ArmPlatformSysConfigLibNull/ArmPlatformSysConfigLibNull.inf
 
   TimerLib|ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.inf
@@ -220,7 +220,7 @@
   #
   # PEI Phase modules
   #
-  EFIDroidPkg/PrePi/ArmVirtPrePiUniCoreRelocatable.inf {
+  EFIDroidPkg/PrePi/EFIDroidPrePiUniCoreRelocatable.inf {
     <LibraryClasses>
       ExtractGuidedSectionLib|EmbeddedPkg/Library/PrePiExtractGuidedSectionLib/PrePiExtractGuidedSectionLib.inf
       LzmaDecompressLib|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
@@ -266,7 +266,7 @@
   EmbeddedPkg/ResetRuntimeDxe/ResetRuntimeDxe.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf {
     <LibraryClasses>
-      NULL|EFIDroidPkg/Library/ArmVirtPL031FdtClientLib/ArmVirtPL031FdtClientLib.inf
+      NULL|EFIDroidPkg/Library/EFIDroidPL031FdtClientLib/EFIDroidPL031FdtClientLib.inf
   }
   EmbeddedPkg/MetronomeDxe/MetronomeDxe.inf
 
@@ -281,7 +281,7 @@
   ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
   ArmPkg/Drivers/TimerDxe/TimerDxe.inf {
     <LibraryClasses>
-      NULL|EFIDroidPkg/Library/ArmVirtTimerFdtClientLib/ArmVirtTimerFdtClientLib.inf
+      NULL|EFIDroidPkg/Library/EFIDroidTimerFdtClientLib/EFIDroidTimerFdtClientLib.inf
   }
   ArmPlatformPkg/Drivers/NorFlashDxe/NorFlashDxe.inf
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
