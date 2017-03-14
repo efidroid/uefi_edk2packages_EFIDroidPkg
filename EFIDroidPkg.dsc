@@ -19,15 +19,15 @@
 #
 ################################################################################
 [Defines]
-  PLATFORM_NAME                  = ArmVirtQemu
+  PLATFORM_NAME                  = EFIDroidPkg
   PLATFORM_GUID                  = 37d7e986-f7e9-45c2-8067-e371421a626c
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/ArmVirtQemu-$(ARCH)
+  OUTPUT_DIRECTORY               = Build/EFIDroid-$(ARCH)
   SUPPORTED_ARCHITECTURES        = AARCH64|ARM
   BUILD_TARGETS                  = DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT
-  FLASH_DEFINITION               = ArmVirtPkg/ArmVirtQemu.fdf
+  FLASH_DEFINITION               = EFIDroidPkg/EFIDroidPkg.fdf
 
   #
   # Defines for default states.  These can be changed on the command line.
@@ -35,7 +35,7 @@
   #
   DEFINE SECURE_BOOT_ENABLE      = FALSE
 
-!include ArmVirtPkg/ArmVirt.dsc.inc
+!include EFIDroidPkg/EFIDroid.dsc.inc
 
 [LibraryClasses.AARCH64]
   ArmCpuLib|ArmPkg/Drivers/ArmCpuLib/ArmCortexAEMv8Lib/ArmCortexAEMv8Lib.inf
@@ -52,7 +52,7 @@
   VirtioMmioDeviceLib|OvmfPkg/Library/VirtioMmioDeviceLib/VirtioMmioDeviceLib.inf
   QemuFwCfgLib|ArmVirtPkg/Library/QemuFwCfgLib/QemuFwCfgLib.inf
 
-  ArmPlatformLib|ArmVirtPkg/Library/ArmVirtPlatformLib/ArmVirtPlatformLib.inf
+  ArmPlatformLib|ArmVirtPkg/Library/ArmQemuRelocatablePlatformLib/ArmQemuRelocatablePlatformLib.inf
   ArmPlatformSysConfigLib|ArmPlatformPkg/Library/ArmPlatformSysConfigLibNull/ArmPlatformSysConfigLibNull.inf
 
   TimerLib|ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.inf
@@ -77,6 +77,11 @@
   GCC:*_*_ARM_PLATFORM_FLAGS == -mcpu=cortex-a15 -I$(WORKSPACE)/ArmVirtPkg/Include
   *_*_AARCH64_PLATFORM_FLAGS == -I$(WORKSPACE)/ArmVirtPkg/Include
 
+[BuildOptions.ARM.EDKII.SEC, BuildOptions.ARM.EDKII.BASE]
+  # Avoid MOVT/MOVW instruction pairs in code that may end up in the PIE
+  # executable we build for the relocatable PrePi. They are not runtime
+  # relocatable in ELF.
+  *_CLANG35_*_CC_FLAGS = -mno-movt
 
 ################################################################################
 #
@@ -130,11 +135,23 @@
   #
   gArmTokenSpaceGuid.PcdArmArchTimerFreqInHz|0
 
-  # System Memory Base -- fixed at 0x4000_0000
-  gArmTokenSpaceGuid.PcdSystemMemoryBase|0x40000000
+[PcdsPatchableInModule.common]
+  #
+  # This will be overridden in the code
+  #
+  gArmTokenSpaceGuid.PcdSystemMemoryBase|0x0
+  gArmTokenSpaceGuid.PcdSystemMemorySize|0x0
 
-  # initial location of the device tree blob passed by QEMU -- base of DRAM
+  #
+  # Define a default initial address for the device tree.
+  # Ignored if x0 != 0 at entry.
+  #
   gArmVirtTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress|0x40000000
+
+  gArmTokenSpaceGuid.PcdFdBaseAddress|0x0
+  gArmTokenSpaceGuid.PcdFvBaseAddress|0x0
+
+[PcdsFixedAtBuild.AARCH64]
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdResetOnMemoryTypeInformationChange|FALSE
   gEfiMdeModulePkgTokenSpaceGuid.PcdBootManagerMenuFile|{ 0x21, 0xaa, 0x2c, 0x46, 0x14, 0x76, 0x03, 0x45, 0x83, 0x6e, 0x8a, 0xb6, 0xf4, 0x66, 0x23, 0x31 }
@@ -146,22 +163,9 @@
   #
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize|16
 
-[PcdsFixedAtBuild.AARCH64]
   # KVM limits it IPA space to 40 bits (1 TB), so there is no need to
   # support anything bigger, even if the host hardware does
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuMemorySize|40
-
-  # Clearing BIT0 in this PCD prevents installing a 32-bit SMBIOS entry point,
-  # if the entry point version is >= 3.0. AARCH64 OSes cannot assume the
-  # presence of the 32-bit entry point anyway (because many AARCH64 systems
-  # don't have 32-bit addressable physical RAM), and the additional allocations
-  # below 4 GB needlessly fragment the memory map. So expose the 64-bit entry
-  # point only, for entry point versions >= 3.0.
-  gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosEntryPointProvideMethod|0x2
-
-  # ACPI predates the AARCH64 architecture by 5 versions, so
-  # we only target OSes that support ACPI v5.0 or later
-  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
 
 [PcdsDynamicDefault.common]
   gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|3
@@ -169,9 +173,6 @@
   ## If TRUE, OvmfPkg/AcpiPlatformDxe will not wait for PCI
   #  enumeration to complete before installing ACPI tables.
   gEfiMdeModulePkgTokenSpaceGuid.PcdPciDisableBusEnumeration|TRUE
-
-  # System Memory Size -- 1 MB initially, actual size will be fetched from DT
-  gArmTokenSpaceGuid.PcdSystemMemorySize|0x00100000
 
   gArmTokenSpaceGuid.PcdArmArchTimerSecIntrNum|0x0
   gArmTokenSpaceGuid.PcdArmArchTimerIntrNum|0x0
@@ -219,21 +220,14 @@
   #
   # PEI Phase modules
   #
-  ArmPlatformPkg/PrePeiCore/PrePeiCoreUniCore.inf
-  MdeModulePkg/Core/Pei/PeiMain.inf
-  MdeModulePkg/Universal/PCD/Pei/Pcd.inf {
+  ArmVirtPkg/PrePi/ArmVirtPrePiUniCoreRelocatable.inf {
     <LibraryClasses>
-      PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
-  }
-  ArmPlatformPkg/PlatformPei/PlatformPeim.inf
-  ArmPlatformPkg/MemoryInitPei/MemoryInitPeim.inf
-  ArmPkg/Drivers/CpuPei/CpuPei.inf
-
-  MdeModulePkg/Universal/Variable/Pei/VariablePei.inf
-
-  MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf {
-    <LibraryClasses>
-      NULL|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
+      ExtractGuidedSectionLib|EmbeddedPkg/Library/PrePiExtractGuidedSectionLib/PrePiExtractGuidedSectionLib.inf
+      LzmaDecompressLib|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
+      PrePiLib|EmbeddedPkg/Library/PrePiLib/PrePiLib.inf
+      HobLib|EmbeddedPkg/Library/PrePiHobLib/PrePiHobLib.inf
+      PrePiHobListPointerLib|ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointerLib.inf
+      MemoryAllocationLib|EmbeddedPkg/Library/PrePiMemoryAllocationLib/PrePiMemoryAllocationLib.inf
   }
 
   #

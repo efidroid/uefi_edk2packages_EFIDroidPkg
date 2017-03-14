@@ -104,7 +104,7 @@ FV = FVMAIN_COMPACT
 #
 ################################################################################
 
-!include ArmVirtQemuFvMain.fdf.inc
+!include EFIDroidFvMain.fdf.inc
 
 [FV.FVMAIN_COMPACT]
 FvAlignment        = 16
@@ -132,4 +132,4 @@ READ_LOCK_STATUS   = TRUE
     }
   }
 
-!include ArmVirtRules.fdf.inc
+!include EFIDroidRules.fdf.inc
