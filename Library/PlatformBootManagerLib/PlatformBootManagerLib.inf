@@ -65,7 +65,7 @@
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultStopBits
 
 [Pcd]
-  gArmVirtTokenSpaceGuid.PcdTerminalTypeGuidBuffer
+  gEFIDroidTokenSpaceGuid.PcdTerminalTypeGuidBuffer
   gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut
 
 [Guids]

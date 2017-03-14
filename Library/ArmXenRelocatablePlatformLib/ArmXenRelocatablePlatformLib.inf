@@ -50,7 +50,7 @@
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryInitializeInSec
 
 [PatchPcd]
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
   gArmTokenSpaceGuid.PcdFdBaseAddress
   gArmTokenSpaceGuid.PcdFvBaseAddress
   gArmTokenSpaceGuid.PcdSystemMemoryBase

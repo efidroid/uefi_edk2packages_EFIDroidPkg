@@ -37,7 +37,7 @@
   EFIDroidPkg/EFIDroidPkg.dec
 
 [Pcd]
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
 
 [FixedPcd]
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate

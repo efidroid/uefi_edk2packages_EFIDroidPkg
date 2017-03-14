@@ -102,7 +102,7 @@
 [Pcd]
   gArmTokenSpaceGuid.PcdSystemMemoryBase
   gArmTokenSpaceGuid.PcdSystemMemorySize
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
   gArmTokenSpaceGuid.PcdFdBaseAddress
   gArmTokenSpaceGuid.PcdFvBaseAddress
 

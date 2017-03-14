@@ -31,7 +31,7 @@
   Include                        # Root include for the package
 
 [Guids.common]
-  gArmVirtTokenSpaceGuid = { 0x0B6F5CA7, 0x4F53, 0x445A, { 0xB7, 0x6E, 0x2E, 0x36, 0x5B, 0x80, 0x63, 0x66 } }
+  gEFIDroidTokenSpaceGuid = { 0XA5326F70, 0X0EBD, 0X48D1, { 0X8D, 0X2F, 0X87, 0X74, 0X7B, 0X4C, 0X03, 0X17 } }
   gEarlyPL011BaseAddressGuid       = { 0xB199DEA9, 0xFD5C, 0x4A84, { 0x80, 0x82, 0x2F, 0x41, 0x70, 0x78, 0x03, 0x05 } }
 
 [Protocols]
@@ -44,17 +44,17 @@
   # can do a first pass over the device tree in the SEC phase to discover the
   # UART base address.
   #
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress|0x0|UINT64|0x00000001
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress|0x0|UINT64|0x00000001
 
   #
   # Padding in bytes to add to the device tree allocation, so that the DTB can
   # be modified in place (default: 256 bytes)
   #
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeAllocationPadding|256|UINT32|0x00000002
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeAllocationPadding|256|UINT32|0x00000002
 
   #
   # Binary representation of the GUID that determines the terminal type. The
   # size must be exactly 16 bytes. The default value corresponds to
   # EFI_VT_100_GUID.
   #
-  gArmVirtTokenSpaceGuid.PcdTerminalTypeGuidBuffer|{0x65, 0x60, 0xA6, 0xDF, 0x19, 0xB4, 0xD3, 0x11, 0x9A, 0x2D, 0x00, 0x90, 0x27, 0x3F, 0xC1, 0x4D}|VOID*|0x00000007
+  gEFIDroidTokenSpaceGuid.PcdTerminalTypeGuidBuffer|{0x65, 0x60, 0xA6, 0xDF, 0x19, 0xB4, 0xD3, 0x11, 0x9A, 0x2D, 0x00, 0x90, 0x27, 0x3F, 0xC1, 0x4D}|VOID*|0x00000007

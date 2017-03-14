@@ -38,11 +38,11 @@
 
 [FixedPcd]
   gArmTokenSpaceGuid.PcdFvSize
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeAllocationPadding
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeAllocationPadding
 
 [Pcd]
   gArmTokenSpaceGuid.PcdFvBaseAddress
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
 
 [Guids]
   gEarlyPL011BaseAddressGuid

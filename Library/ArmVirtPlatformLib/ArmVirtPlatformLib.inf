@@ -54,7 +54,7 @@
   gArmTokenSpaceGuid.PcdSystemMemorySize
 
 [FixedPcd]
-  gArmVirtTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
+  gEFIDroidTokenSpaceGuid.PcdDeviceTreeInitialBaseAddress
   gArmPlatformTokenSpaceGuid.PcdCoreCount
   gArmTokenSpaceGuid.PcdSystemMemoryBase
   gArmTokenSpaceGuid.PcdArmPrimaryCoreMask
