@@ -119,3 +119,19 @@ READ_LOCK_STATUS   = TRUE
   # Ramdisk support
   #
   INF MdeModulePkg/Universal/Disk/RamDiskDxe/RamDiskDxe.inf
+
+  #
+  # ChipVendor FV
+  #
+  FILE FV_IMAGE = B67596E9-EA27-40E4-885C-5AE83D414BD4 {
+    SECTION FV_IMAGE = FvMain$(EFIDROID_CHIPVENDOR)
+  }
+
+  #
+  # Platform FV
+  #
+  FILE FV_IMAGE = 61FD7C3E-E7F1-4F2D-9509-382F8CAE8B67 {
+    SECTION FV_IMAGE = FvMain$(EFIDROID_PLATFORM)
+  }
+
+
