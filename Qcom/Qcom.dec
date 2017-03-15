@@ -1,0 +1,8 @@
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = EFIDroidPkgQcom
+  PACKAGE_GUID                   = 1DB9DEAA-C353-478D-A3A1-CBF3CA584265
+  PACKAGE_VERSION                = 0.1
+
+[Includes.common]
+  Include

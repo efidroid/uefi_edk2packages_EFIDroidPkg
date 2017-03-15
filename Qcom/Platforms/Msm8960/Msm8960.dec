@@ -1,0 +1,8 @@
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = EFIDroidPkgPlatformMsm8960
+  PACKAGE_GUID                   = 136CEB4E-7F64-4F98-9E74-6C07C7616468
+  PACKAGE_VERSION                = 0.1
+
+[Includes.common]
+  Include

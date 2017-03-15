@@ -1,0 +1,39 @@
+#/** @file
+# Memory Status Code Library for UEFI drivers
+#
+# Lib to provide memory journal status code reporting Routines
+# Copyright (c) 2006, Intel Corporation. All rights reserved.<BR>
+#
+#  This program and the accompanying materials
+#  are licensed and made available under the terms and conditions of the BSD License
+#  which accompanies this distribution. The full text of the license may be found at
+#  http://opensource.org/licenses/bsd-license.php
+#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+#
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PlatformDxeInitLib
+  FILE_GUID                      = 731BABAD-3671-49DF-9972-17FBD52A8BBA
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = PlatformDxeInitLib
+
+
+[Sources.common]
+  PlatformDxeInitLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
+
+[Pcd.common]
+  gArmTokenSpaceGuid.PcdGicDistributorBase
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase
+  gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase
