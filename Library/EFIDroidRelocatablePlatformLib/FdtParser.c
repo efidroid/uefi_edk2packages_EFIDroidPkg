@@ -12,9 +12,12 @@
 
 #include <Uefi.h>
 #include <Include/libfdt.h>
+#include "atags.h"
+
+#define ROUNDDOWN(a, b) ((a) & ~((b)-1))
 
 BOOLEAN
-FindMemnode (
+FindMemnodeFdt (
   IN  VOID    *DeviceTreeBlob,
   OUT UINT64  *SystemMemoryBase,
   OUT UINT64  *SystemMemorySize
@@ -79,12 +82,75 @@ FindMemnode (
   return TRUE;
 }
 
+BOOLEAN
+FindMemnodeAtags (
+  IN  VOID    *Tags,
+  OUT UINT64  *SystemMemoryBase,
+  OUT UINT64  *SystemMemorySize
+  )
+{
+  struct tag *ATags;
+  struct tag *Tag;
+  UINT64     MemStart;
+  UINT64     MemEnd;
+
+  ATags = (struct tag *) Tags;
+  MemStart = 0xFFFFFFFFFFFFFFFF;
+  MemEnd   = 0x0;
+
+  if (ATags->hdr.tag != ATAG_CORE) {
+    return FALSE;
+  }
+
+  //
+  // Look for the highest available memory address
+  //
+  for (Tag = ATags; Tag->hdr.size; Tag = tag_next(Tag)) {
+    if (Tag->hdr.tag == ATAG_MEM) {
+      UINT64 End = ((UINT64)Tag->u.mem.start) + Tag->u.mem.size - 1;
+
+      if (Tag->u.mem.start < MemStart)
+        MemStart = Tag->u.mem.start;
+      if (End > MemEnd)
+        MemEnd = End;
+    }
+  }
+
+  // this works around SMEM being removed from the regions
+  MemStart = ROUNDDOWN(MemStart, 8*1024*1024);
+
+  *SystemMemorySize = MemEnd - MemStart + 1;
+  *SystemMemoryBase = MemStart;
+
+  return TRUE;
+}
+
+BOOLEAN
+FindMemnode (
+  IN  VOID    *DeviceTreeBlob,
+  OUT UINT64  *SystemMemoryBase,
+  OUT UINT64  *SystemMemorySize
+  )
+{
+  if (FindMemnodeFdt (DeviceTreeBlob, SystemMemoryBase, SystemMemorySize) == TRUE) {
+    return TRUE;
+  }
+
+  if (FindMemnodeAtags (DeviceTreeBlob, SystemMemoryBase, SystemMemorySize) == TRUE) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
 VOID
 CopyFdt (
   IN    VOID    *FdtDest,
   IN    VOID    *FdtSource
   )
 {
-  fdt_pack(FdtSource);
-  CopyMem (FdtDest, FdtSource, fdt_totalsize (FdtSource));
+  if (fdt_check_header (FdtSource) == 0) {
+    fdt_pack(FdtSource);
+    CopyMem (FdtDest, FdtSource, fdt_totalsize (FdtSource));
+  }
 }
