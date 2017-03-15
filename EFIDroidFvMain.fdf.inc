@@ -44,8 +44,14 @@ READ_STATUS        = TRUE
 READ_LOCK_CAP      = TRUE
 READ_LOCK_STATUS   = TRUE
 
+  APRIORI DXE {
+    INF MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
+    INF EFIDroidPkg/Drivers/DxeInit/DxeInit.inf
+  }
+
   INF MdeModulePkg/Core/Dxe/DxeMain.inf
   INF MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
+  INF EFIDroidPkg/Drivers/DxeInit/DxeInit.inf
 
   #
   # PI DXE Drivers producing Architectural Protocols (EFI Services)

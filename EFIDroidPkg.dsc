@@ -193,6 +193,7 @@
     <LibraryClasses>
       PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   }
+  EFIDroidPkg/Drivers/DxeInit/DxeInit.inf
 
   #
   # Architectural Protocols
