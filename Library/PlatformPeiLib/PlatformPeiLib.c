@@ -21,7 +21,6 @@
 #include <Library/PcdLib.h>
 #include <libfdt.h>
 
-#include <Guid/EarlyPL011BaseAddress.h>
 #include <Guid/FdtHob.h>
 
 EFI_STATUS
@@ -35,65 +34,20 @@ PlatformPeim (
   UINTN              FdtSize;
   UINTN              FdtPages;
   UINT64             *FdtHobData;
-  UINT64             *UartHobData;
-  INT32              Node, Prev;
-  CONST CHAR8        *Compatible;
-  CONST CHAR8        *CompItem;
-  INT32              Len;
-  CONST UINT64       *RegProp;
-  UINT64             UartBase;
-
 
   Base = (VOID*)(UINTN)PcdGet64 (PcdDeviceTreeInitialBaseAddress);
   ASSERT (Base != NULL);
-  ASSERT (fdt_check_header (Base) == 0);
 
-  FdtSize = fdt_totalsize (Base) + PcdGet32 (PcdDeviceTreeAllocationPadding);
-  FdtPages = EFI_SIZE_TO_PAGES (FdtSize);
-  NewBase = AllocatePages (FdtPages);
-  ASSERT (NewBase != NULL);
-  fdt_open_into (Base, NewBase, EFI_PAGES_TO_SIZE (FdtPages));
+  if (fdt_check_header (Base) == 0) {
+    FdtSize = fdt_totalsize (Base) + PcdGet32 (PcdDeviceTreeAllocationPadding);
+    FdtPages = EFI_SIZE_TO_PAGES (FdtSize);
+    NewBase = AllocatePages (FdtPages);
+    ASSERT (NewBase != NULL);
+    fdt_open_into (Base, NewBase, EFI_PAGES_TO_SIZE (FdtPages));
 
-  FdtHobData = BuildGuidHob (&gFdtHobGuid, sizeof *FdtHobData);
-  ASSERT (FdtHobData != NULL);
-  *FdtHobData = (UINTN)NewBase;
-
-  UartHobData = BuildGuidHob (&gEarlyPL011BaseAddressGuid, sizeof *UartHobData);
-  ASSERT (UartHobData != NULL);
-  *UartHobData = 0;
-
-  //
-  // Look for a UART node
-  //
-  for (Prev = 0;; Prev = Node) {
-    Node = fdt_next_node (Base, Prev, NULL);
-    if (Node < 0) {
-      break;
-    }
-
-    //
-    // Check for UART node
-    //
-    Compatible = fdt_getprop (Base, Node, "compatible", &Len);
-
-    //
-    // Iterate over the NULL-separated items in the compatible string
-    //
-    for (CompItem = Compatible; CompItem != NULL && CompItem < Compatible + Len;
-      CompItem += 1 + AsciiStrLen (CompItem)) {
-
-      if (AsciiStrCmp (CompItem, "arm,pl011") == 0) {
-        RegProp = fdt_getprop (Base, Node, "reg", &Len);
-        ASSERT (Len == 16);
-
-        UartBase = fdt64_to_cpu (ReadUnaligned64 (RegProp));
-
-        DEBUG ((EFI_D_INFO, "%a: PL011 UART @ 0x%lx\n", __FUNCTION__, UartBase));
-
-        *UartHobData = UartBase;
-        break;
-      }
-    }
+    FdtHobData = BuildGuidHob (&gFdtHobGuid, sizeof *FdtHobData);
+    ASSERT (FdtHobData != NULL);
+    *FdtHobData = (UINTN)NewBase;
   }
 
   BuildFvHob (PcdGet64 (PcdFvBaseAddress), PcdGet32 (PcdFvSize));
