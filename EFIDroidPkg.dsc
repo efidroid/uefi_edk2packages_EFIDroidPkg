@@ -47,27 +47,15 @@
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
   ArmMmuLib|ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
 
-  # Virtio Support
-  VirtioLib|OvmfPkg/Library/VirtioLib/VirtioLib.inf
-  VirtioMmioDeviceLib|OvmfPkg/Library/VirtioMmioDeviceLib/VirtioMmioDeviceLib.inf
-  QemuFwCfgLib|EFIDroidPkg/Library/QemuFwCfgLib/QemuFwCfgLib.inf
-
   ArmPlatformLib|EFIDroidPkg/Library/EFIDroidRelocatablePlatformLib/EFIDroidRelocatablePlatformLib.inf
   ArmPlatformSysConfigLib|ArmPlatformPkg/Library/ArmPlatformSysConfigLibNull/ArmPlatformSysConfigLibNull.inf
-
-  TimerLib|ArmPkg/Library/ArmArchTimerLib/ArmArchTimerLib.inf
-  NorFlashPlatformLib|EFIDroidPkg/Library/NorFlashQemuLib/NorFlashQemuLib.inf
 
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
   BootLogoLib|MdeModulePkg/Library/BootLogoLib/BootLogoLib.inf
   PlatformBootManagerLib|EFIDroidPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
   CustomizedDisplayLib|MdeModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
   FrameBufferBltLib|MdeModulePkg/Library/FrameBufferBltLib/FrameBufferBltLib.inf
-  QemuBootOrderLib|OvmfPkg/Library/QemuBootOrderLib/QemuBootOrderLib.inf
   FileExplorerLib|MdeModulePkg/Library/FileExplorerLib/FileExplorerLib.inf
-  PciPcdProducerLib|EFIDroidPkg/Library/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
-  PciSegmentLib|MdePkg/Library/BasePciSegmentLibPci/BasePciSegmentLibPci.inf
-  PciHostBridgeLib|EFIDroidPkg/Library/FdtPciHostBridgeLib/FdtPciHostBridgeLib.inf
 
 [LibraryClasses.common.UEFI_DRIVER]
   UefiScsiLib|MdePkg/Library/UefiScsiLib/UefiScsiLib.inf
@@ -90,9 +78,6 @@
 ################################################################################
 
 [PcdsFeatureFlag.common]
-  gUefiOvmfPkgTokenSpaceGuid.PcdQemuBootOrderPciTranslation|TRUE
-  gUefiOvmfPkgTokenSpaceGuid.PcdQemuBootOrderMmioTranslation|TRUE
-
   ## If TRUE, Graphics Output Protocol will be installed on virtual handle created by ConsplitterDxe.
   #  It could be set FALSE to save size.
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutGopSupport|TRUE
@@ -119,9 +104,6 @@
   # ARM PrimeCell
   #
 
-  ## PL011 - Serial Terminal
-  gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate|38400
-
   ## Default Terminal Type
   ## 0-PCANSI, 1-VT100, 2-VT00+, 3-UTF8, 4-TTYTERM
 !if $(TTY_TERMINAL) == TRUE
@@ -129,11 +111,6 @@
 !else
   gEfiMdePkgTokenSpaceGuid.PcdDefaultTerminalType|1
 !endif
-
-  #
-  # ARM Virtual Architectural Timer -- fetch frequency from QEMU (TCG) or KVM
-  #
-  gArmTokenSpaceGuid.PcdArmArchTimerFreqInHz|0
 
 [PcdsPatchableInModule.common]
   #
@@ -170,30 +147,12 @@
 [PcdsDynamicDefault.common]
   gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|3
 
-  ## If TRUE, OvmfPkg/AcpiPlatformDxe will not wait for PCI
-  #  enumeration to complete before installing ACPI tables.
-  gEfiMdeModulePkgTokenSpaceGuid.PcdPciDisableBusEnumeration|TRUE
-
-  gArmTokenSpaceGuid.PcdArmArchTimerSecIntrNum|0x0
-  gArmTokenSpaceGuid.PcdArmArchTimerIntrNum|0x0
-  gArmTokenSpaceGuid.PcdArmArchTimerVirtIntrNum|0x0
-  gArmTokenSpaceGuid.PcdArmArchTimerHypIntrNum|0x0
-
   #
   # ARM General Interrupt Controller
   #
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x0
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x0
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x0
-
-  ## PL031 RealTimeClock
-  gArmPlatformTokenSpaceGuid.PcdPL031RtcBase|0x0
-
-  # set PcdPciExpressBaseAddress to MAX_UINT64, which signifies that this
-  # PCD and PcdPciDisableBusEnumeration above have not been assigned yet
-  gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress|0xFFFFFFFFFFFFFFFF
-
-  gArmTokenSpaceGuid.PcdPciIoTranslation|0x0
 
   #
   # Set video resolution for boot options and for text setup.
@@ -203,13 +162,6 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdVideoVerticalResolution|600
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoHorizontalResolution|640
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoVerticalResolution|480
-
-  #
-  # SMBIOS entry point version
-  #
-  gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosVersion|0x0300
-  gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosDocRev|0x0
-  gUefiOvmfPkgTokenSpaceGuid.PcdQemuSmbiosValidated|FALSE
 
 ################################################################################
 #
@@ -279,23 +231,11 @@
   MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
 
   ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
-  ArmPkg/Drivers/TimerDxe/TimerDxe.inf {
-    <LibraryClasses>
-      NULL|EFIDroidPkg/Library/EFIDroidTimerFdtClientLib/EFIDroidTimerFdtClientLib.inf
-  }
-  ArmPlatformPkg/Drivers/NorFlashDxe/NorFlashDxe.inf
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
 
   #
   # Platform Driver
   #
-  EFIDroidPkg/VirtioFdtDxe/VirtioFdtDxe.inf
-  EFIDroidPkg/FdtClientDxe/FdtClientDxe.inf
-  EFIDroidPkg/HighMemDxe/HighMemDxe.inf
-  OvmfPkg/VirtioBlkDxe/VirtioBlk.inf
-  OvmfPkg/VirtioScsiDxe/VirtioScsi.inf
-  OvmfPkg/VirtioNetDxe/VirtioNet.inf
-  OvmfPkg/VirtioRngDxe/VirtioRng.inf
 
   #
   # FAT filesystem + GPT/MBR partitioning
@@ -319,60 +259,4 @@
       NULL|MdeModulePkg/Library/DeviceManagerUiLib/DeviceManagerUiLib.inf
       NULL|MdeModulePkg/Library/BootManagerUiLib/BootManagerUiLib.inf
       NULL|MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib.inf
-  }
-
-  #
-  # SCSI Bus and Disk Driver
-  #
-  MdeModulePkg/Bus/Scsi/ScsiBusDxe/ScsiBusDxe.inf
-  MdeModulePkg/Bus/Scsi/ScsiDiskDxe/ScsiDiskDxe.inf
-
-  #
-  # SMBIOS Support
-  #
-  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf {
-    <LibraryClasses>
-      NULL|OvmfPkg/Library/SmbiosVersionLib/DetectSmbiosVersionLib.inf
-  }
-  OvmfPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.inf
-
-  #
-  # PCI support
-  #
-  ArmPkg/Drivers/ArmPciCpuIo2Dxe/ArmPciCpuIo2Dxe.inf {
-    <LibraryClasses>
-      NULL|EFIDroidPkg/Library/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
-  }
-  MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
-  MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf {
-    <LibraryClasses>
-      NULL|EFIDroidPkg/Library/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
-  }
-  OvmfPkg/VirtioPciDeviceDxe/VirtioPciDeviceDxe.inf
-  OvmfPkg/Virtio10Dxe/Virtio10.inf
-
-  #
-  # Video support
-  #
-  OvmfPkg/QemuVideoDxe/QemuVideoDxe.inf
-  OvmfPkg/VirtioGpuDxe/VirtioGpu.inf
-  OvmfPkg/PlatformDxe/Platform.inf
-
-  #
-  # USB Support
-  #
-  MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
-  MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
-  MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
-  MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
-  MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
-
-[Components.AARCH64]
-  #
-  # ACPI Support
-  #
-  MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
-  OvmfPkg/AcpiPlatformDxe/QemuFwCfgAcpiPlatformDxe.inf {
-    <LibraryClasses>
-      NULL|EFIDroidPkg/Library/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
   }

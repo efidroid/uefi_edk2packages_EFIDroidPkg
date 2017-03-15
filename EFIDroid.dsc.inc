@@ -71,12 +71,6 @@
   # use the accelerated BaseMemoryLibOptDxe by default, overrides for SEC/PEI below
   BaseMemoryLib|MdePkg/Library/BaseMemoryLibOptDxe/BaseMemoryLibOptDxe.inf
 
-  # Networking Requirements
-  NetLib|MdeModulePkg/Library/DxeNetLib/DxeNetLib.inf
-  DpcLib|MdeModulePkg/Library/DxeDpcLib/DxeDpcLib.inf
-  UdpIoLib|MdeModulePkg/Library/DxeUdpIoLib/DxeUdpIoLib.inf
-  IpIoLib|MdeModulePkg/Library/DxeIpIoLib/DxeIpIoLib.inf
-
   #
   # It is not possible to prevent the ARM compiler from inserting calls to intrinsic functions.
   # This library provides the instrinsic functions such a compiler may generate calls to.
@@ -101,13 +95,6 @@
 
   PlatformPeiLib|EFIDroidPkg/Library/PlatformPeiLib/PlatformPeiLib.inf
   MemoryInitPeiLib|EFIDroidPkg/Library/EFIDroidMemoryInitPeiLib/EFIDroidMemoryInitPeiLib.inf
-  EfiResetSystemLib|EFIDroidPkg/Library/EFIDroidPsciResetSystemLib/EFIDroidPsciResetSystemLib.inf
-
-  # ARM PL031 RTC Driver
-  RealTimeClockLib|ArmPlatformPkg/Library/PL031RealTimeClockLib/PL031RealTimeClockLib.inf
-  # ARM PL011 UART Driver
-  PL011UartLib|ArmPlatformPkg/Drivers/PL011Uart/PL011Uart.inf
-  SerialPortLib|EFIDroidPkg/Library/FdtPL011SerialPortLib/FdtPL011SerialPortLib.inf
 
   #
   # Uncomment (and comment out the next line) For RealView Debugger. The Standard IO window
@@ -124,13 +111,6 @@
 
   # Flattened Device Tree (FDT) access library
   FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
-
-  # PCI Libraries
-  PciLib|MdePkg/Library/BasePciLibPciExpress/BasePciLibPciExpress.inf
-  PciExpressLib|EFIDroidPkg/Library/BaseCachingPciExpressLib/BaseCachingPciExpressLib.inf
-
-  # USB Libraries
-  UefiUsbLib|MdePkg/Library/UefiUsbLib/UefiUsbLib.inf
 
   #
   # Secure Boot dependencies
@@ -157,7 +137,6 @@
 
   DebugAgentLib|ArmPkg/Library/DebugAgentSymbolsBaseLib/DebugAgentSymbolsBaseLib.inf
   DefaultExceptionHandlerLib|ArmPkg/Library/DefaultExceptionHandlerLib/DefaultExceptionHandlerLibBase.inf
-  SerialPortLib|EFIDroidPkg/Library/FdtPL011SerialPortLib/EarlyFdtPL011SerialPortLib.inf
   HobLib|MdePkg/Library/PeiHobLib/PeiHobLib.inf
   PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
   PeiServicesTablePointerLib|ArmPkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf
@@ -178,7 +157,6 @@
   ExtractGuidedSectionLib|MdePkg/Library/PeiExtractGuidedSectionLib/PeiExtractGuidedSectionLib.inf
 
   PeiServicesTablePointerLib|ArmPkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf
-  SerialPortLib|EFIDroidPkg/Library/FdtPL011SerialPortLib/EarlyFdtPL011SerialPortLib.inf
 
 [LibraryClasses.common.PEIM]
   PcdLib|MdePkg/Library/PeiPcdLib/PeiPcdLib.inf
@@ -196,7 +174,6 @@
   ExtractGuidedSectionLib|MdePkg/Library/PeiExtractGuidedSectionLib/PeiExtractGuidedSectionLib.inf
 
   PeiServicesTablePointerLib|ArmPkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf
-  SerialPortLib|EFIDroidPkg/Library/FdtPL011SerialPortLib/EarlyFdtPL011SerialPortLib.inf
 
 [LibraryClasses.common.DXE_CORE]
   HobLib|MdePkg/Library/DxeCoreHobLib/DxeCoreHobLib.inf
@@ -281,12 +258,6 @@
   gEmbeddedTokenSpaceGuid.PcdPrePiProduceMemoryTypeInformationHob|TRUE
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdTurnOffUsbLegacySupport|TRUE
-
-[PcdsFeatureFlag.AARCH64]
-  #
-  # Activate AcpiSdtProtocol
-  #
-  gEfiMdeModulePkgTokenSpaceGuid.PcdInstallAcpiSdtProtocol|TRUE
 
 [PcdsFixedAtBuild.common]
   gEfiMdePkgTokenSpaceGuid.PcdMaximumUnicodeStringLength|1000000
@@ -394,21 +365,6 @@
 
 [Components.common]
   #
-  # Networking stack
-  #
-  MdeModulePkg/Universal/Network/DpcDxe/DpcDxe.inf
-  MdeModulePkg/Universal/Network/ArpDxe/ArpDxe.inf
-  MdeModulePkg/Universal/Network/Dhcp4Dxe/Dhcp4Dxe.inf
-  MdeModulePkg/Universal/Network/Ip4Dxe/Ip4Dxe.inf
-  MdeModulePkg/Universal/Network/MnpDxe/MnpDxe.inf
-  MdeModulePkg/Universal/Network/VlanConfigDxe/VlanConfigDxe.inf
-  MdeModulePkg/Universal/Network/Mtftp4Dxe/Mtftp4Dxe.inf
-  MdeModulePkg/Universal/Network/Tcp4Dxe/Tcp4Dxe.inf
-  MdeModulePkg/Universal/Network/Udp4Dxe/Udp4Dxe.inf
-  MdeModulePkg/Universal/Network/UefiPxeBcDxe/UefiPxeBcDxe.inf
-  MdeModulePkg/Universal/Network/IScsiDxe/IScsiDxe.inf
-
-  #
   # Ramdisk support
   #
   MdeModulePkg/Universal/Disk/RamDiskDxe/RamDiskDxe.inf
@@ -425,8 +381,6 @@
       NULL|ShellPkg/Library/UefiShellDriver1CommandsLib/UefiShellDriver1CommandsLib.inf
       NULL|ShellPkg/Library/UefiShellDebug1CommandsLib/UefiShellDebug1CommandsLib.inf
       NULL|ShellPkg/Library/UefiShellInstall1CommandsLib/UefiShellInstall1CommandsLib.inf
-      NULL|ShellPkg/Library/UefiShellNetwork1CommandsLib/UefiShellNetwork1CommandsLib.inf
-      NULL|ShellPkg/Library/UefiShellTftpCommandLib/UefiShellTftpCommandLib.inf
       HandleParsingLib|ShellPkg/Library/UefiHandleParsingLib/UefiHandleParsingLib.inf
       PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
       BcfgCommandLib|ShellPkg/Library/UefiShellBcfgCommandLib/UefiShellBcfgCommandLib.inf
@@ -436,10 +390,3 @@
       gEfiShellPkgTokenSpaceGuid.PcdShellLibAutoInitialize|FALSE
       gEfiMdePkgTokenSpaceGuid.PcdUefiLibMaxPrintBufferSize|8000
   }
-
-[Components.AARCH64]
-  #
-  # ACPI Support
-  #
-  MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
-  MdeModulePkg/Universal/EbcDxe/EbcDxe.inf
