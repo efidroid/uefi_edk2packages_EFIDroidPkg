@@ -147,13 +147,6 @@
   gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|3
 
   #
-  # ARM General Interrupt Controller
-  #
-  gArmTokenSpaceGuid.PcdGicDistributorBase|0x0
-  gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x0
-  gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x0
-
-  #
   # Set video resolution for boot options and for text setup.
   # PlatformDxe can set the former at runtime.
   #
