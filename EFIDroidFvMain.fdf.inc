@@ -53,6 +53,10 @@ READ_LOCK_STATUS   = TRUE
     INF ArmPkg/Drivers/CpuDxe/CpuDxe.inf
     INF ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
 
+    # next, setup the FDT client and setup all memory regions
+    INF EFIDroidPkg/Drivers/FdtClientDxe/FdtClientDxe.inf
+    INF EFIDroidPkg/Drivers/HighMemDxe/HighMemDxe.inf
+
     # finally, call DxeInitPostGic
     INF EFIDroidPkg/Drivers/DxeInit/DxeInitPostGic.inf
   }
@@ -103,6 +107,8 @@ READ_LOCK_STATUS   = TRUE
   #
   # Platform Driver
   #
+  INF EFIDroidPkg/Drivers/FdtClientDxe/FdtClientDxe.inf
+  INF EFIDroidPkg/Drivers/HighMemDxe/HighMemDxe.inf
 
   #
   # UEFI application (Shell Embedded Boot Loader)

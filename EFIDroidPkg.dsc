@@ -231,6 +231,8 @@
   #
   # Platform Driver
   #
+  EFIDroidPkg/Drivers/FdtClientDxe/FdtClientDxe.inf
+  EFIDroidPkg/Drivers/HighMemDxe/HighMemDxe.inf
 
   #
   # FAT filesystem + GPT/MBR partitioning

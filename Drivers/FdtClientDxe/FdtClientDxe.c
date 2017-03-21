@@ -21,7 +21,6 @@
 #include <Library/HobLib.h>
 #include <libfdt.h>
 
-#include <Guid/Acpi.h>
 #include <Guid/EventGroup.h>
 #include <Guid/Fdt.h>
 #include <Guid/FdtHob.h>
