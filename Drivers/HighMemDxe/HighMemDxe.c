@@ -75,7 +75,7 @@ InitializeHighMemDxe (
 
       if (PcdGet64 (PcdSystemMemoryBase) != CurBase) {
         Status = gDS->AddMemorySpace (EfiGcdMemoryTypeSystemMemory, CurBase,
-                        CurSize, EFI_MEMORY_WB);
+                        CurSize, EFI_MEMORY_WC|EFI_MEMORY_WT|EFI_MEMORY_WB);
 
         if (EFI_ERROR (Status)) {
           DEBUG ((EFI_D_ERROR,
