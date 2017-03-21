@@ -1,19 +1,3 @@
-#/** @file
-#
-#  Component description file for PL011SerialPortLib module
-#
-#  Copyright (c) 2011-2015, ARM Ltd. All rights reserved.<BR>
-#
-#  This program and the accompanying materials
-#  are licensed and made available under the terms and conditions of the BSD License
-#  which accompanies this distribution.  The full text of the license may be found at
-#  http://opensource.org/licenses/bsd-license.php
-#
-#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-#
-#**/
-
 [Defines]
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = UartDmSerialPortLib
@@ -21,15 +5,22 @@
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = SerialPortLib|DXE_CORE DXE_DRIVER UEFI_DRIVER DXE_RUNTIME_DRIVER UEFI_APPLICATION
-#  CONSTRUCTOR                    = UartDmSerialPortLibInitialize
+  CONSTRUCTOR                    = UartDmSerialPortLibInitialize
 
 [Sources.common]
-  #FdtPL011SerialPortLib.c
-  EarlyUartDmSerialPortLib.c
+  UartDmSerialPortLib.c
+  uart_dm_rw.c
 
 [LibraryClasses]
   HobLib
   IoLib
+  TimerLib
+
+[Guids]
+  gQcomUartDmBaseGuid
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdUartDmClkRxTxBitRate
 
 [Packages]
   EmbeddedPkg/EmbeddedPkg.dec
@@ -37,4 +28,5 @@
   MdeModulePkg/MdeModulePkg.dec
   ArmPlatformPkg/ArmPlatformPkg.dec
   EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
   ArmPkg/ArmPkg.dec

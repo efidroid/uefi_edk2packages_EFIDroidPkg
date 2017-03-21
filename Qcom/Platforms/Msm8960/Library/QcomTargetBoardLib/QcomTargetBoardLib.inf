@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomTargetBoardLib
+  FILE_GUID                      = 50BB8C0A-DCE7-4ED5-A85A-8CC483FBB768
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomTargetBoardLib
+
+
+[Sources.common]
+  QcomTargetBoardLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
+
+[LibraryClasses]
+  DebugLib

@@ -1,0 +1,27 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformDxeTimerLib
+  FILE_GUID                      = 2A0468E0-2C28-4325-B978-E2C3C3BB448F
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformDxeTimerLib
+
+
+[Sources.common]
+  QcomPlatformDxeTimerLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
+
+[LibraryClasses]
+  IoLib
+  DebugLib
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdMsmDgtBase
+  gQcomTokenSpaceGuid.PcdMsmDgtClkCtlOffset

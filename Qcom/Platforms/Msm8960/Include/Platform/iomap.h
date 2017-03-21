@@ -1,7 +1,7 @@
-/* Copyright (c) 2009-2015, The Linux Foundation. All rights reserved.
- *
- * Copyright (c) 2008, Google Inc.
+/* Copyright (c) 2008, Google Inc.
  * All rights reserved.
+ *
+ * Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -41,30 +41,9 @@
 #define MSM_SHARED_IMEM_BASE 0x2A03F000
 #define RESTART_REASON_ADDR  (MSM_SHARED_IMEM_BASE + 0x65C)
 
-#define MSM_SHARED_BASE     0x80000000
-
 #define MSM_TCSR_BASE       0x1A400000
-#define MSM_GIC_DIST_BASE   0x02000000
 #define MSM_TMR_BASE        0x0200A000
-#define MSM_GPT_BASE        (MSM_TMR_BASE + 0x04)
-#define MSM_DGT_BASE        (MSM_TMR_BASE + 0x24)
-#define SPSS_TIMER_STATUS   (MSM_TMR_BASE + 0x88)
 
-#define GPT_REG(off)        (MSM_GPT_BASE + (off))
-#define DGT_REG(off)        (MSM_DGT_BASE + (off))
-
-#define GPT_MATCH_VAL        GPT_REG(0x0000)
-#define GPT_COUNT_VAL        GPT_REG(0x0004)
-#define GPT_ENABLE           GPT_REG(0x0008)
-#define GPT_CLEAR            GPT_REG(0x000C)
-
-#define DGT_MATCH_VAL        DGT_REG(0x0000)
-#define DGT_COUNT_VAL        DGT_REG(0x0004)
-#define DGT_ENABLE           DGT_REG(0x0008)
-#define DGT_CLEAR            DGT_REG(0x000C)
-#define DGT_CLK_CTL          DGT_REG(0x0010)
-
-#define MSM_GIC_CPU_BASE    0x02002000
 #define MSM_VIC_BASE        0x02080000
 #define MSM_TCSR_SIZE       4096
 #define MSM_USB_BASE        0x12500000
@@ -83,8 +62,6 @@
 
 #define GPIO_CONFIG_ADDR(x) (TLMM_BASE_ADDR + 0x1000 + (x)*0x10)
 #define GPIO_IN_OUT_ADDR(x) (TLMM_BASE_ADDR + 0x1004 + (x)*0x10)
-#define GSBIn_UART_I2C_SEL(x)   (TLMM_BASE_ADDR + 0x20D0 + (x)*0x4)
-
 
 #define EBI2_CHIP_SELECT_CFG0   0x1A100000
 #define EBI2_XMEM_CS3_CFG1      0x1A110034
@@ -145,15 +122,4 @@
 #define CE1_CRYPTO4_BASE        (0x18500000)
 #define CE3_CRYPTO4_BASE        (0x11000000)
 #define LCDC_BASE               (0x000C0000)
-#define GSBI_BASE(id)           (id < 10)? GSBI_BASE1(id):SPS_GSBI_BASE(id)
-#define QUP_BASE(id)            (id < 10)? QUP_BASE1(id):SPS_QUP_BASE(id)
-#define GSBI_UART_DM_BASE(id)   (id < 10)? GSBI_UART_DM_BASE1(id):SPS_GSBI_UART_DM_BASE(id)
-
-#define GSBI_BASE1(id)           (0x16000000 + ((id-1) * 0x100000))
-#define GSBI_UART_DM_BASE1(id)   (GSBI_BASE1(id) + 0x40000)
-#define QUP_BASE1(id)            (GSBI_BASE1(id) + 0x80000)
-
-#define SPS_GSBI_BASE(id)           (0x12440000 + ((id-1) * 0x40000))
-#define SPS_GSBI_UART_DM_BASE(id)   (SPS_GSBI_BASE(id) + 0x10000)
-#define SPS_QUP_BASE(id)            (SPS_GSBI_BASE(id) + 0x20000)
 #endif

@@ -1,0 +1,23 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformClockInitLib
+  FILE_GUID                      = DF48C53A-902E-4457-9927-AAEF995CD051
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformClockInitLib
+
+
+[Sources.common]
+  clock.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
+
+[LibraryClasses]
+  IoLib
+  ArmLib

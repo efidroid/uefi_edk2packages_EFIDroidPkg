@@ -1,37 +1,17 @@
-/** @file
-  Serial I/O Port library functions with base address discovered from FDT
+#include <PiPei.h>
 
-  Copyright (c) 2008 - 2010, Apple Inc. All rights reserved.<BR>
-  Copyright (c) 2012 - 2013, ARM Ltd. All rights reserved.<BR>
-  Copyright (c) 2014, Linaro Ltd. All rights reserved.<BR>
-  Copyright (c) 2015, Intel Corporation. All rights reserved.<BR>
-
-  This program and the accompanying materials
-  are licensed and made available under the terms and conditions of the BSD License
-  which accompanies this distribution.  The full text of the license may be found at
-  http://opensource.org/licenses/bsd-license.php
-
-  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-
-**/
-
-#include <Base.h>
-
+#include <Library/LKEnvLib.h>
 #include <Library/PcdLib.h>
+#include <Library/HobLib.h>
 #include <Library/SerialPortLib.h>
 #include <Library/IoLib.h>
+#include <Library/QcomTargetUartDmLib.h>
+#include <Library/QcomSmemSecLib.h>
+#include <Library/QcomBoardSecLib.h>
+#include <Library/QcomClockSecLib.h>
+#include <Library/QcomGpioTlmmSecLib.h>
 
-#define UARTDM_SR     (0x08)
-#define UARTDM_CR     (0x10)
-#define UARTDM_ISR    (0x14)
-#define UARTDM_NCF_TX (0x40)
-#define UARTDM_TF     (0x70)
-
-#define UARTDM_SR_TXEMT            (1 << 3)
-#define UARTDM_SR_TXRDY            (1 << 2)
-#define UARTDM_TX_READY            (1 << 7)
-#define UARTDM_CR_CMD_RESET_TX_READY      (3 << 8)
+#include "uartdm_p.h"
 
 RETURN_STATUS
 EFIAPI
@@ -39,34 +19,34 @@ SerialPortInitialize (
   VOID
   )
 {
-  //
-  // This SerialPortInitialize() function is completely empty, for a number of
-  // reasons:
-  // - if we are executing from flash, it is hard to keep state (i.e., store the
-  //   discovered base address in a global), and the most robust way to deal
-  //   with this is to discover the base address at every Write ();
-  // - calls to the Write() function in this module may be issued before this
-  //   initialization function is called: this is not a problem when the base
-  //   address of the UART is hardcoded, and only the baud rate may be wrong,
-  //   but if we don't know the base address yet, we may be poking into memory
-  //   that does not tolerate being poked into;
-  // - SEC and PEI phases produce debug output only, so with debug disabled, no
-  //   initialization (or device tree parsing) is performed at all.
-  //
-  // Note that this means that on *every* Write () call, the device tree will be
-  // parsed and the UART re-initialized. However, this is a small price to pay
-  // for having serial debug output on a UART with no fixed base address.
-  //
-  return RETURN_SUCCESS;
-}
+  RETURN_STATUS Status;
+  UINT8         Id;
+  UINTN         GsbiBase;
+  UINTN         UartDmBase;
 
-STATIC
-UINT64
-SerialPortGetBaseAddress (
-  VOID
-  )
-{
-  return 0x16640000;
+  // call library constructors
+  SmemSecLibConstructor ();
+  BoardSecLibConstructor ();
+  ClockSecLibConstructor ();
+  GpioTlmmSecLibConstructor ();
+
+  // get UART config
+  Status = LibQcomTargetGetUartDmConfig (&Id, &GsbiBase, &UartDmBase);
+  if (RETURN_ERROR(Status)) {
+    return Status;
+  }
+
+  // initialize UART
+  uart_dm_init(Id, GsbiBase, UartDmBase);
+  g_uart_dm_base = UartDmBase;
+
+  // store UARTDM base in a Hob
+  UINT64 *UartHobData;
+  UartHobData = BuildGuidHob (&gQcomUartDmBaseGuid, sizeof *UartHobData);
+  ASSERT (UartHobData != NULL);
+  *UartHobData = UartDmBase;
+
+  return Status;
 }
 
 /**
@@ -86,34 +66,18 @@ SerialPortWrite (
   IN UINTN     NumberOfBytes
   )
 {
-  UINT64 SerialRegisterBase;
-
-  SerialRegisterBase = SerialPortGetBaseAddress ();
-  if (SerialRegisterBase != 0) {
-    UINT8* CONST Final = &Buffer[NumberOfBytes];
-
-    while (Buffer < Final) {
-      // Check if transmit FIFO is empty. If not we'll wait for TX_READY interrupt.
-      if (!(MmioRead32(SerialRegisterBase + UARTDM_SR) & UARTDM_SR_TXEMT)) {
-          while (!(MmioRead32(SerialRegisterBase + UARTDM_ISR) & UARTDM_TX_READY));
-      }
-
-      // Clear TX_READY interrupt
-      MmioWrite32(SerialRegisterBase + UARTDM_CR, UARTDM_CR_CMD_RESET_TX_READY);
-
-      // Write number of characters to be written
-      MmioWrite32(SerialRegisterBase + UARTDM_NCF_TX, 1);
-
-      // Wait till TX FIFO has space
-      while (!(MmioRead32(SerialRegisterBase + UARTDM_SR) & UARTDM_SR_TXRDY));
-
-      // Write the character
-      MmioWrite32(SerialRegisterBase + UARTDM_TF, *Buffer++);
+  UINTN Num = 0;
+  UINT8* CONST Final = &Buffer[NumberOfBytes];
+  while (Buffer < Final) {
+    int rc = uart_putc(*Buffer++);
+    if (rc <= 0) {
+      break;
     }
-
-    return NumberOfBytes;
+    else {
+      Num += rc;
+    }
   }
-  return 0;
+  return Num;
 }
 
 /**
@@ -133,7 +97,18 @@ SerialPortRead (
   IN  UINTN     NumberOfBytes
 )
 {
-  return 0;
+  UINTN Num = 0;
+  UINT8* CONST Final = &Buffer[NumberOfBytes];
+  while (Buffer < Final) {
+    int rc = uart_getc(Buffer++, TRUE);
+    if (rc <= 0) {
+      break;
+    }
+    else {
+      Num += rc;
+    }
+  }
+  return Num;
 }
 
 /**
@@ -149,7 +124,7 @@ SerialPortPoll (
   VOID
   )
 {
-  return FALSE;
+  return uart_tstc()==1;
 }
 
 /**

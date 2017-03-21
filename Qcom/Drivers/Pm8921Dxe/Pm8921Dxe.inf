@@ -1,0 +1,29 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = Pm8921Dxe
+  FILE_GUID                      = 61353485-DD03-4C71-9B16-5B5707BEE562
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+
+  ENTRY_POINT                    = Pm8921DxeInitialize
+
+[Sources.common]
+  Driver.c
+  pm8921.c
+  pm8921_pwm.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+
+[Protocols]
+  gQcomSsbiProtocolGuid
+  gQcomPm8921ProtocolGuid
+
+[Depex]
+  gQcomSsbiProtocolGuid

@@ -1,5 +1,5 @@
 /*
- * * Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
+ * * Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -30,7 +30,6 @@
 #define __PLATFORM_MSM8960_CLOCK_H
 
 #define MSM_MMSS_CLK_CTL_SIZE 4096
-#define UART_DM_CLK_RX_TX_BIT_RATE 0xFF
 
 #define REG(off)        (MSM_CLK_CTL_BASE + (off))
 #define REG_MM(off)     (MSM_MMSS_CLK_CTL_BASE + (off))
@@ -336,31 +335,11 @@ struct pll_rate {
 #define DSI_MD_VAL            0x000003FB
 #define DSI_CC_VAL            0x00000080
 
-/*
- *DSI config table
- */
-typedef struct
-{
-	uint32_t         dsi_pix_clk;
-	uint32_t         dsi_num_lanes;
-	uint32_t         dsi_col_frmt;
-	uint32_t         dsi_esc_ns;
-	uint32_t         dsi_esc_cc;
-	uint32_t         dsi_byte_ns;
-	uint32_t         dsi_byte_cc;
-	uint32_t         dsi_pixel_ns;
-	uint32_t         dsi_pixel_md;
-	uint32_t         dsi_pixel_cc;
-	uint32_t         dsi_ns;
-	uint32_t         dsi_md;
-	uint32_t         dsi_cc;
-} dsi_config_table_type;
-
 void config_mmss_clk(uint32_t ns,
              uint32_t md,
              uint32_t cc,
              uint32_t ns_addr, uint32_t md_addr, uint32_t cc_addr);
 void config_mdp_lut_clk(void);
 void mdp_clock_init(void);
-void clock_config_uart_dm(uint8_t id);
+
 #endif

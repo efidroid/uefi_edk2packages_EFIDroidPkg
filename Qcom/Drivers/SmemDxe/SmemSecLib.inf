@@ -1,0 +1,21 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = SmemSecLib
+  FILE_GUID                      = E3287235-3074-4371-8E78-BD0025BD1DFE
+  MODULE_TYPE                    = SEC
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = SmemSecLib
+  CONSTRUCTOR                    = SmemSecLibConstructor
+
+[Sources.common]
+  Library.c
+  smem.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdMsmSharedBase

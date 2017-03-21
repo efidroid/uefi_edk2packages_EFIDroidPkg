@@ -32,8 +32,3 @@
   EFIDroidPkg/EFIDroidPkg.dec
   EFIDroidPkg/Qcom/Qcom.dec
   EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
-
-[Pcd.common]
-  gArmTokenSpaceGuid.PcdGicDistributorBase
-  gArmTokenSpaceGuid.PcdGicRedistributorsBase
-  gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase

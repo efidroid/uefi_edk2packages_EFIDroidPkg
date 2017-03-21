@@ -1,19 +1,3 @@
-/** @file
-  Timer Architecture Protocol driver of the ARM flavor
-
-  Copyright (c) 2011-2013 ARM Ltd. All rights reserved.<BR>
-
-  This program and the accompanying materials
-  are licensed and made available under the terms and conditions of the BSD License
-  which accompanies this distribution.  The full text of the license may be found at
-  http://opensource.org/licenses/bsd-license.php
-
-  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-
-**/
-
-
 #include <PiDxe.h>
 
 #include <Library/ArmLib.h>
@@ -24,7 +8,7 @@
 #include <Library/UefiLib.h>
 #include <Library/PcdLib.h>
 #include <Library/IoLib.h>
-#include <Library/QcomPlatformImplLib.h>
+#include <Library/QcomDxeTimerLib.h>
 
 #include <Protocol/Timer.h>
 #include <Protocol/HardwareInterrupt.h>
@@ -100,7 +84,7 @@ ExitBootServicesEvent (
   IN VOID       *Context
   )
 {
-  LibQcomTimerDisable ();
+  LibQcomDxeTimerDisable ();
 }
 
 /**
@@ -143,13 +127,13 @@ TimerDriverSetTimerPeriod (
   EFI_STATUS  Status;
 
   // Always disable the timer
-  LibQcomTimerDisable ();
+  LibQcomDxeTimerDisable ();
 
   if (TimerPeriod != 0) {
     // TimerTicks = TimerPeriod in 1ms unit x Frequency.10^-3
     //             = TimerPeriod.10^-4 x Frequency.10^-3
     //             = (TimerPeriod x Frequency) x 10^-7
-    TimerTicks = MultU64x32 (TimerPeriod, LibQcomPlatformTimerGetFreq ());
+    TimerTicks = MultU64x32 (TimerPeriod, LibQcomDxeTimerGetFreq ());
     TimerTicks = DivU64x32 (TimerTicks, 10000000U);
 
     OriginalTPL = gBS->RaiseTPL (TPL_HIGH_LEVEL);
@@ -157,7 +141,7 @@ TimerDriverSetTimerPeriod (
     mTimerPeriod   = TimerPeriod;
 
     // Enable the timer
-    LibQcomTimerEnable (TimerTicks);
+    LibQcomDxeTimerEnable (TimerTicks);
 
     gBS->RestoreTPL (OriginalTPL);
 
@@ -334,14 +318,12 @@ TimerInitialize (
   Status = gBS->LocateProtocol (&gHardwareInterruptProtocolGuid, NULL, (VOID **)&gInterrupt);
   ASSERT_EFI_ERROR (Status);
 
-  //
   // disable timer
-  //
   Status = TimerDriverSetTimerPeriod (&gTimer, 0);
   ASSERT_EFI_ERROR (Status);
 
   // Install interrupt handler
-  gVector = LibQcomPlatformTimerGetIntrNum ();
+  gVector = PcdGet64 (PcdIntDebugTimerExp);
   Status = gInterrupt->RegisterInterruptSource (gInterrupt, gVector, TimerInterruptHandler);
   ASSERT_EFI_ERROR (Status);
 

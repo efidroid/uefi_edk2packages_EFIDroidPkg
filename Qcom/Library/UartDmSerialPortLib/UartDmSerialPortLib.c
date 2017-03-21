@@ -1,34 +1,10 @@
-/** @file
-  Serial I/O Port library functions with base address discovered from FDT
+#include <PiDxe.h>
 
-  Copyright (c) 2008 - 2010, Apple Inc. All rights reserved.<BR>
-  Copyright (c) 2012 - 2013, ARM Ltd. All rights reserved.<BR>
-  Copyright (c) 2014, Linaro Ltd. All rights reserved.<BR>
-  Copyright (c) 2014, Red Hat, Inc.<BR>
-  Copyright (c) 2015, Intel Corporation. All rights reserved.<BR>
-
-  This program and the accompanying materials
-  are licensed and made available under the terms and conditions of the BSD License
-  which accompanies this distribution.  The full text of the license may be found at
-  http://opensource.org/licenses/bsd-license.php
-
-  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
-  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-
-**/
-
-#include <Base.h>
-
-#include <Library/PcdLib.h>
+#include <Library/LKEnvLib.h>
 #include <Library/SerialPortLib.h>
-#include <Pi/PiBootMode.h>
-#include <Uefi/UefiBaseType.h>
-#include <Uefi/UefiMultiPhase.h>
-#include <Pi/PiHob.h>
 #include <Library/HobLib.h>
 
-
-STATIC UINTN mSerialBaseAddress;
+#include "uartdm_p.h"
 
 RETURN_STATUS
 EFIAPI
@@ -39,21 +15,24 @@ SerialPortInitialize (
   return RETURN_SUCCESS;
 }
 
-/**
-
-  Program hardware of Serial port
-
-  @return    RETURN_NOT_FOUND if no PL011 base address could be found
-             Otherwise, result of PL011UartInitializePort () is returned
-
-**/
 RETURN_STATUS
 EFIAPI
-FdtPL011SerialPortLibInitialize (
+UartDmSerialPortLibInitialize (
   VOID
   )
 {
-  return EFI_SUCCESS;
+  VOID                *Hob;
+  CONST UINT64        *UartBase;
+
+  Hob = GetFirstGuidHob (&gQcomUartDmBaseGuid);
+  if (Hob == NULL || GET_GUID_HOB_DATA_SIZE (Hob) != sizeof *UartBase) {
+    return RETURN_NOT_FOUND;
+  }
+  UartBase = GET_GUID_HOB_DATA (Hob);
+
+  g_uart_dm_base = (UINTN)*UartBase;
+
+  return RETURN_SUCCESS;
 }
 
 /**
@@ -73,17 +52,25 @@ SerialPortWrite (
   IN UINTN     NumberOfBytes
   )
 {
-  if (mSerialBaseAddress != 0) {
-    return PL011UartWrite (mSerialBaseAddress, Buffer, NumberOfBytes);
+  UINTN Num = 0;
+  UINT8* CONST Final = &Buffer[NumberOfBytes];
+  while (Buffer < Final) {
+    int rc = uart_putc(*Buffer++);
+    if (rc <= 0) {
+      break;
+    }
+    else {
+      Num += rc;
+    }
   }
-  return 0;
+  return Num;
 }
 
 /**
   Read data from serial device and save the data in buffer.
 
   @param  Buffer           Point of data buffer which need to be written.
-  @param  NumberOfBytes    Number of output bytes which are cached in Buffer.
+  @param  NumberOfBytes    Size of Buffer[].
 
   @retval 0                Read data failed.
   @retval !0               Actual number of bytes read from serial device.
@@ -96,10 +83,19 @@ SerialPortRead (
   IN  UINTN     NumberOfBytes
 )
 {
-  if (mSerialBaseAddress != 0) {
-    return PL011UartRead (mSerialBaseAddress, Buffer, NumberOfBytes);
+  UINTN Num = 0;
+  UINT8* CONST Final = &Buffer[NumberOfBytes];
+
+  while (Buffer < Final) {
+    int rc = uart_getc(Buffer++, TRUE);
+    if (rc <= 0) {
+      break;
+    }
+    else {
+      Num += rc;
+    }
   }
-  return 0;
+  return Num;
 }
 
 /**
@@ -115,10 +111,45 @@ SerialPortPoll (
   VOID
   )
 {
-  if (mSerialBaseAddress != 0) {
-    return PL011UartPoll (mSerialBaseAddress);
-  }
-  return FALSE;
+  return uart_tstc()==1;
+}
+
+/**
+  Sets the control bits on a serial device.
+
+  @param[in] Control            Sets the bits of Control that are settable.
+
+  @retval RETURN_SUCCESS        The new control bits were set on the serial device.
+  @retval RETURN_UNSUPPORTED    The serial device does not support this operation.
+  @retval RETURN_DEVICE_ERROR   The serial device is not functioning correctly.
+
+**/
+RETURN_STATUS
+EFIAPI
+SerialPortSetControl (
+  IN UINT32 Control
+  )
+{
+  return RETURN_UNSUPPORTED;
+}
+
+/**
+  Retrieve the status of the control bits on a serial device.
+
+  @param[out] Control           A pointer to return the current control signals from the serial device.
+
+  @retval RETURN_SUCCESS        The control bits were read from the serial device.
+  @retval RETURN_UNSUPPORTED    The serial device does not support this operation.
+  @retval RETURN_DEVICE_ERROR   The serial device is not functioning correctly.
+
+**/
+RETURN_STATUS
+EFIAPI
+SerialPortGetControl (
+  OUT UINT32 *Control
+  )
+{
+  return RETURN_UNSUPPORTED;
 }
 
 /**
@@ -163,44 +194,6 @@ SerialPortSetAttributes (
   IN OUT EFI_PARITY_TYPE    *Parity,
   IN OUT UINT8              *DataBits,
   IN OUT EFI_STOP_BITS_TYPE *StopBits
-  )
-{
-  return RETURN_UNSUPPORTED;
-}
-
-/**
-  Sets the control bits on a serial device.
-
-  @param Control                Sets the bits of Control that are settable.
-
-  @retval RETURN_SUCCESS        The new control bits were set on the serial device.
-  @retval RETURN_UNSUPPORTED    The serial device does not support this operation.
-  @retval RETURN_DEVICE_ERROR   The serial device is not functioning correctly.
-
-**/
-RETURN_STATUS
-EFIAPI
-SerialPortSetControl (
-  IN UINT32 Control
-  )
-{
-  return RETURN_UNSUPPORTED;
-}
-
-/**
-  Retrieve the status of the control bits on a serial device.
-
-  @param Control                A pointer to return the current control signals from the serial device.
-
-  @retval RETURN_SUCCESS        The control bits were read from the serial device.
-  @retval RETURN_UNSUPPORTED    The serial device does not support this operation.
-  @retval RETURN_DEVICE_ERROR   The serial device is not functioning correctly.
-
-**/
-RETURN_STATUS
-EFIAPI
-SerialPortGetControl (
-  OUT UINT32 *Control
   )
 {
   return RETURN_UNSUPPORTED;
