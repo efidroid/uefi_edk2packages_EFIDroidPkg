@@ -36,8 +36,6 @@
   DEFINE SECURE_BOOT_ENABLE      = FALSE
 
 !include EFIDroidPkg/EFIDroid.dsc.inc
-!include EFIDroidPkg/$(EFIDROID_CHIPVENDOR)/$(EFIDROID_CHIPVENDOR).dsc.inc
-!include EFIDroidPkg/$(EFIDROID_CHIPVENDOR)/Platforms/$(EFIDROID_PLATFORM)/$(EFIDROID_PLATFORM).dsc.inc
 
 [LibraryClasses.AARCH64]
   ArmCpuLib|ArmPkg/Drivers/ArmCpuLib/ArmCortexAEMv8Lib/ArmCortexAEMv8Lib.inf
@@ -258,3 +256,6 @@
       NULL|MdeModulePkg/Library/BootManagerUiLib/BootManagerUiLib.inf
       NULL|MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib.inf
   }
+
+!include EFIDroidPkg/$(EFIDROID_CHIPVENDOR)/$(EFIDROID_CHIPVENDOR).dsc.inc
+!include EFIDroidPkg/$(EFIDROID_CHIPVENDOR)/Platforms/$(EFIDROID_PLATFORM)/$(EFIDROID_PLATFORM).dsc.inc
