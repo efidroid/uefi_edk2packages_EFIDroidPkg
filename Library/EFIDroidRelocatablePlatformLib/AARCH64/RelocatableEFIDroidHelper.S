@@ -71,17 +71,10 @@ ASM_FUNC(ArmPlatformPeiBootAction)
   cbz   x0, .Lout
 
   //
-  // Copy the DTB to the slack space right after the 64 byte arm64/Linux style
-  // image header at the base of this image (defined in the FDF), and record the
-  // pointer in PcdDeviceTreeInitialBaseAddress.
+  // Store the DTB address in PcdDeviceTreeInitialBaseAddress.
   //
   adr   x8, PcdGet64 (PcdDeviceTreeInitialBaseAddress)
-  add   x27, x27, #0x40
-  str   x27, [x8]
-
-  mov   x0, x27
-  mov   x1, x28
-  bl    CopyFdt
+  str   x28, [x8]
 
 .Lout:
   ret    x29

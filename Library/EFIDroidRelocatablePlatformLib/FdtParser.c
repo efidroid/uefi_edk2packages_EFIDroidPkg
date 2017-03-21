@@ -142,15 +142,3 @@ FindMemnode (
 
   return FALSE;
 }
-
-VOID
-CopyFdt (
-  IN    VOID    *FdtDest,
-  IN    VOID    *FdtSource
-  )
-{
-  if (fdt_check_header (FdtSource) == 0) {
-    fdt_pack(FdtSource);
-    CopyMem (FdtDest, FdtSource, fdt_totalsize (FdtSource));
-  }
-}
