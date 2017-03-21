@@ -46,6 +46,7 @@
 
 [Guids]
   gFdtHobGuid
+  gAtagsHobGuid
 
 [Depex]
   gEfiPeiMemoryDiscoveredPpiGuid

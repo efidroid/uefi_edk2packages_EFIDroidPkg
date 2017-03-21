@@ -12,9 +12,7 @@
 
 #include <Uefi.h>
 #include <Include/libfdt.h>
-#include "atags.h"
-
-#define ROUNDDOWN(a, b) ((a) & ~((b)-1))
+#include <Library/ATagLib.h>
 
 BOOLEAN
 FindMemnodeFdt (
@@ -91,12 +89,10 @@ FindMemnodeAtags (
 {
   struct tag *ATags;
   struct tag *Tag;
-  UINT64     MemStart;
-  UINT64     MemEnd;
+  struct tag *HighestTag;
 
   ATags = (struct tag *) Tags;
-  MemStart = 0xFFFFFFFFFFFFFFFF;
-  MemEnd   = 0x0;
+  HighestTag = NULL;
 
   if (ATags->hdr.tag != ATAG_CORE) {
     return FALSE;
@@ -107,20 +103,13 @@ FindMemnodeAtags (
   //
   for (Tag = ATags; Tag->hdr.size; Tag = tag_next(Tag)) {
     if (Tag->hdr.tag == ATAG_MEM) {
-      UINT64 End = ((UINT64)Tag->u.mem.start) + Tag->u.mem.size - 1;
-
-      if (Tag->u.mem.start < MemStart)
-        MemStart = Tag->u.mem.start;
-      if (End > MemEnd)
-        MemEnd = End;
+      if (HighestTag == NULL || Tag->u.mem.start > HighestTag->u.mem.start)
+        HighestTag = Tag;
     }
   }
 
-  // this works around SMEM being removed from the regions
-  MemStart = ROUNDDOWN(MemStart, 8*1024*1024);
-
-  *SystemMemorySize = MemEnd - MemStart + 1;
-  *SystemMemoryBase = MemStart;
+  *SystemMemorySize = (UINT64)HighestTag->u.mem.size;
+  *SystemMemoryBase = (UINT64)HighestTag->u.mem.start;
 
   return TRUE;
 }
