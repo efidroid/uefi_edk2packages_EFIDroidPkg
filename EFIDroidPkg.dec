@@ -31,7 +31,7 @@
   Include                        # Root include for the package
 
 [Guids.common]
-  gEFIDroidTokenSpaceGuid = { 0XA5326F70, 0X0EBD, 0X48D1, { 0X8D, 0X2F, 0X87, 0X74, 0X7B, 0X4C, 0X03, 0X17 } }
+  gEFIDroidTokenSpaceGuid = { 0xA5326F70, 0x0EBD, 0x48D1, { 0x8D, 0x2F, 0x87, 0x74, 0x7B, 0x4C, 0x03, 0x17 } }
 
 [Protocols]
   gFdtClientProtocolGuid = { 0xE11FACA0, 0x4710, 0x4C8E, { 0xA7, 0xA2, 0x01, 0xBA, 0xA2, 0x59, 0x1B, 0x4C } }
