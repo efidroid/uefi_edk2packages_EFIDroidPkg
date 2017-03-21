@@ -90,6 +90,12 @@ PrePiMain (
     );
   PrePeiSetHobList (HobList);
 
+  // Initialize the Serial Port
+  SerialPortInitialize ();
+  CharCount = AsciiSPrint (Buffer,sizeof (Buffer),"UEFI firmware (version %s built at %a on %a)\n\r",
+    (CHAR16*)PcdGetPtr(PcdFirmwareVersionString), __TIME__, __DATE__);
+  SerialPortWrite ((UINT8 *) Buffer, CharCount);
+
   //
   // Ensure that the loaded image is invalidated in the caches, so that any
   // modifications we made with the caches and MMU off (such as the applied
@@ -100,12 +106,6 @@ PrePiMain (
   // Initialize MMU and Memory HOBs (Resource Descriptor HOBs)
   Status = MemoryPeim (UefiMemoryBase, FixedPcdGet32 (PcdSystemMemoryUefiRegionSize));
   ASSERT_EFI_ERROR (Status);
-
-  // Initialize the Serial Port
-  SerialPortInitialize ();
-  CharCount = AsciiSPrint (Buffer,sizeof (Buffer),"UEFI firmware (version %s built at %a on %a)\n\r",
-    (CHAR16*)PcdGetPtr(PcdFirmwareVersionString), __TIME__, __DATE__);
-  SerialPortWrite ((UINT8 *) Buffer, CharCount);
 
   // Create the Stacks HOB (reserve the memory for all stacks)
   StacksSize = PcdGet32 (PcdCPUCorePrimaryStackSize);
