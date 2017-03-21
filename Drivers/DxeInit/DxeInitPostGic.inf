@@ -1,0 +1,25 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = DxeInitPostGic
+  FILE_GUID                      = 27595bfd-3739-48e9-8cb4-01b827c2356e
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+
+  ENTRY_POINT                    = DxeInitPostGicInitialize
+
+[Sources.common]
+  DxeInit.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  UefiLib
+  ChipVendorDxeInitLib
+  PlatformDxeInitLib
+  UefiDriverEntryPoint
+
+[Depex]
+  TRUE

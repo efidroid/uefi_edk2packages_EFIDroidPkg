@@ -15,4 +15,20 @@ LibPlatformDxeInitialize (
   IN EFI_SYSTEM_TABLE   *SystemTable
   );
 
+
+EFI_STATUS
+EFIAPI
+LibChipVendorDxePostGicInitialize (
+  IN EFI_HANDLE         ImageHandle,
+  IN EFI_SYSTEM_TABLE   *SystemTable
+  );
+
+EFI_STATUS
+EFIAPI
+LibPlatformDxePostGicInitialize (
+  IN EFI_HANDLE         ImageHandle,
+  IN EFI_SYSTEM_TABLE   *SystemTable
+  );
+
+
 #endif
