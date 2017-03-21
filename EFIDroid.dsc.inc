@@ -95,6 +95,8 @@
 
   PlatformPeiLib|EFIDroidPkg/Library/PlatformPeiLib/PlatformPeiLib.inf
   MemoryInitPeiLib|EFIDroidPkg/Library/EFIDroidMemoryInitPeiLib/EFIDroidMemoryInitPeiLib.inf
+  LcmLib|EFIDroidPkg/Library/LcmLib/LcmLib.inf
+  StrTokLib|EFIDroidPkg/Library/StrTokLib/StrTokLib.inf
 
   #
   # Uncomment (and comment out the next line) For RealView Debugger. The Standard IO window
