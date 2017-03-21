@@ -34,6 +34,7 @@ int pm89xx_bat_alarm_set(bat_vol_t, bat_vol_t);
 int pm89xx_bat_alarm_status(uint8_t *, uint8_t *);
 int pm89xx_vbus_status(void);
 int pm89xx_ldo_set_voltage(const char * , uint32_t);
+int pm8921_HDMI_Switch(void);
 
 /* External PWM functions */
 int pm8921_pwm_enable(uint8_t pwm_id, pm8921_dev_t *dev);

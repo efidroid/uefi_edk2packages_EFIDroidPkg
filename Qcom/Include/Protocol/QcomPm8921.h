@@ -24,6 +24,7 @@ typedef int  (EFIAPI *pm89xx_bat_alarm_set_t)(bat_vol_t, bat_vol_t);
 typedef int  (EFIAPI *pm89xx_bat_alarm_status_t)(uint8_t *, uint8_t *);
 typedef int  (EFIAPI *pm89xx_vbus_status_t)(void);
 typedef int  (EFIAPI *pm89xx_ldo_set_voltage_t)(const char * , uint32_t);
+typedef int  (EFIAPI *pm8921_HDMI_Switch_t)(void);
 
 struct _QCOM_PM8921_PROTOCOL {
   pm8921_gpio_config_t               pm8921_gpio_config;
@@ -41,6 +42,7 @@ struct _QCOM_PM8921_PROTOCOL {
   pm89xx_bat_alarm_status_t          pm89xx_bat_alarm_status;
   pm89xx_vbus_status_t               pm89xx_vbus_status;
   pm89xx_ldo_set_voltage_t           pm89xx_ldo_set_voltage;
+  pm8921_HDMI_Switch_t               pm8921_HDMI_Switch;
 };
 
 extern EFI_GUID gQcomPm8921ProtocolGuid;

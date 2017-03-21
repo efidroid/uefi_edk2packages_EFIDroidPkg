@@ -26,6 +26,7 @@ STATIC QCOM_PM8921_PROTOCOL gPM8921 = {
   pm89xx_bat_alarm_status,
   pm89xx_vbus_status,
   pm89xx_ldo_set_voltage,
+  pm8921_HDMI_Switch,
 };
 
 
