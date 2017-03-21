@@ -41,11 +41,10 @@
   UefiDriverEntryPoint
 
 [Protocols]
-  gFdtClientProtocolGuid                  ## CONSUMES
   gEfiCpuArchProtocolGuid                 ## CONSUMES
+  gFdtClientProtocolGuid                  ## CONSUMES
 
 [Pcd]
-  gArmTokenSpaceGuid.PcdSystemMemoryBase
   gEfiMdeModulePkgTokenSpaceGuid.PcdDxeNxMemoryProtectionPolicy
 
 [Depex]
