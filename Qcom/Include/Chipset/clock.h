@@ -29,17 +29,6 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
-#undef readl_relaxed
-#undef writel_relaxed
-
-#ifdef MSM_SECURE_IO
-#define readl_relaxed secure_readl
-#define writel_relaxed secure_writel
-#else
-#define readl_relaxed readl
-#define writel_relaxed writel
-#endif
-
 enum clk_reset_action {
 	CLK_RESET_DEASSERT	= 0,
 	CLK_RESET_ASSERT	= 1

@@ -31,6 +31,14 @@ typedef UINTN addr_t;
 #define readl(a) MmioRead32((UINTN)(a))
 #define BIT(bit) (1 << (bit))
 
+#ifdef MSM_SECURE_IO
+#define readl_relaxed secure_readl
+#define writel_relaxed secure_writel
+#else
+#define readl_relaxed readl
+#define writel_relaxed writel
+#endif
+
 #define NO_ERROR 0
 #define ERROR -1
 #define ERR_NO_MEMORY -5
