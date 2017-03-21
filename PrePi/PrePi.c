@@ -157,6 +157,9 @@ CEntryPoint (
   // Initialize the platform specific controllers
   ArmPlatformInitialize (MpId);
 
+  // give the platform a chance to initialize the global counter
+  TimerEarlyInit ();
+
   if (PerformanceMeasurementEnabled ()) {
     // Initialize the Timer Library to setup the Timer HW controller
     TimerConstructor ();

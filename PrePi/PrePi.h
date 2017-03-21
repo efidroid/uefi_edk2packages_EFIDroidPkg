@@ -35,6 +35,13 @@ TimerConstructor (
   VOID
   );
 
+RETURN_STATUS
+EFIAPI
+TimerEarlyInit (
+  VOID
+  );
+
+
 VOID
 PrePiMain (
   IN  UINTN                     UefiMemoryBase,
