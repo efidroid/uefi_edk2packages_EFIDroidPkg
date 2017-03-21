@@ -151,4 +151,40 @@ struct pm89xx_vreg {
 	uint16_t ctrl_reg;
 };
 
+struct pm8xxx_gpio_init {
+	uint32_t gpio;
+	struct pm8921_gpio config;
+};
+
+#define PM8XXX_GPIO_INIT(_gpio, _dir, _buf, _val, _pull, _vin, _out_strength, \
+			_func, _inv, _disable) \
+{ \
+	.gpio	= _gpio, \
+	.config	= { \
+		.direction	= _dir, \
+		.output_buffer	= _buf, \
+		.output_value	= _val, \
+		.pull		= _pull, \
+		.vin_sel	= _vin, \
+		.out_strength	= _out_strength, \
+		.function	= _func, \
+		.inv_int_pol	= _inv, \
+		.disable_pin	= _disable, \
+	} \
+}
+
+#define PM8921_GPIO_OUTPUT_FUNC(_gpio, _val, _func) \
+	PM8XXX_GPIO_INIT(_gpio, PM_GPIO_DIR_OUT, 0, _val, \
+			PM_GPIO_PULL_NO, 2, \
+			PM_GPIO_STRENGTH_HIGH, \
+			_func, 0, 0)
+
+
+#define PM8921_GPIO_OUTPUT_BUFCONF(_gpio, _val, _strength, _bufconf) \
+	PM8XXX_GPIO_INIT(_gpio, PM_GPIO_DIR_OUT,\
+			PM_GPIO_OUT_BUF_##_bufconf, _val, \
+			PM_GPIO_PULL_NO, 2, \
+			PM_GPIO_STRENGTH_##_strength, \
+			PM_GPIO_FUNC_NORMAL, 0, 0)
+
 #endif
