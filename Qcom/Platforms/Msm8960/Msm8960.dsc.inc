@@ -7,9 +7,11 @@
   QcomPlatformDxeTimerLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDxeTimerLib/QcomPlatformDxeTimerLib.inf
   QcomPlatformUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformUartDmLib/QcomPlatformUartDmLib.inf
   QcomPlatformGpioTlmmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformGpioTlmmLib/QcomPlatformGpioTlmmLib.inf
+  QcomPlatformDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDisplayLib/QcomPlatformDisplayLib.inf
 
   QcomTargetBoardLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetBoardLib/QcomTargetBoardLib.inf
   QcomTargetUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetUartDmLib/QcomTargetUartDmLib.inf
+  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetDisplayLib/QcomTargetDisplayLib.inf
 
 [PcdsFeatureFlag.common]
   # without this, the memory speed is very slow

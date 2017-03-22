@@ -1,0 +1,37 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformDisplayDmLib
+  FILE_GUID                      = 68C83E2F-7708-4118-8F76-8A128AF06C27
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformDisplayDmLib
+
+
+[Sources.common]
+  display.c
+  hdmi.c
+  hdmi_core.c
+  lvds.c
+  mdp4.c
+  mdp_lcdc.c
+  mipi_dsi.c
+  mipi_dsi_phy.c
+  misc.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
+
+[Protocols]
+  gQcomClockProtocolGuid
+
+[LibraryClasses]
+  IoLib
+  DebugLib
+  ClockLib
+  Pm8921Lib
+  ArmLib

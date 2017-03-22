@@ -1,0 +1,33 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomTargetDisplayLib
+  FILE_GUID                      = EBA41CD2-01AC-4D6A-9D22-AEA9391ACD95
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomTargetDisplayLib
+
+
+[Sources.common]
+  target_display.c
+  misc.c
+  lvds_chimei_wxga.c
+  mipi_chimei_video_wxga.c
+  mipi_tc358764_dsi2lvds.c
+  mipi_toshiba_video_wsvga.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
+
+[Protocols]
+  gQcomClockProtocolGuid
+
+[LibraryClasses]
+  IoLib
+  DebugLib
+  GpioTlmmLib
+  BoardLib
