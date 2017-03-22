@@ -44,6 +44,7 @@ typedef UINTN addr_t;
 #define ERR_NO_MEMORY -5
 #define ERR_NOT_VALID -7
 #define ERR_INVALID_ARGS -8
+#define ERR_IO -20
 
 #define true TRUE
 #define false FALSE
