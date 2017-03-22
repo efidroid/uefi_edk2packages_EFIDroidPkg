@@ -31,8 +31,6 @@
 
 #include <Chipset/mipi_dsi.h>
 
-#define MIPI_FB_ADDR  0x89000000
-
 /* Toshiba MDT61 Mipi Panel */
 /* Unique to this panel, display width is 800, image is 600 */
 #define TSH_MDT61_DISPLAY_WIDTH      800

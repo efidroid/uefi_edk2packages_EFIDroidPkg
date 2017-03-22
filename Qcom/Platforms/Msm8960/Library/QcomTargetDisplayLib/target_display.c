@@ -271,7 +271,6 @@ void target_display_init(void)
 		 */
 		panel.clk_func = msm8960_liquid_mipi_panel_clock;
 		panel.power_func = msm8960_liquid_mipi_panel_power;
-		panel.fb.base = (void *) MIPI_FB_ADDR;
 		panel.fb.width =  panel.panel_info.xres;
 		panel.fb.height =  panel.panel_info.yres;
 		panel.fb.stride =  panel.panel_info.xres;
@@ -283,7 +282,6 @@ void target_display_init(void)
 		lvds_chimei_wxga_init(&(panel.panel_info));
 		panel.clk_func = apq8064_lvds_clock;
 		panel.power_func = apq8064_lvds_panel_power;
-		panel.fb.base = (void *) 0x80B00000;
 		panel.fb.width =  panel.panel_info.xres;
 		panel.fb.height =  panel.panel_info.yres;
 		panel.fb.stride =  panel.panel_info.xres;
@@ -295,7 +293,6 @@ void target_display_init(void)
 		mipi_toshiba_video_wsvga_init(&(panel.panel_info));
 		panel.clk_func = fusion3_mtp_clock;
 		panel.power_func = fusion3_mtp_panel_power;
-		panel.fb.base = (void *) 0x89000000;
 		panel.fb.width =  panel.panel_info.xres;
 		panel.fb.height =  panel.panel_info.yres;
 		panel.fb.stride =  panel.panel_info.xres;
@@ -309,7 +306,6 @@ void target_display_init(void)
 		mipi_toshiba_video_wsvga_init(&(panel.panel_info));
 		panel.clk_func = msm8960_mipi_panel_clock;
 		panel.power_func = msm8960_mipi_panel_power;
-		panel.fb.base = (void *) 0x89000000;
 		panel.fb.width =  panel.panel_info.xres;
 		panel.fb.height =  panel.panel_info.yres;
 		panel.fb.stride =  panel.panel_info.xres;
@@ -324,13 +320,13 @@ void target_display_init(void)
 
 		panel.clk_func   = mpq8064_hdmi_panel_clock;
 		panel.power_func = mpq8064_hdmi_panel_power;
-		panel.fb.base    = (void *) 0x89000000;
 		panel.fb.width   = panel.panel_info.xres;
 		panel.fb.height  = panel.panel_info.yres;
 		panel.fb.stride  = panel.panel_info.xres;
 		panel.fb.bpp     = panel.panel_info.bpp;
 		panel.fb.format  = FB_FORMAT_RGB565;
 		panel.mdp_rev    = MDP_REV_44;
+		panel.fb.base    = (void *) memalign(4096, panel.fb.width * panel.fb.height * (panel.fb.bpp / 8));
 
 		hdmi_set_fb_addr(panel.fb.base);
 		break;

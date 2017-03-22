@@ -143,7 +143,7 @@ int mdp_dsi_cmd_config(struct msm_panel_info *pinfo,
 {
 
 	int ret = 0;
-	unsigned long input_img_addr = MIPI_FB_ADDR;
+	unsigned long input_img_addr = (unsigned long) fb->base;
 	unsigned short image_wd = pinfo->xres;
 	unsigned short image_ht = pinfo->yres;
 	unsigned short pack_pattern = 0x12;
@@ -180,7 +180,7 @@ mipi_dsi_cmd_config(struct fbcon_config mipi_fb_cfg,
 {
 
 	int status = 0;
-	unsigned long input_img_addr = MIPI_FB_ADDR;
+	unsigned long input_img_addr = (unsigned long) mipi_fb_cfg.base;
 	unsigned short image_wd = mipi_fb_cfg.width;
 	unsigned short image_ht = mipi_fb_cfg.height;
 	unsigned short pack_pattern = 0x12;
