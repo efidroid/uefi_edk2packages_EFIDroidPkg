@@ -226,6 +226,10 @@ int msm_display_init(struct msm_fb_panel_data *pdata)
 	if (ret)
 		goto msm_display_init_out;
 
+	if (panel->panel_info.type==MIPI_CMD_PANEL && panel->panel_info.mipi.mdp_trigger==DSI_CMD_TRIGGER_SW) {
+		panel->fb.update_start = mipi_update_sw_trigger;
+	}
+
 	fbcon_setup(&(panel->fb));
 	ret = msm_display_config();
 	if (ret)
