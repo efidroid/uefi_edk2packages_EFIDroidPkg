@@ -19,6 +19,7 @@
 
 [LibraryClasses]
   UefiDriverEntryPoint
+  IoLib
 
 [Protocols]
   gQcomSsbiProtocolGuid

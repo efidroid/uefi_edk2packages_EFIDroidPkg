@@ -24,6 +24,7 @@
 [LibraryClasses]
   UefiDriverEntryPoint
   QcomPlatformClockInitLib
+  TimerLib
 
 [Protocols]
   gQcomClockProtocolGuid

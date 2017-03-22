@@ -23,6 +23,7 @@
   ArmLib
   DebugLib
   UefiBootServicesTableLib
+  TimerLib
 
 [Protocols]
   gQcomPm8921ProtocolGuid

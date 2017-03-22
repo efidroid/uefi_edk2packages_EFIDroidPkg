@@ -21,6 +21,7 @@
 [LibraryClasses]
   UefiDriverEntryPoint
   UefiBootServicesTableLib
+  IoLib
 
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdMsmSharedBase

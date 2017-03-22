@@ -20,6 +20,7 @@
 
 [LibraryClasses]
   UefiDriverEntryPoint
+  TimerLib
 
 [Protocols]
   gQcomSsbiProtocolGuid
