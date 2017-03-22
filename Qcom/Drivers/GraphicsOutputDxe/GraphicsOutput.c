@@ -227,7 +227,8 @@ InitializeGraphicsOutput (
 
   // get framebuffer information
   FbConfig = fbcon_display();
-  if (FbConfig == NULL) {
+  if (FbConfig==NULL || FbConfig->base==NULL || FbConfig->width==0 || FbConfig->height==0) {
+    DEBUG((EFI_D_ERROR, "Invalid FbConfig: base=%p size=%ux%ux%u\n", FbConfig->base, FbConfig->width, FbConfig->height, FbConfig->bpp));
     return EFI_DEVICE_ERROR;
   }
   FrameBufferBase = (UINTN) FbConfig->base;
