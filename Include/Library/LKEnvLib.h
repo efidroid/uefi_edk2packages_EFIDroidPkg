@@ -62,7 +62,7 @@ typedef UINTN addr_t;
 #define malloc AllocatePool
 #define free(p) do {if((p))FreePool((p));} while(0)
 #define memalign(boundary, size) AllocateAlignedPages(EFI_SIZE_TO_PAGES((size)), (boundary))
-#define CACHE_LINE 32
+#define CACHE_LINE (ArmDataCacheLineLength())
 
 #define snprintf(s, n, fmt, ...) ((int)AsciiSPrint((s), (n), (fmt), ##__VA_ARGS__))
 
