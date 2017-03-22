@@ -35,3 +35,4 @@
   ClockLib
   Pm8921Lib
   ArmLib
+  CacheMaintenanceLib

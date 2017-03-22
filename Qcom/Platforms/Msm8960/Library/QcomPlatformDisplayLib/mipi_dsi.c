@@ -131,17 +131,18 @@ int mipi_dsi_cmds_tx(struct mipi_dsi_cmd *cmds, int count)
 	int i = 0;
 	char pload[256];
 	uint32_t off;
+	uint32_t size;
 
-	/* Align pload at 8 byte boundry */
-	off = (uint32_t)pload;
-	off &= 0x07;
-	if (off)
-		off = 8 - off;
-	off += (uint32_t)pload;
+	/* Align pload at cache line size */
+	off = ROUNDUP((uint32_t)pload, CACHE_LINE);
 
 	cm = cmds;
 	for (i = 0; i < count; i++) {
-		memcpy((void *)off, (cm->payload), cm->size);
+		/* Align size at cache line size */
+		size = ROUNDUP((uint32_t)cm->size, CACHE_LINE);
+
+		memcpy((void *)off, (cm->payload), size);
+		arch_clean_invalidate_cache_range((addr_t)(off), cm->size);
 		writel(off, DSI_DMA_CMD_OFFSET);
 		writel(cm->size, DSI_DMA_CMD_LENGTH);	// reg 0x48 for this build
 		dsb();
