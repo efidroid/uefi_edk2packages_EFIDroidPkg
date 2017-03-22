@@ -5,6 +5,7 @@
   QcomDxeTimerLib|EFIDroidPkg/Qcom/Library/QcomDGTDxeTimerLib/QcomDGTDxeTimerLib.inf
 
   PTableLib|EFIDroidPkg/Qcom/Library/PTableLib/PTableLib.inf
+  FbConLib|EFIDroidPkg/Qcom/Library/FbConLib/FbConLib.inf
 
   # protocol libs
   SmemLib|EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemLib.inf
