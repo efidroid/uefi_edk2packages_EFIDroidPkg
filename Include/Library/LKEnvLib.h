@@ -60,6 +60,7 @@ typedef UINTN addr_t;
 #define offsetof(type, member) OFFSET_OF (type, member)
 #define __PACKED __attribute__((packed))
 
+#define ROUNDUP(a, b) (((a) + ((b)-1)) & ~((b)-1))
 #define malloc AllocatePool
 #define free(p) do {if((p))FreePool((p));} while(0)
 #define memalign(boundary, size) AllocateAlignedPages(EFI_SIZE_TO_PAGES((size)), (boundary))
