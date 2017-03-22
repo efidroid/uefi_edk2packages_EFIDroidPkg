@@ -11,6 +11,7 @@
   BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardLib.inf
   ClockLib|EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockLib.inf
   GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmLib.inf
+  Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Lib.inf
 
 [LibraryClasses.common.SEC]
   SerialPortLib|EFIDroidPkg/Qcom/Library/UartDmSerialPortLib/EarlyUartDmSerialPortLib.inf
