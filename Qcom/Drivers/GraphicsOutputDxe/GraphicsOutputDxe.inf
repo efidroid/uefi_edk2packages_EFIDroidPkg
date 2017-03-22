@@ -33,7 +33,10 @@
 
 [Packages]
   MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
   MdeModulePkg/MdeModulePkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
 
 [LibraryClasses]
   UefiDriverEntryPoint
@@ -46,6 +49,8 @@
   FrameBufferBltLib
   UefiLib
   HobLib
+  QcomTargetDisplayLib
+  FbConLib
 
 [Guids]
   gEfiGraphicsInfoHobGuid                       ## CONSUMES ## HOB
@@ -54,3 +59,7 @@
 [Protocols]
   gEfiGraphicsOutputProtocolGuid                ## BY_START
   gEfiDevicePathProtocolGuid                    ## BY_START
+  gEfiCpuArchProtocolGuid
+
+[Depex]
+  gEfiCpuArchProtocolGuid

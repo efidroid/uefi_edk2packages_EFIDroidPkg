@@ -15,10 +15,12 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #ifndef _GRAPHICS_OUTPUT_DXE_H_
 #define _GRAPHICS_OUTPUT_DXE_H_
 #include <PiDxe.h>
+#include <Library/LKEnvLib.h>
 
 #include <Protocol/DriverBinding.h>
 #include <Protocol/DevicePath.h>
 #include <Protocol/GraphicsOutput.h>
+#include <Protocol/Cpu.h>
 
 #include <Library/BaseLib.h>
 #include <Library/UefiBootServicesTableLib.h>
@@ -29,6 +31,8 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Library/BaseMemoryLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/UefiLib.h>
+#include <Library/fbcon.h>
+#include <Library/QcomTargetDisplayLib.h>
 
 #define MAX_PCI_BAR  6
 
@@ -51,5 +55,9 @@ typedef struct {
 #define GRAPHICS_OUTPUT_PRIVATE_DATA_SIGNATURE  SIGNATURE_32 ('g', 'g', 'o', 'p')
 #define GRAPHICS_OUTPUT_PRIVATE_FROM_THIS(a) \
   CR(a, GRAPHICS_OUTPUT_PRIVATE_DATA, GraphicsOutput, GRAPHICS_OUTPUT_PRIVATE_DATA_SIGNATURE)
+
+#define PIXEL24_RED_MASK    0x00ff0000
+#define PIXEL24_GREEN_MASK  0x0000ff00
+#define PIXEL24_BLUE_MASK   0x000000ff
 
 #endif

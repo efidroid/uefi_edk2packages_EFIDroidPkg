@@ -153,6 +153,8 @@ GraphicsOutputBlt (
              );
   gBS->RestoreTPL (Tpl);
 
+  fbcon_flush();
+
   return RETURN_ERROR (Status) ? EFI_INVALID_PARAMETER : EFI_SUCCESS;
 }
 
@@ -201,10 +203,6 @@ CONST GRAPHICS_OUTPUT_PRIVATE_DATA mGraphicsOutputInstanceTemplate = {
   0                                                // FrameBufferBltLibConfigureSize
 };
 
-#define PIXEL24_RED_MASK    0x00ff0000
-#define PIXEL24_GREEN_MASK  0x0000ff00
-#define PIXEL24_BLUE_MASK   0x000000ff
-
 EFI_STATUS
 EFIAPI
 InitializeGraphicsOutput (
@@ -217,10 +215,31 @@ InitializeGraphicsOutput (
   GRAPHICS_OUTPUT_PRIVATE_DATA      *Private;
   EFI_PHYSICAL_ADDRESS              FrameBufferBase;
   UINTN                             FrameBufferSize;
+  struct fbcon_config               *FbConfig;
+  EFI_CPU_ARCH_PROTOCOL             *Cpu;
 
-  FrameBufferSize = 8*1024*1024;
-  //FrameBufferBase = 0x89100000;
-  FrameBufferBase = (EFI_PHYSICAL_ADDRESS)(UINTN)AllocateZeroPool(FrameBufferSize);
+  // Ensure the Cpu architectural protocol is already installed
+  Status = gBS->LocateProtocol (&gEfiCpuArchProtocolGuid, NULL, (VOID **)&Cpu);
+  ASSERT_EFI_ERROR(Status);
+
+  // initialize display
+  target_display_init();
+
+  // get framebuffer information
+  FbConfig = fbcon_display();
+  if (FbConfig == NULL) {
+    return EFI_DEVICE_ERROR;
+  }
+  FrameBufferBase = (UINTN) FbConfig->base;
+  FrameBufferSize = ROUNDUP(FbConfig->width * FbConfig->height * (FbConfig->bpp/3), EFI_PAGE_SIZE);
+
+  // set framebuffer cachability
+  Status = Cpu->SetMemoryAttributes (Cpu, FrameBufferBase, FrameBufferSize, EFI_MEMORY_WT);
+  ASSERT_EFI_ERROR(Status);
+  if (EFI_ERROR(Status)) {
+    gBS->FreePool ((VOID*)(UINTN)FrameBufferBase);
+    return Status;
+  }
 
   Private = AllocateCopyPool (sizeof (mGraphicsOutputInstanceTemplate), &mGraphicsOutputInstanceTemplate);
   if (Private == NULL) {
@@ -229,8 +248,8 @@ InitializeGraphicsOutput (
   }
 
   Private->ModeInfo.Version = 0;
-  Private->ModeInfo.HorizontalResolution = 720;
-  Private->ModeInfo.VerticalResolution = 1280;
+  Private->ModeInfo.HorizontalResolution = FbConfig->width;
+  Private->ModeInfo.VerticalResolution = FbConfig->height;
   Private->ModeInfo.PixelFormat = PixelBitMask;
   Private->ModeInfo.PixelInformation.RedMask = PIXEL24_RED_MASK;
   Private->ModeInfo.PixelInformation.GreenMask = PIXEL24_GREEN_MASK;
