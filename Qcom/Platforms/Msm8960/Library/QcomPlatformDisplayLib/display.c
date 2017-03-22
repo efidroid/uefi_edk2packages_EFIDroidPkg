@@ -226,8 +226,7 @@ int msm_display_init(struct msm_fb_panel_data *pdata)
 	if (ret)
 		goto msm_display_init_out;
 
-	//fbcon_setup(&(panel->fb));
-	//display_image_on_screen();
+	fbcon_setup(&(panel->fb));
 	ret = msm_display_config();
 	if (ret)
 		goto msm_display_init_out;
