@@ -51,8 +51,11 @@ static void platform_detect(void)
 	unsigned ret = 0;
 	unsigned format = 0;
 
+    DEBUG((EFI_D_ERROR, "gSMEM=%p alloc=%p\n", gSMEM, gSMEM->smem_read_alloc_entry_offset));
+
 	ret = gSMEM->smem_read_alloc_entry_offset(SMEM_BOARD_INFO_LOCATION,
 						   &format, sizeof(format), 0);
+    DEBUG((EFI_D_ERROR, "DONE\n"));
 	if (ret)
 		return;
 

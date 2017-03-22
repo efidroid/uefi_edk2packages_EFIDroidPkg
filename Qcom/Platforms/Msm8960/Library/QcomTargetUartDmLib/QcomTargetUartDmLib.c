@@ -1,6 +1,6 @@
 #include <Base.h>
 #include <Library/LKEnvLib.h>
-#include <Library/QcomBoardSecLib.h>
+#include <Library/QcomBoardLib.h>
 #include <Chipset/baseband.h>
 #include <Target/board.h>
 #include <Library/QcomTargetUartDmLib.h>

@@ -1,0 +1,26 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = SmemLib
+  FILE_GUID                      = 32134FFF-FAFA-4A5E-BE08-B819913E34A7
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = SmemLib
+  CONSTRUCTOR                    = SmemLibConstructor
+
+[Sources.common]
+  LibraryBS.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+
+[Protocols]
+  gQcomSmemProtocolGuid
+
+[Depex]
+  gQcomSmemProtocolGuid

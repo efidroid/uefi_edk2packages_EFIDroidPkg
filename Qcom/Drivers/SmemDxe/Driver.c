@@ -2,11 +2,7 @@
 
 #include <Library/LKEnvLib.h>
 #include <Library/UefiBootServicesTableLib.h>
-#include <Protocol/QcomSmem.h>
-
-#include "smem_p.h"
-#include "Protocol.c"
-
+#include <Library/QcomSmemLib.h>
 
 EFI_STATUS
 EFIAPI
@@ -18,9 +14,11 @@ SmemDxeInitialize (
   EFI_HANDLE Handle = NULL;
   EFI_STATUS Status;
 
+  SmemImplLibInitialize();
+
   Status = gBS->InstallMultipleProtocolInterfaces(
                   &Handle,
-                  &gQcomSmemProtocolGuid,      &mSMEM,
+                  &gQcomSmemProtocolGuid,      gSMEM,
                   NULL
                   );
   ASSERT_EFI_ERROR(Status);

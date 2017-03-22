@@ -1,13 +1,9 @@
 #include <PiDxe.h>
 
 #include <Library/LKEnvLib.h>
-#include <Protocol/QcomBoard.h>
+#include <Library/QcomBoardLib.h>
+#include <Library/QcomSmemLib.h>
 #include <Library/UefiBootServicesTableLib.h>
-
-#include "board_p.h"
-#include "Protocol.c"
-
-QCOM_SMEM_PROTOCOL *gSMEM = NULL;
 
 EFI_STATUS
 EFIAPI
@@ -19,14 +15,11 @@ BoardDxeInitialize (
   EFI_HANDLE Handle = NULL;
   EFI_STATUS Status;
 
-  Status = gBS->LocateProtocol (&gQcomSmemProtocolGuid, NULL, (VOID **)&gSMEM);
-  ASSERT_EFI_ERROR (Status);
-
-  board_init();
+  BoardImplLibInitialize();
 
   Status = gBS->InstallMultipleProtocolInterfaces(
                   &Handle,
-                  &gQcomBoardProtocolGuid,      &mBoard,
+                  &gQcomBoardProtocolGuid,      gBoard,
                   NULL
                   );
   ASSERT_EFI_ERROR(Status);

@@ -6,10 +6,10 @@
 #include <Library/SerialPortLib.h>
 #include <Library/IoLib.h>
 #include <Library/QcomTargetUartDmLib.h>
-#include <Library/QcomSmemSecLib.h>
-#include <Library/QcomBoardSecLib.h>
-#include <Library/QcomClockSecLib.h>
-#include <Library/QcomGpioTlmmSecLib.h>
+#include <Library/QcomSmemLib.h>
+#include <Library/QcomBoardLib.h>
+#include <Library/QcomClockLib.h>
+#include <Library/QcomGpioTlmmLib.h>
 
 #include "uartdm_p.h"
 
@@ -25,10 +25,10 @@ SerialPortInitialize (
   UINTN         UartDmBase;
 
   // call library constructors
-  SmemSecLibConstructor ();
-  BoardSecLibConstructor ();
-  ClockSecLibConstructor ();
-  GpioTlmmSecLibConstructor ();
+  SmemImplLibInitialize ();
+  BoardImplLibInitialize ();
+  ClockImplLibInitialize ();
+  GpioTlmmImplLibInitialize ();
 
   // get UART config
   Status = LibQcomTargetGetUartDmConfig (&Id, &GsbiBase, &UartDmBase);

@@ -1,11 +1,10 @@
 #include <PiDxe.h>
 #include <Library/LKEnvLib.h>
 #include <Chipset/gsbi.h>
-#include <Library/QcomSmemSecLib.h>
-#include <Library/QcomClockSecLib.h>
-#include <Library/QcomBoardSecLib.h>
-#include <Library/QcomGpioTlmmSecLib.h>
-#include <Library/UefiBootServicesTableLib.h>
+#include <Chipset/smem.h>
+#include <Library/QcomClockLib.h>
+#include <Library/QcomBoardLib.h>
+#include <Library/QcomGpioTlmmLib.h>
 
 /* Configure UART clock - based on the gsbi id */
 VOID LibQcomPlatformUartDmClockConfig(UINT8 id)

@@ -1,12 +1,8 @@
 #include <PiDxe.h>
 
 #include <Library/LKEnvLib.h>
-#include <Protocol/QcomClock.h>
-#include <Library/QcomPlatformClockInitLib.h>
+#include <Library/QcomClockLib.h>
 #include <Library/UefiBootServicesTableLib.h>
-
-#include "clock_p.h"
-#include "Protocol.c"
 
 EFI_STATUS
 EFIAPI
@@ -17,16 +13,12 @@ ClockDxeInitialize (
 {
   EFI_HANDLE Handle = NULL;
   EFI_STATUS Status;
-  struct clk_lookup *clist = NULL;
-  unsigned num = 0;
 
-  Status = LibQcomPlatformClockInit (&clist, &num);
-  ASSERT_EFI_ERROR (Status);
-  clk_init(clist, num);
+  ClockImplLibInitialize();
 
   Status = gBS->InstallMultipleProtocolInterfaces(
                   &Handle,
-                  &gQcomClockProtocolGuid,      &mClock,
+                  &gQcomClockProtocolGuid,      gClock,
                   NULL
                   );
   ASSERT_EFI_ERROR(Status);

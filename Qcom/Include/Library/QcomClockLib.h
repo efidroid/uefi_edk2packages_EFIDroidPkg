@@ -1,11 +1,11 @@
-#ifndef __LIBRARY_QCOM_CLOCK_SECLIB_H__
-#define __LIBRARY_QCOM_CLOCK_SECLIB_H__
+#ifndef __LIBRARY_QCOM_CLOCK_LIB_H__
+#define __LIBRARY_QCOM_CLOCK_LIB_H__
 
 #include <Protocol/QcomClock.h>
 
 RETURN_STATUS
 EFIAPI
-ClockSecLibConstructor (
+ClockImplLibInitialize (
   VOID
   );
 

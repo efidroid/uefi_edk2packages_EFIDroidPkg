@@ -9,6 +9,7 @@
 
 [Sources.common]
   Driver.c
+  LibraryImpl.c
 
 [Packages]
   MdePkg/MdePkg.dec

@@ -9,6 +9,7 @@
 
 [Sources.common]
   Driver.c
+  LibraryImpl.c
   clock.c
   clock_lib2.c
   clock-local.c

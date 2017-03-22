@@ -1,9 +1,7 @@
 #ifndef _SMEM_PRIVATE_H
 #define _SMEM_PRIVATE_H
 
-#include <Protocol/QcomSmem.h>
-
-extern QCOM_SMEM_PROTOCOL *gSMEM;
+#include <Library/QcomSmemLib.h>
 
 void board_init(void);
 uint32_t board_platform_id(void);

@@ -1,25 +1,35 @@
 #include <Base.h>
 
 #include <Library/LKEnvLib.h>
-#include <Library/QcomClockSecLib.h>
 #include <Library/QcomPlatformClockInitLib.h>
+#include <Library/QcomClockLib.h>
 
 #include "clock_p.h"
-#include "Protocol.c"
 
 QCOM_CLOCK_PROTOCOL *gClock = NULL;
 
+STATIC QCOM_CLOCK_PROTOCOL mInternalClock = {
+  clk_get,
+  clk_enable,
+  clk_disable,
+  clk_get_rate,
+  clk_set_rate,
+  clk_set_parent,
+  clk_get_parent,
+  clk_get_set_enable,
+};
+
 RETURN_STATUS
 EFIAPI
-ClockSecLibConstructor (
+ClockImplLibInitialize (
   VOID
   )
 {
-  RETURN_STATUS Status;
+  EFI_STATUS Status;
   struct clk_lookup *clist = NULL;
   unsigned num = 0;
 
-  gClock = &mClock;
+  gClock = &mInternalClock;
 
   Status = LibQcomPlatformClockInit (&clist, &num);
   ASSERT_EFI_ERROR (Status);

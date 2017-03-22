@@ -1,19 +1,23 @@
 #include <Base.h>
 
 #include <Library/LKEnvLib.h>
+#include <Library/QcomGpioTlmmLib.h>
 #include <Library/QcomPlatformGpioTlmmLib.h>
-#include <Library/QcomGpioTlmmSecLib.h>
-
-#include "Protocol.c"
 
 QCOM_GPIO_TLMM_PROTOCOL *gGpioTlmm = NULL;
 
+STATIC QCOM_GPIO_TLMM_PROTOCOL mInternalGpioTlmm = {
+  gpio_tlmm_config,
+  gpio_set,
+};
+
 RETURN_STATUS
 EFIAPI
-GpioTlmmSecLibConstructor (
+GpioTlmmImplLibInitialize (
   VOID
   )
 {
-  gGpioTlmm = &mGpioTlmm;
+  gGpioTlmm = &mInternalGpioTlmm;
+
   return RETURN_SUCCESS;
 }

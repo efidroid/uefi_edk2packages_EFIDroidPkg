@@ -1,11 +1,11 @@
-#ifndef __LIBRARY_QCOM_SMEM_SECLIB_H__
-#define __LIBRARY_QCOM_SMEM_SECLIB_H__
+#ifndef __LIBRARY_QCOM_SMEM_LIB_H__
+#define __LIBRARY_QCOM_SMEM_LIB_H__
 
 #include <Protocol/QcomSmem.h>
 
 RETURN_STATUS
 EFIAPI
-SmemSecLibConstructor (
+SmemImplLibInitialize (
   VOID
   );
 
