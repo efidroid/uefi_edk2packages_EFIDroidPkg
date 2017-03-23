@@ -39,6 +39,8 @@
 #include <Library/QcomPm8921Lib.h>
 #include <Library/QcomBoardLib.h>
 
+#include "display_p.h"
+
 static struct msm_fb_panel_data panel;
 static uint8_t display_enable;
 

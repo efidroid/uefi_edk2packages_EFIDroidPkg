@@ -29,30 +29,7 @@
 #ifndef _TARGET_MSM8960_DISPLAY_H
 #define _TARGET_MSM8960_DISPLAY_H
 
-#include <Chipset/mipi_dsi.h>
-
-/* Toshiba MDT61 Mipi Panel */
-/* Unique to this panel, display width is 800, image is 600 */
-#define TSH_MDT61_DISPLAY_WIDTH      800
-#define TSH_MDT61_MIPI_FB_WIDTH      (TSH_MDT61_DISPLAY_WIDTH - 200)
-#define TSH_MDT61_MIPI_FB_HEIGHT     1024
-
-#define MIPI_HSYNC_PULSE_WIDTH       8
-#define MIPI_HSYNC_BACK_PORCH_DCLK   16
-#define MIPI_HSYNC_FRONT_PORCH_DCLK  23
-
-#define MIPI_VSYNC_PULSE_WIDTH       2
-#define MIPI_VSYNC_BACK_PORCH_LINES  2
-#define MIPI_VSYNC_FRONT_PORCH_LINES 7
-
-int mipi_dsi_phy_init(struct mipi_dsi_panel_config *);
-void mdp_setup_mdt61_video_dsi_config(void);
-void config_mdt61_dsi_video_mode(void);
 int target_cont_splash_screen(void);
 void apq8064_ext_3p3V_enable(void);
-
-void mipi_chimei_video_wxga_init(struct msm_panel_info *pinfo);
-void lvds_chimei_wxga_init(struct msm_panel_info *pinfo);
-void mipi_toshiba_video_wsvga_init(struct msm_panel_info *pinfo);
 
 #endif

@@ -163,4 +163,5 @@ int mipi_dsi_on(void);
 int mipi_dsi_off(void);
 int mipi_dsi_cmds_tx(struct mipi_dsi_cmd *cmds, int count);
 int mipi_dsi_cmds_rx(char **rp, int len);
+int mipi_dsi_phy_init(struct mipi_dsi_panel_config *);
 #endif
