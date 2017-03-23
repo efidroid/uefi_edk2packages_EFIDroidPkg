@@ -76,8 +76,9 @@ typedef UINTN addr_t;
 #define SPEW EFI_D_INFO
 
 #if !defined(MDEPKG_NDEBUG)
-#define dprintf(level, fmt, ...) do { CHAR8 __printbuf[100]; \
+#define dprintf(level, fmt, ...) do { \
                                    if (DebugPrintEnabled ()) { \
+                                     CHAR8 __printbuf[100]; \
                                      UINTN __printindex; \
                                      CONST CHAR8 *__fmtptr = (fmt); \
                                      UINTN __fmtlen = AsciiStrSize(__fmtptr); \
