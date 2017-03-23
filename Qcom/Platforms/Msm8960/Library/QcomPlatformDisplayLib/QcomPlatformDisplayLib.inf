@@ -1,10 +1,10 @@
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = QcomPlatformDisplayDmLib
+  BASE_NAME                      = QcomPlatformDisplayLib
   FILE_GUID                      = 68C83E2F-7708-4118-8F76-8A128AF06C27
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = QcomPlatformDisplayDmLib
+  LIBRARY_CLASS                  = QcomPlatformDisplayLib
 
 
 [Sources.common]
