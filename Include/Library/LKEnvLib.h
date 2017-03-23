@@ -55,6 +55,7 @@ typedef UINTN addr_t;
 #define strlcpy(dst, src, n) AsciiStrCpyS((dst), (n), (src))
 #define memset(s, c, n) SetMem((s), (UINTN)(n), (UINT8)(c))
 #define memcpy(s1, s2, n) CopyMem((s1), (s2), (n))
+#define memmove(s1, s2, n) CopyMem((s1), (s2), (n))
 
 #define va_list VA_LIST
 #define offsetof(type, member) OFFSET_OF (type, member)
