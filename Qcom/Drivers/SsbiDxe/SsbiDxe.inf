@@ -9,6 +9,7 @@
 
 [Sources.common]
   Driver.c
+  LibraryImpl.c
   ssbi.c
 
 [Packages]

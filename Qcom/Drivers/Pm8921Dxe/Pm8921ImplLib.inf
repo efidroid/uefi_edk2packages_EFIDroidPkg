@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = Pm8921ImplLib
+  FILE_GUID                      = E9B41E62-8BB7-4486-AB1C-520393F147E0
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = Pm8921Lib
+  CONSTRUCTOR                    = Pm8921ImplLibInitialize
+
+[Sources.common]
+  LibraryImpl.c
+  pm8921.c
+  pm8921_pwm.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  SsbiLib

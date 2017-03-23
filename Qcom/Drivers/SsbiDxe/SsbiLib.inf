@@ -1,11 +1,11 @@
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = Pm8921Lib
-  FILE_GUID                      = 9BBA427F-EB52-4423-A3A3-DFDB661427B8
+  BASE_NAME                      = SsbiLib
+  FILE_GUID                      = E0218758-1BB5-4AFC-A95F-81AC50E7E5EB
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = Pm8921Lib|DXE_DRIVER UEFI_APPLICATION UEFI_DRIVER
-  CONSTRUCTOR                    = Pm8921LibConstructor
+  LIBRARY_CLASS                  = SsbiLib|DXE_DRIVER UEFI_APPLICATION UEFI_DRIVER
+  CONSTRUCTOR                    = SsbiLibConstructor
 
 [Sources.common]
   LibraryBS.c
@@ -20,7 +20,7 @@
   UefiBootServicesTableLib
 
 [Protocols]
-  gQcomPm8921ProtocolGuid
+  gQcomSsbiProtocolGuid
 
 [Depex]
-  gQcomPm8921ProtocolGuid
+  gQcomSsbiProtocolGuid

@@ -1,18 +1,8 @@
 #include <PiDxe.h>
 
 #include <Library/UefiBootServicesTableLib.h>
-#include <Protocol/QcomSsbi.h>
+#include <Library/QcomSsbiLib.h>
 #include <Library/LKEnvLib.h>
-#include "ssbi.h"
-
-STATIC QCOM_SSBI_PROTOCOL gSSBI = {
-  i2c_ssbi_read_bytes,
-  i2c_ssbi_write_bytes,
-  pa1_ssbi2_read_bytes,
-  pa1_ssbi2_write_bytes,
-  pa2_ssbi2_read_bytes,
-  pa2_ssbi2_write_bytes,
-};
 
 EFI_STATUS
 EFIAPI
@@ -24,9 +14,11 @@ SsbiDxeInitialize (
   EFI_HANDLE Handle = NULL;
   EFI_STATUS Status;
 
+  SsbiImplLibInitialize();
+
   Status = gBS->InstallMultipleProtocolInterfaces(
                   &Handle,
-                  &gQcomSsbiProtocolGuid,      &gSSBI,
+                  &gQcomSsbiProtocolGuid,      gSSBI,
                   NULL
                   );
   ASSERT_EFI_ERROR(Status);

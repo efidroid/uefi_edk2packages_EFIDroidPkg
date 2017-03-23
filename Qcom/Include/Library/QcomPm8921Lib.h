@@ -3,6 +3,12 @@
 
 #include <Protocol/QcomPm8921.h>
 
+RETURN_STATUS
+EFIAPI
+Pm8921ImplLibInitialize (
+  VOID
+  );
+
 extern QCOM_PM8921_PROTOCOL *gPM8921;
 
 #endif
