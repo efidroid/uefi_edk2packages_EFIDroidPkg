@@ -4,7 +4,7 @@
   FILE_GUID                      = 44790987-E75E-4178-AE98-AC961D33D8FE
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = ClockImplLib
+  LIBRARY_CLASS                  = ClockLib
   CONSTRUCTOR                    = ClockImplLibInitialize
 
 [Sources.common]

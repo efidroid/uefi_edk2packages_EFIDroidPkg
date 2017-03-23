@@ -4,7 +4,7 @@
   FILE_GUID                      = AE79CEF4-1C0A-4BD9-906B-E60E93887057
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = GpioTlmmImplLib
+  LIBRARY_CLASS                  = GpioTlmmLib
   CONSTRUCTOR                    = GpioTlmmImplLibInitialize
 
 [Sources.common]

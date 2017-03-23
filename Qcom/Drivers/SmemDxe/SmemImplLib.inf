@@ -4,7 +4,7 @@
   FILE_GUID                      = E3287235-3074-4371-8E78-BD0025BD1DFE
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = SmemImplLib
+  LIBRARY_CLASS                  = SmemLib
   CONSTRUCTOR                    = SmemImplLibInitialize
 
 [Sources.common]
