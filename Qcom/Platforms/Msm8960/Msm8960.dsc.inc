@@ -15,6 +15,7 @@
 
 [LibraryClasses.common.DXE_DRIVER]
   PlatformDxeInitLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/PlatformDxeInitLib/PlatformDxeInitLib.inf
+  QcomDxeTimerLib|EFIDroidPkg/Qcom/Library/QcomDGTDxeTimerLib/QcomDGTDxeTimerLib.inf
   QcomPlatformDxeTimerLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDxeTimerLib/QcomPlatformDxeTimerLib.inf
 
 [LibraryClasses.common.DXE_DRIVER, LibraryClasses.common.UEFI_APPLICATION, LibraryClasses.common.UEFI_DRIVER]

@@ -5,7 +5,6 @@
 
 [LibraryClasses.common.DXE_DRIVER]
   ChipVendorDxeInitLib|EFIDroidPkg/Qcom/Library/ChipVendorDxeInitLib/ChipVendorDxeInitLib.inf
-  QcomDxeTimerLib|EFIDroidPkg/Qcom/Library/QcomDGTDxeTimerLib/QcomDGTDxeTimerLib.inf
 
 [LibraryClasses.common.DXE_DRIVER, LibraryClasses.common.UEFI_DRIVER]
   # this allows us to boot without a screen without GraphicsOutputDxe complaining
