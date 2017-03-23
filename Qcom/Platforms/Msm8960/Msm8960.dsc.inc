@@ -1,17 +1,39 @@
 [LibraryClasses.common]
-  PlatformDxeInitLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/PlatformDxeInitLib/PlatformDxeInitLib.inf
   EfiResetSystemLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/ResetSystemLib/ResetSystemLib.inf
   TimerLib|EFIDroidPkg/Qcom/Library/GPTTimerLib/GPTTimerLib.inf
 
+  # platform
   QcomPlatformClockInitLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformClockInitLib/QcomPlatformClockInitLib.inf
-  QcomPlatformDxeTimerLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDxeTimerLib/QcomPlatformDxeTimerLib.inf
   QcomPlatformUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformUartDmLib/QcomPlatformUartDmLib.inf
   QcomPlatformGpioTlmmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformGpioTlmmLib/QcomPlatformGpioTlmmLib.inf
   QcomPlatformDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDisplayLib/QcomPlatformDisplayLib.inf
+  QcomPlatformDisplayMinimalLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDisplayLib/QcomPlatformDisplayMinimalLib.inf
 
+  # target
   QcomTargetBoardLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetBoardLib/QcomTargetBoardLib.inf
   QcomTargetUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetUartDmLib/QcomTargetUartDmLib.inf
-  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetDisplayLib/QcomTargetDisplayLib.inf
+
+[LibraryClasses.common.DXE_DRIVER]
+  PlatformDxeInitLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/PlatformDxeInitLib/PlatformDxeInitLib.inf
+  QcomPlatformDxeTimerLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDxeTimerLib/QcomPlatformDxeTimerLib.inf
+
+[LibraryClasses.common.DXE_DRIVER, LibraryClasses.common.UEFI_APPLICATION, LibraryClasses.common.UEFI_DRIVER]
+  # protocol libs
+  SmemLib|EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemLib.inf
+  BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardLib.inf
+  ClockLib|EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockLib.inf
+  GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmLib.inf
+  SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiLib.inf
+  Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Lib.inf
+
+[LibraryClasses.common.SEC, LibraryClasses.common.PEI_CORE, LibraryClasses.common.PEIM]
+  # Implementation libs
+  SmemLib|EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemImplLib.inf
+  BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardImplLib.inf
+  ClockLib|EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockImplLib.inf
+  GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmImplLib.inf
+  SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiImplLib.inf
+  Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921ImplLib.inf
 
 [PcdsFeatureFlag.common]
   # without this, the memory speed is very slow
@@ -40,3 +62,11 @@
   gQcomTokenSpaceGuid.PcdMsmGptClearOffset|0x000C
 
   gQcomTokenSpaceGuid.PcdSpssTimerStatusReg|0x0200A088
+
+[Components.common]
+  EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemDxe.inf
+  EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardDxe.inf
+  EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockDxe.inf
+  EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmDxe.inf
+  EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiDxe.inf
+  EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
