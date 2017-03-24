@@ -166,7 +166,7 @@ void fbcon_clear(void)
 	if (!config)
 		return;
 
-	memset(config->base, BGCOLOR, config->width * config->height * (config->bpp/3));
+	memset(config->base, BGCOLOR, config->width * config->height * (config->bpp/8));
 	cur_pos->x = 0;
 	cur_pos->y = 0;
 }
