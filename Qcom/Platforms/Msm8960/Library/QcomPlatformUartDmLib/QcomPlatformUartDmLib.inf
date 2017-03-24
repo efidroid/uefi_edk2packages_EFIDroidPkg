@@ -24,6 +24,9 @@
 [LibraryClasses]
   IoLib
   DebugLib
+  BoardLib
+  ClockLib
+  GpioTlmmLib
 
 [Depex]
   gQcomClockProtocolGuid

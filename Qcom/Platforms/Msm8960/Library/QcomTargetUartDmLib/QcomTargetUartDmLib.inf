@@ -20,3 +20,5 @@
 
 [LibraryClasses]
   DebugLib
+  GpioTlmmLib
+  ClockLib

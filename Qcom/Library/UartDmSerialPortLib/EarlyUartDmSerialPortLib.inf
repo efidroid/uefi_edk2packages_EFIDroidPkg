@@ -20,10 +20,6 @@
 [LibraryClasses]
   PcdLib
   IoLib
-  SmemLib
-  BoardLib
-  ClockLib
-  GpioTlmmLib
   QcomPlatformUartDmLib
   QcomTargetUartDmLib
 
