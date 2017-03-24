@@ -232,7 +232,7 @@ InitializeGraphicsOutput (
     return EFI_DEVICE_ERROR;
   }
   FrameBufferBase = (UINTN) FbConfig->base;
-  FrameBufferSize = ROUNDUP(FbConfig->width * FbConfig->height * (FbConfig->bpp/3), EFI_PAGE_SIZE);
+  FrameBufferSize = ROUNDUP(FbConfig->width * FbConfig->height * (FbConfig->bpp/8), EFI_PAGE_SIZE);
 
   // set framebuffer cachability
   Status = Cpu->SetMemoryAttributes (Cpu, FrameBufferBase, FrameBufferSize, EFI_MEMORY_WT);
