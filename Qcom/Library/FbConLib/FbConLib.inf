@@ -14,3 +14,6 @@
   ArmPkg/ArmPkg.dec
   EFIDroidPkg/EFIDroidPkg.dec
   EFIDroidPkg/Qcom/Qcom.dec
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdFbConScaleFactor

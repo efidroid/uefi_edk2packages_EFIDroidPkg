@@ -39,3 +39,5 @@
   gQcomTokenSpaceGuid.PcdMsmGptClearOffset|0x0|UINT64|0x0000000f
 
   gQcomTokenSpaceGuid.PcdSpssTimerStatusReg|0x0|UINT64|0x00000010
+
+  gQcomTokenSpaceGuid.PcdFbConScaleFactor|2|UINT64|0x00000011
