@@ -4,8 +4,14 @@
 #include <Chipset/lcdc.h>
 #include <Chipset/mipi_dsi.h>
 #include <Platform/display.h>
+#include <Library/QcomTargetDisplayLib.h>
 
 static struct fbcon_config config = {0};
+
+RETURN_STATUS LibQcomTargetDisplayCallSecConstructors(VOID)
+{
+  return RETURN_SUCCESS;
+}
 
 void target_display_init(void)
 {

@@ -36,8 +36,13 @@
 #include <Platform/display.h>
 #include <Target/display.h>
 #include <Target/board.h>
-#include <Library/QcomPm8921Lib.h>
+#include <Library/QcomTargetDisplayLib.h>
+#include <Library/QcomSmemLib.h>
 #include <Library/QcomBoardLib.h>
+#include <Library/QcomClockLib.h>
+#include <Library/QcomGpioTlmmLib.h>
+#include <Library/QcomSsbiLib.h>
+#include <Library/QcomPm8921Lib.h>
 
 #include "display_p.h"
 
@@ -351,3 +356,14 @@ void display_shutdown(void)
 	}
 }
 
+RETURN_STATUS LibQcomTargetDisplayCallSecConstructors(VOID)
+{
+  SmemImplLibInitialize ();
+  BoardImplLibInitialize ();
+  ClockImplLibInitialize ();
+  GpioTlmmImplLibInitialize ();
+  SsbiImplLibInitialize ();
+  Pm8921ImplLibInitialize ();
+
+  return RETURN_SUCCESS;
+}

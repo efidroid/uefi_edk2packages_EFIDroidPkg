@@ -8,13 +8,6 @@
 #include <Library/QcomTargetDisplayLib.h>
 #include <Library/fbcon.h>
 
-#include <Library/QcomSmemLib.h>
-#include <Library/QcomBoardLib.h>
-#include <Library/QcomClockLib.h>
-#include <Library/QcomGpioTlmmLib.h>
-#include <Library/QcomSsbiLib.h>
-#include <Library/QcomPm8921Lib.h>
-
 RETURN_STATUS
 EFIAPI
 SerialPortInitialize (
@@ -24,12 +17,7 @@ SerialPortInitialize (
   struct fbcon_pos    *cur_pos;
 
   // call library constructors
-  SmemImplLibInitialize ();
-  BoardImplLibInitialize ();
-  ClockImplLibInitialize ();
-  GpioTlmmImplLibInitialize ();
-  SsbiImplLibInitialize ();
-  Pm8921ImplLibInitialize ();
+  LibQcomTargetDisplayCallSecConstructors ();
 
   target_display_init();
 

@@ -13,12 +13,6 @@
   PcdLib
   IoLib
   FbConLib
-  BoardLib
-  SmemLib
-  ClockLib
-  Pm8921Lib
-  SsbiLib
-  GpioTlmmLib
   QcomTargetDisplayLib
 
 [Packages]
