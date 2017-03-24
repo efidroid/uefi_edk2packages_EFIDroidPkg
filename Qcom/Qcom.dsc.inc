@@ -1,3 +1,7 @@
+[Defines]
+  DEFINE EARLYDEBUG_TYPE = DISABLED
+  DEFINE DISPLAY_TYPE    = DISABLED
+
 [LibraryClasses.common]
   RealTimeClockLib|EFIDroidPkg/Qcom/Library/RealTimeClockLib/RealTimeClockLib.inf
   PTableLib|EFIDroidPkg/Qcom/Library/PTableLib/PTableLib.inf
@@ -6,10 +10,10 @@
 [LibraryClasses.common.DXE_DRIVER]
   ChipVendorDxeInitLib|EFIDroidPkg/Qcom/Library/ChipVendorDxeInitLib/ChipVendorDxeInitLib.inf
 
-[LibraryClasses.common.DXE_DRIVER, LibraryClasses.common.UEFI_DRIVER]
-  # this allows us to boot without a screen without GraphicsOutputDxe complaining
-  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Library/QcomTargetDisplayLibNull/QcomTargetDisplayLibNull.inf
-
 [Components.common]
   EFIDroidPkg/Qcom/Drivers/TimerDxe/TimerDxe.inf
+  !if $(DISPLAY_TYPE) != DISABLED && $(EARLYDEBUG_TYPE) != DISPLAY
   EFIDroidPkg/Qcom/Drivers/GraphicsOutputDxe/GraphicsOutputDxe.inf
+  !else
+  EFIDroidPkg/Qcom/Drivers/EmuGraphicsOutputDxe/EmuGraphicsOutputDxe.inf
+  !endif

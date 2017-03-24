@@ -1,7 +1,7 @@
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = QcomTargetDisplayLibNull
-  FILE_GUID                      = 317C9A9E-D195-4946-BA97-3A287C563B68
+  BASE_NAME                      = QcomTarget2ndStageDisplayLib
+  FILE_GUID                      = AB0C1CD7-B646-4A85-A9CF-3E3E1C61F171
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
   LIBRARY_CLASS                  = QcomTargetDisplayLib
@@ -10,11 +10,13 @@
 [Sources.common]
   target_display.c
 
-[LibraryClasses]
-  CacheMaintenanceLib
-
 [Packages]
-  ArmPkg/ArmPkg.dec
   MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
   EFIDroidPkg/EFIDroidPkg.dec
   EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
+
+[LibraryClasses]
+  QcomPlatformDisplayMinimalLib

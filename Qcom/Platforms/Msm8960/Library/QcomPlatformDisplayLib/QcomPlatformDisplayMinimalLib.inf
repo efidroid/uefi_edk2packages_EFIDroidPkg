@@ -1,22 +1,15 @@
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = QcomPlatformDisplayLib
-  FILE_GUID                      = 68C83E2F-7708-4118-8F76-8A128AF06C27
+  BASE_NAME                      = QcomPlatformDisplayMinimalLib
+  FILE_GUID                      = 85E948B6-372E-403A-86B6-D5AFCBDADB43
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = QcomPlatformDisplayLib
+  LIBRARY_CLASS                  = QcomPlatformDisplayMinimalLib
 
 
 [Sources.common]
-  display.c
-  hdmi.c
-  hdmi_core.c
-  lvds.c
   mdp4.c
-  mdp_lcdc.c
   mipi_dsi.c
-  mipi_dsi_phy.c
-  misc.c
 
 [Packages]
   MdePkg/MdePkg.dec
@@ -30,7 +23,5 @@
   IoLib
   DebugLib
   TimerLib
-  ClockLib
-  Pm8921Lib
   ArmLib
   CacheMaintenanceLib

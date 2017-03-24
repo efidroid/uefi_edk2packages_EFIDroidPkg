@@ -31,3 +31,6 @@
   DebugLib
   GpioTlmmLib
   BoardLib
+  Pm8921Lib
+  TimerLib
+  QcomPlatformDisplayLib

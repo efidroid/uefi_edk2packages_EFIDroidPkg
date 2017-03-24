@@ -1,0 +1,33 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = EarlyDisplaySerialPortLib
+  FILE_GUID                      = E0AF31EB-7D1A-4242-B576-689731002B3D
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = SerialPortLib
+
+[Sources.common]
+  EarlyDisplaySerialPortLib.c
+
+[LibraryClasses]
+  PcdLib
+  IoLib
+  FbConLib
+  BoardLib
+  SmemLib
+  ClockLib
+  Pm8921Lib
+  SsbiLib
+  GpioTlmmLib
+  QcomTargetDisplayLib
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[Guids]
+  gQcomFbConStateGuid

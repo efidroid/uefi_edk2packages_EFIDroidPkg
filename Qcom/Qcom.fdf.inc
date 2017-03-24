@@ -20,4 +20,9 @@ READ_LOCK_CAP      = TRUE
 READ_LOCK_STATUS   = TRUE
 
   INF EFIDroidPkg/Qcom/Drivers/TimerDxe/TimerDxe.inf
+
+  !if $(DISPLAY_TYPE) != DISABLED && $(EARLYDEBUG_TYPE) != DISPLAY
   INF EFIDroidPkg/Qcom/Drivers/GraphicsOutputDxe/GraphicsOutputDxe.inf
+  !else
+  INF EFIDroidPkg/Qcom/Drivers/EmuGraphicsOutputDxe/EmuGraphicsOutputDxe.inf
+  !endif

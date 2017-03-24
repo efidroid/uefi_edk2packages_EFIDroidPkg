@@ -13,6 +13,53 @@
   QcomTargetBoardLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetBoardLib/QcomTargetBoardLib.inf
   QcomTargetUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetUartDmLib/QcomTargetUartDmLib.inf
 
+  # target display
+!if $(EARLYDEBUG_TYPE) == DISPLAY
+  # always use the 2ndstage lib, because SEC has initialized the screen already
+  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTarget2ndStageDisplayLib/QcomTarget2ndStageDisplayLib.inf
+!else
+
+!if $(DISPLAY_TYPE) == 2NDSTAGE
+  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTarget2ndStageDisplayLib/QcomTarget2ndStageDisplayLib.inf
+!endif
+!if $(DISPLAY_TYPE) == NATIVE
+  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetDisplayLib/QcomTargetDisplayLib.inf
+!endif
+
+!endif
+
+  # serial lib
+!if $(EARLYDEBUG_TYPE) == UART
+  SerialPortLib|EFIDroidPkg/Qcom/Library/UartDmSerialPortLib/UartDmSerialPortLib.inf
+!endif
+!if $(EARLYDEBUG_TYPE) == DISPLAY
+  SerialPortLib|EFIDroidPkg/Qcom/Library/DisplaySerialPortLib/DisplaySerialPortLib.inf
+!endif
+
+[LibraryClasses.common.SEC, LibraryClasses.common.PEI_CORE, LibraryClasses.common.PEIM]
+  # Implementation libs
+  SmemLib|EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemImplLib.inf
+  BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardImplLib.inf
+  ClockLib|EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockImplLib.inf
+  GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmImplLib.inf
+  SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiImplLib.inf
+  Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921ImplLib.inf
+
+!if $(DISPLAY_TYPE) == 2NDSTAGE
+  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTarget2ndStageDisplayLib/QcomTarget2ndStageDisplayLib.inf
+!endif
+!if $(DISPLAY_TYPE) == NATIVE
+  QcomTargetDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetDisplayLib/QcomTargetDisplayLib.inf
+!endif
+
+  # early serial lib
+!if $(EARLYDEBUG_TYPE) == UART
+  SerialPortLib|EFIDroidPkg/Qcom/Library/UartDmSerialPortLib/EarlyUartDmSerialPortLib.inf
+!endif
+!if $(EARLYDEBUG_TYPE) == DISPLAY
+  SerialPortLib|EFIDroidPkg/Qcom/Library/DisplaySerialPortLib/EarlyDisplaySerialPortLib.inf
+!endif
+
 [LibraryClasses.common.DXE_DRIVER]
   PlatformDxeInitLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/PlatformDxeInitLib/PlatformDxeInitLib.inf
   QcomDxeTimerLib|EFIDroidPkg/Qcom/Library/QcomDGTDxeTimerLib/QcomDGTDxeTimerLib.inf
@@ -26,15 +73,6 @@
   GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmLib.inf
   SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiLib.inf
   Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Lib.inf
-
-[LibraryClasses.common.SEC, LibraryClasses.common.PEI_CORE, LibraryClasses.common.PEIM]
-  # Implementation libs
-  SmemLib|EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemImplLib.inf
-  BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardImplLib.inf
-  ClockLib|EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockImplLib.inf
-  GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmImplLib.inf
-  SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiImplLib.inf
-  Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921ImplLib.inf
 
 [PcdsFeatureFlag.common]
   # without this, the memory speed is very slow
