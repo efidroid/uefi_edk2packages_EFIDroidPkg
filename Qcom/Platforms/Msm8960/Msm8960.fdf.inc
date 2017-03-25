@@ -19,9 +19,9 @@ READ_STATUS        = TRUE
 READ_LOCK_CAP      = TRUE
 READ_LOCK_STATUS   = TRUE
 
-  INF EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiDxe.inf
   INF EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemDxe.inf
-  INF EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
-  INF EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockDxe.inf
   INF EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardDxe.inf
+  INF EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockDxe.inf
   INF EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmDxe.inf
+  INF EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiDxe.inf
+  INF EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
