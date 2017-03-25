@@ -10,6 +10,7 @@ QCOM_SMEM_PROTOCOL *gSMEM = NULL;
 STATIC QCOM_SMEM_PROTOCOL mInternalSMEM = {
   smem_read_alloc_entry,
   smem_read_alloc_entry_offset,
+  smem_get_alloc_entry,
 };
 
 RETURN_STATUS

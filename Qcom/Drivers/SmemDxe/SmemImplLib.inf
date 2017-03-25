@@ -19,3 +19,4 @@
 
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdMsmSharedBase
+  gQcomTokenSpaceGuid.PcdSmemTargetInfoAddress

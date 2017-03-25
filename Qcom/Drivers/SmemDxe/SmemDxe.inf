@@ -25,6 +25,7 @@
 
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdMsmSharedBase
+  gQcomTokenSpaceGuid.PcdSmemTargetInfoAddress
 
 [Protocols]
   gQcomSmemProtocolGuid

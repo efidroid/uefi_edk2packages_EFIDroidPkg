@@ -58,3 +58,5 @@
   gQcomTokenSpaceGuid.PcdMipiDsiRgbSwap|0|UINT64|0x00000013
 
   gQcomTokenSpaceGuid.PcdQTimerBase|0|UINT64|0x00000014
+
+  gQcomTokenSpaceGuid.PcdSmemTargetInfoAddress|0|UINT64|0x00000015

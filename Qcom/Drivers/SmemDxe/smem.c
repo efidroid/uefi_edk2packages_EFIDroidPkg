@@ -2,6 +2,8 @@
  * Copyright (c) 2009, Google Inc.
  * All rights reserved.
  *
+ * Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -30,7 +32,23 @@
 #include <Chipset/smem.h>
 #include <Library/PcdLib.h>
 
-#define MSM_SHARED_BASE ((UINTN)PcdGet64(PcdMsmSharedBase))
+/* DYNAMIC SMEM REGION feature enables LK to dynamically
+ * read the SMEM addr info from TCSR register or IMEM location.
+ * The first word read, if indicates a MAGIC number, then
+ * Dynamic SMEM is assumed to be enabled. Read the remaining
+ * SMEM info for SMEM Size and Phy_addr from the other bytes.
+ */
+
+static uint32_t smem_get_base_addr(void)
+{
+	struct smem_addr_info *smem_info = NULL;
+
+	smem_info = (struct smem_addr_info *)(UINTN) PcdGet64 (PcdSmemTargetInfoAddress);
+	if(smem_info && (smem_info->identifier == SMEM_TARGET_INFO_IDENTIFIER))
+		return smem_info->phy_addr;
+	else
+		return (UINT32)PcdGet64(PcdMsmSharedBase);
+}
 
 /* buf MUST be 4byte aligned, and len MUST be a multiple of 8. */
 unsigned smem_read_alloc_entry(smem_mem_type_t type, void *buf, int len)
@@ -39,7 +57,11 @@ unsigned smem_read_alloc_entry(smem_mem_type_t type, void *buf, int len)
 	unsigned *dest = buf;
 	unsigned src;
 	unsigned size;
-	struct smem *smem = (void *)(MSM_SHARED_BASE);
+	uint32_t smem_addr = 0;
+	struct smem *smem;
+
+	smem_addr = smem_get_base_addr();
+	smem = (struct smem *)smem_addr;
 
 	if (((len & 0x3) != 0) || (((unsigned)buf & 0x3) != 0))
 		return 1;
@@ -57,11 +79,47 @@ unsigned smem_read_alloc_entry(smem_mem_type_t type, void *buf, int len)
 	if (size != (unsigned)((len + 7) & ~0x00000007))
 		return 1;
 
-	src = MSM_SHARED_BASE + readl(&ainfo->offset);
+	src = smem_addr + readl(&ainfo->offset);
 	for (; len > 0; src += 4, len -= 4)
 		*(dest++) = readl(src);
 
 	return 0;
+}
+
+/* Return a pointer to smem_item with size */
+void* smem_get_alloc_entry(smem_mem_type_t type, uint32_t* size)
+{
+	struct smem_alloc_info *ainfo = NULL;
+	uint32_t smem_addr = 0;
+	struct smem *smem;
+	uint32_t base_ext = 0;
+	uint32_t offset = 0;
+	void *ret = NULL;
+
+	smem_addr = smem_get_base_addr();
+	smem = (struct smem *)smem_addr;
+
+	if (type < SMEM_FIRST_VALID_TYPE || type > SMEM_LAST_VALID_TYPE)
+		return ret;
+
+	ainfo = &smem->alloc_info[type];
+	if (readl(&ainfo->allocated) == 0)
+		return ret;
+
+	*size = readl(&ainfo->size);
+	base_ext = readl(&ainfo->base_ext);
+	offset = readl(&ainfo->offset);
+
+	if(base_ext)
+	{
+		ret = (void*)base_ext + offset;
+	}
+	else
+	{
+		ret = (void*) smem_addr + offset;
+	}
+
+	return ret;
 }
 
 unsigned
@@ -72,7 +130,11 @@ smem_read_alloc_entry_offset(smem_mem_type_t type, void *buf, int len,
 	unsigned *dest = buf;
 	unsigned src;
 	unsigned size = len;
-	struct smem *smem = (void *)(MSM_SHARED_BASE);
+	uint32_t smem_addr = 0;
+	struct smem *smem;
+
+	smem_addr = smem_get_base_addr();
+	smem = (struct smem *)smem_addr;
 
 	if (((len & 0x3) != 0) || (((unsigned)buf & 0x3) != 0))
 		return 1;
@@ -84,7 +146,7 @@ smem_read_alloc_entry_offset(smem_mem_type_t type, void *buf, int len,
 	if (readl(&ainfo->allocated) == 0)
 		return 1;
 
-	src = MSM_SHARED_BASE + readl(&ainfo->offset) + offset;
+	src = smem_addr + readl(&ainfo->offset) + offset;
 	for (; size > 0; src += 4, size -= 4)
 		*(dest++) = readl(src);
 
