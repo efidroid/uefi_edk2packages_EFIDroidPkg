@@ -5,6 +5,9 @@ void gpio_tlmm_config(uint32_t gpio, uint8_t func,
 		      uint8_t dir, uint8_t pull,
 		      uint8_t drvstr, uint32_t enable)
 {
+	// since we're using unified header files, we need to swap this one
+	enable = !enable;
+
 	unsigned int val = 0;
 	val |= pull;
 	val |= func << 2;
