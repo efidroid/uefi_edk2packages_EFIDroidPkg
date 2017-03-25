@@ -190,3 +190,50 @@ void clock_lib2_rcg_set_rate_hid(struct rcg_clk *rclk, struct clk_freq_tbl *freq
 
 	clock_lib2_rcg_update_config(rclk);
 }
+
+/* Reset clock */
+static int __clock_lib2_branch_clk_reset(uint32_t bcr_reg, enum clk_reset_action action)
+{
+	uint32_t reg;
+	int ret = 0;
+
+	reg = readl(bcr_reg);
+
+	switch (action) {
+	case CLK_RESET_ASSERT:
+		reg |= BIT(0);
+		break;
+	case CLK_RESET_DEASSERT:
+		reg &= ~BIT(0);
+		break;
+	default:
+		ret = 1;
+	}
+
+	writel(reg, bcr_reg);
+
+	/* Wait for writes to go through */
+	dmb();
+
+	return ret;
+}
+
+int clock_lib2_reset_clk_reset(struct clk *c, enum clk_reset_action action)
+{
+	struct reset_clk *rst = to_reset_clk(c);
+
+	if (!rst)
+		return 0;
+
+	return __clock_lib2_branch_clk_reset(rst->bcr_reg, action);
+}
+
+int clock_lib2_branch_clk_reset(struct clk *c, enum clk_reset_action action)
+{
+	struct branch_clk *bclk = to_branch_clk(c);
+
+	if (!bclk)
+		return 0;
+
+	return __clock_lib2_branch_clk_reset((uint32_t)bclk->bcr_reg, action);
+}

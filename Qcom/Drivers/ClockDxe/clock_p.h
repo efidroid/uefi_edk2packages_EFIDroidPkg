@@ -100,4 +100,11 @@ struct clk_list *clk_get_list(void);
  */
 void clk_init(struct clk_lookup *clist, unsigned num);
 
+/**
+ * clk_reset - Reset block using BCR
+ * @clk: pointer to clock
+ * @action: clock assert or deassert
+ */
+int clk_reset(struct clk *clk, enum clk_reset_action);
+
 #endif // _CLOCK_PRIVATE_H
