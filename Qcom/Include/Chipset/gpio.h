@@ -50,7 +50,7 @@
 #define GPIO_16MA       7
 
 /* GPIO TLMM: Status */
-#define GPIO_ENABLE     1
-#define GPIO_DISABLE    0
+#define GPIO_ENABLE     0
+#define GPIO_DISABLE    1
 
 #endif
