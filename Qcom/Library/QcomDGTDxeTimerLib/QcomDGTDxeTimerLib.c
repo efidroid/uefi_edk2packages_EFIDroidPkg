@@ -48,3 +48,11 @@ LibQcomDxeTimerGetFreq (
 {
   return LibQcomPlatformDxeTimerGetFreq();
 }
+
+VOID
+EFIAPI
+LibQcomDxeTimerFinishIrq (
+  VOID
+  )
+{
+}
