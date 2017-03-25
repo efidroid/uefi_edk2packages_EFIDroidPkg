@@ -19,4 +19,10 @@ LibQcomDxeTimerGetFreq (
   VOID
   );
 
+VOID
+EFIAPI
+LibQcomDxeTimerFinishIrq (
+  VOID
+  );
+
 #endif

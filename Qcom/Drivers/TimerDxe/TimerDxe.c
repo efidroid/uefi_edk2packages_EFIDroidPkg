@@ -285,6 +285,7 @@ TimerInterruptHandler (
     mTimerNotifyFunction (mTimerPeriod);
   }
 
+  LibQcomDxeTimerFinishIrq ();
   gInterrupt->EndOfInterrupt (gInterrupt, Source);
 
   gBS->RestoreTPL (OriginalTPL);
