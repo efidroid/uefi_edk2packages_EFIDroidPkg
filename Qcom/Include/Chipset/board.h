@@ -1,4 +1,4 @@
-/* Copyright (c) 2012, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -9,7 +9,7 @@
  *       copyright notice, this list of conditions and the following
  *       disclaimer in the documentation and/or other materials provided
  *       with the distribution.
- *     * Neither the name of The Linux Foundation nor the names of its
+ *     * Neither the name of The Linux Fundation, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -30,16 +30,28 @@
 #ifndef __BOARD_H
 #define __BOARD_H
 
+#include <Chipset/smem.h>
+
 #define LINUX_MACHTYPE_UNKNOWN 0
+#define BOARD_SOC_VERSION2     0x20000
+#define MAX_PMIC_DEVICES       SMEM_MAX_PMIC_DEVICES
+
+struct board_pmic_data {
+	uint32_t pmic_type;
+	uint32_t pmic_version;
+	uint32_t pmic_target;
+};
 
 struct board_data {
 	uint32_t platform;
+	uint32_t foundry_id;
+	uint32_t chip_serial;
+	uint32_t platform_version;
 	uint32_t platform_hw;
 	uint32_t platform_subtype;
 	uint32_t target;
 	uint32_t baseband;
-	uint32_t pmic_type;
-	uint32_t pmic_version;
+	struct board_pmic_data pmic_info[MAX_PMIC_DEVICES];
 };
 
 #endif

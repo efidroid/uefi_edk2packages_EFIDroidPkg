@@ -12,8 +12,13 @@ STATIC QCOM_BOARD_PROTOCOL mInternalBoard = {
   board_target_id,
   board_baseband,
   board_hardware_id,
-  board_pmic_type,
-  board_pmic_ver,
+  board_hardware_subtype,
+  board_foundry_id,
+  board_chip_serial,
+  board_pmic_info,
+  board_pmic_target,
+  board_soc_version,
+  board_get_hw_platform_name,
 };
 
 RETURN_STATUS
