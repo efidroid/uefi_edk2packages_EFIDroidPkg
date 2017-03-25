@@ -140,7 +140,7 @@ struct rcg_clk {
 	void   (*set_rate)(struct rcg_clk *, struct clk_freq_tbl *);
 
 	/* freq table */
-	struct clk_freq_tbl *const freq_tbl;
+	struct clk_freq_tbl *freq_tbl;
 	struct clk_freq_tbl *current_freq;
 
 	struct clk c;
