@@ -18,14 +18,14 @@ typedef struct clk *(EFIAPI *clk_get_parent_t)(struct clk *clk);
 typedef int (EFIAPI *clk_get_set_enable_t)(char *id, unsigned long rate, bool enable);
 
 struct _QCOM_CLOCK_PROTOCOL {
-  clk_get_t clk_get;
-  clk_enable_t clk_enable;
-  clk_disable_t clk_disable;
-  clk_get_rate_t clk_get_rate;
-  clk_set_rate_t clk_set_rate;
-  clk_set_parent_t clk_set_parent;
-  clk_get_parent_t  clk_get_parent;
-  clk_get_set_enable_t clk_get_set_enable;
+  clk_get_t             clk_get;
+  clk_enable_t          clk_enable;
+  clk_disable_t         clk_disable;
+  clk_get_rate_t        clk_get_rate;
+  clk_set_rate_t        clk_set_rate;
+  clk_set_parent_t      clk_set_parent;
+  clk_get_parent_t      clk_get_parent;
+  clk_get_set_enable_t  clk_get_set_enable;
 };
 
 extern EFI_GUID gQcomClockProtocolGuid;
