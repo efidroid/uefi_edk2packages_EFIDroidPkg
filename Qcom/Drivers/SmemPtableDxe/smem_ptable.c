@@ -65,7 +65,7 @@ void smem_ptable_init(void)
 									   0);
 	if (ret)
 	{
-		dprintf(INFO, "Failed to read ptable hdr (%d)", ret);
+		dprintf(INFO, "Failed to read ptable hdr (%d)\n", ret);
 		return;
 	}
 
