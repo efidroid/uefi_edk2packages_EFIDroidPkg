@@ -41,10 +41,9 @@ strtok(CHAR8 *s, CONST CHAR8 *delim)
 CHAR8 *
 strtok_r(CHAR8 *s, CONST CHAR8 *delim, CHAR8 **last)
 {
-	CHAR8 *spanp;
+	CONST CHAR8 *spanp;
 	INTN c, sc;
 	CHAR8 *tok;
-
 
 	if (s == NULL && (s = *last) == NULL)
 		return (NULL);
@@ -54,12 +53,12 @@ strtok_r(CHAR8 *s, CONST CHAR8 *delim, CHAR8 **last)
 	 */
 cont:
 	c = *s++;
-	for (spanp = (CHAR8 *)delim; (sc = *spanp++) != 0;) {
+	for (spanp = delim; (sc = *spanp++) != 0;) {
 		if (c == sc)
 			goto cont;
 	}
 
-	if (c == 0) {		/* no non-delimiter CHAR8acters */
+	if (c == 0) {		/* no non-delimiter characters */
 		*last = NULL;
 		return (NULL);
 	}
@@ -71,13 +70,13 @@ cont:
 	 */
 	for (;;) {
 		c = *s++;
-		spanp = (CHAR8 *)delim;
+		spanp = delim;
 		do {
 			if ((sc = *spanp++) == c) {
 				if (c == 0)
 					s = NULL;
 				else
-					s[-1] = 0;
+					s[-1] = '\0';
 				*last = s;
 				return (tok);
 			}
