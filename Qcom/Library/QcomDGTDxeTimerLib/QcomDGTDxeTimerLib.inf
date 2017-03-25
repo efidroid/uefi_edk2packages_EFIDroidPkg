@@ -16,7 +16,6 @@
   EmbeddedPkg/EmbeddedPkg.dec
   EFIDroidPkg/EFIDroidPkg.dec
   EFIDroidPkg/Qcom/Qcom.dec
-  EFIDroidPkg/Qcom/Platforms/Msm8960/Msm8960.dec
 
 [LibraryClasses]
   IoLib
