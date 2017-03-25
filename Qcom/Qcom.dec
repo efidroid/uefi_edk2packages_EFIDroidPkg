@@ -56,3 +56,5 @@
   #  DSI_RGB_SWAP_GRB   4
   #  DSI_RGB_SWAP_GBR   5
   gQcomTokenSpaceGuid.PcdMipiDsiRgbSwap|0|UINT64|0x00000013
+
+  gQcomTokenSpaceGuid.PcdQTimerBase|0|UINT64|0x00000014
