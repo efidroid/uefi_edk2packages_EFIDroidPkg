@@ -153,7 +153,19 @@ GraphicsOutputBlt (
              );
   gBS->RestoreTPL (Tpl);
 
-  fbcon_flush();
+  if (!RETURN_ERROR(Status)) {
+    switch (BltOperation) {
+    case EfiBltVideoToVideo:
+    case EfiBltVideoFill:
+    case EfiBltBufferToVideo:
+      fbcon_flush();
+      break;
+
+    case EfiBltVideoToBltBuffer:
+    default:
+      break;
+    }
+  }
 
   return RETURN_ERROR (Status) ? EFI_INVALID_PARAMETER : EFI_SUCCESS;
 }
