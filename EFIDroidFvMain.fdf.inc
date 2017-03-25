@@ -105,6 +105,11 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
 
   #
+  # FV FileSystem
+  #
+  INF MdeModulePkg/Universal/FvSimpleFileSystemDxe/FvSimpleFileSystemDxe.inf
+
+  #
   # Platform Driver
   #
   INF EFIDroidPkg/Drivers/FdtClientDxe/FdtClientDxe.inf

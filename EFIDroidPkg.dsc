@@ -236,6 +236,11 @@
   FatPkg/EnhancedFatDxe/Fat.inf
 
   #
+  # FV Filesystem
+  #
+  MdeModulePkg/Universal/FvSimpleFileSystemDxe/FvSimpleFileSystemDxe.inf
+
+  #
   # Bds
   #
   MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
