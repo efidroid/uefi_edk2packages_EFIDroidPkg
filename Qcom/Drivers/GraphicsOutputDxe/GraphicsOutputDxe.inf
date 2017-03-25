@@ -61,5 +61,8 @@
   gEfiDevicePathProtocolGuid                    ## BY_START
   gEfiCpuArchProtocolGuid
 
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdGraphicsOutputFbCacheability
+
 [Depex]
   gEfiCpuArchProtocolGuid

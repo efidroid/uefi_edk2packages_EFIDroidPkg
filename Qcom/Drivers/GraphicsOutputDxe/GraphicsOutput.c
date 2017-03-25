@@ -235,7 +235,7 @@ InitializeGraphicsOutput (
   FrameBufferSize = ROUNDUP(FbConfig->width * FbConfig->height * (FbConfig->bpp/8), EFI_PAGE_SIZE);
 
   // set framebuffer cachability
-  Status = Cpu->SetMemoryAttributes (Cpu, FrameBufferBase, FrameBufferSize, EFI_MEMORY_WT);
+  Status = Cpu->SetMemoryAttributes (Cpu, FrameBufferBase, FrameBufferSize, PcdGet64 (PcdGraphicsOutputFbCacheability));
   ASSERT_EFI_ERROR(Status);
   if (EFI_ERROR(Status)) {
     gBS->FreePool ((VOID*)(UINTN)FrameBufferBase);
