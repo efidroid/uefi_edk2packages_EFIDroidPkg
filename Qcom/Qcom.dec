@@ -48,3 +48,11 @@
   #  EFI_MEMORY_WT      0x00000004  // Write through
   #  EFI_MEMORY_WB      0x00000008  // Write back
   gQcomTokenSpaceGuid.PcdGraphicsOutputFbCacheability|0x00000004|UINT64|0x00000012
+
+  #  DSI_RGB_SWAP_RGB   0
+  #  DSI_RGB_SWAP_RBG   1
+  #  DSI_RGB_SWAP_BGR   2
+  #  DSI_RGB_SWAP_BRG   3
+  #  DSI_RGB_SWAP_GRB   4
+  #  DSI_RGB_SWAP_GBR   5
+  gQcomTokenSpaceGuid.PcdMipiDsiRgbSwap|0|UINT64|0x00000013

@@ -20,3 +20,6 @@
 
 [LibraryClasses]
   QcomPlatformDisplayMinimalLib
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdMipiDsiRgbSwap
