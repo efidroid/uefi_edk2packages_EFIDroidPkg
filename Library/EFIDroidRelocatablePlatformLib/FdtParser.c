@@ -25,6 +25,8 @@ FindMemnodeFdt (
   INT32         AddressCells;
   INT32         SizeCells;
   INT32         Length;
+  UINTN         NumMemoryRanges;
+  UINTN         Index;
   CONST INT32   *Prop;
 
   if (fdt_check_header (DeviceTreeBlob) != 0) {
@@ -46,35 +48,47 @@ FindMemnodeFdt (
   AddressCells = 1;
   SizeCells = 1;
 
-  Prop = fdt_getprop (DeviceTreeBlob, 0, "#address-cells", &Length);
+  Prop = fdt_getprop (DeviceTreeBlob, MemoryNode, "#address-cells", &Length);
   if (Length == 4) {
     AddressCells = fdt32_to_cpu (*Prop);
   }
 
-  Prop = fdt_getprop (DeviceTreeBlob, 0, "#size-cells", &Length);
+  Prop = fdt_getprop (DeviceTreeBlob, MemoryNode, "#size-cells", &Length);
   if (Length == 4) {
     SizeCells = fdt32_to_cpu (*Prop);
   }
 
   //
-  // Now find the 'reg' property of the /memory node, and read the first
+  // Now find the 'reg' property of the /memory node, and use the highest
   // range listed.
   //
   Prop = fdt_getprop (DeviceTreeBlob, MemoryNode, "reg", &Length);
 
-  if (Length < (AddressCells + SizeCells) * sizeof (INT32)) {
+  if (Length % ((AddressCells + SizeCells) * sizeof (INT32))) {
     return FALSE;
   }
+  NumMemoryRanges = Length / ((AddressCells + SizeCells) * sizeof (INT32));
 
-  *SystemMemoryBase = fdt32_to_cpu (Prop[0]);
-  if (AddressCells > 1) {
-    *SystemMemoryBase = (*SystemMemoryBase << 32) | fdt32_to_cpu (Prop[1]);
-  }
-  Prop += AddressCells;
+  for (Index=0; Index<NumMemoryRanges; Index++) {
+    UINT64 LocalBase;
+    UINT64 LocalSize;
 
-  *SystemMemorySize = fdt32_to_cpu (Prop[0]);
-  if (SizeCells > 1) {
-    *SystemMemorySize = (*SystemMemorySize << 32) | fdt32_to_cpu (Prop[1]);
+    LocalBase = fdt32_to_cpu (Prop[0]);
+    if (AddressCells > 1) {
+      LocalBase = (LocalBase << 32) | fdt32_to_cpu (Prop[1]);
+    }
+    Prop += AddressCells;
+
+    LocalSize = fdt32_to_cpu (Prop[0]);
+    if (SizeCells > 1) {
+      LocalSize = (LocalSize << 32) | fdt32_to_cpu (Prop[1]);
+    }
+    Prop += SizeCells;
+
+    if (Index==0 || (*SystemMemoryBase)<LocalBase) {
+      *SystemMemoryBase = LocalBase;
+      *SystemMemorySize = LocalSize;
+    }
   }
 
   return TRUE;
