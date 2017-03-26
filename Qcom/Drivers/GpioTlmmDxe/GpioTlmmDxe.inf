@@ -10,6 +10,7 @@
 [Sources.common]
   Driver.c
   LibraryImpl.c
+  tlmm.c
 
 [Packages]
   MdePkg/MdePkg.dec

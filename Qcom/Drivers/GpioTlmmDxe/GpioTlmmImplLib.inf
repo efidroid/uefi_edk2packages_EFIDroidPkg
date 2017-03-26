@@ -9,6 +9,7 @@
 
 [Sources.common]
   LibraryImpl.c
+  tlmm.c
 
 [Packages]
   MdePkg/MdePkg.dec
