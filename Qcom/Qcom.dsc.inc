@@ -6,6 +6,7 @@
   RealTimeClockLib|EFIDroidPkg/Qcom/Library/RealTimeClockLib/RealTimeClockLib.inf
   PTableLib|EFIDroidPkg/Qcom/Library/PTableLib/PTableLib.inf
   FbConLib|EFIDroidPkg/Qcom/Library/FbConLib/FbConLib.inf
+  DloadUtilLib|EFIDroidPkg/Qcom/Library/DloadUtilLib/DloadUtilLib.inf
 
 [LibraryClasses.common.DXE_DRIVER]
   ChipVendorDxeInitLib|EFIDroidPkg/Qcom/Library/ChipVendorDxeInitLib/ChipVendorDxeInitLib.inf
