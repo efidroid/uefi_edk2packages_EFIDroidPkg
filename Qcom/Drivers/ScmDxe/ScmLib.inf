@@ -1,0 +1,26 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ScmLib
+  FILE_GUID                      = B43A584D-5255-465B-AD16-D775052F5D4A
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ScmLib|DXE_DRIVER UEFI_APPLICATION UEFI_DRIVER
+  CONSTRUCTOR                    = ScmLibConstructor
+
+[Sources.common]
+  LibraryBS.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+
+[Protocols]
+  gQcomScmProtocolGuid
+
+[Depex]
+  gQcomScmProtocolGuid

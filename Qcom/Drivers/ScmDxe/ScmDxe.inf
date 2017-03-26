@@ -1,0 +1,35 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ScmDxe
+  FILE_GUID                      = AC83C063-CF5D-42B3-A79F-F0839F96201B
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+
+  ENTRY_POINT                    = ScmDxeInitialize
+
+[Sources.common]
+  Driver.c
+  LibraryImpl.c
+  scm.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  ArmLib
+  MemoryAllocationLib
+  CacheMaintenanceLib
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdTcsrBootMiscDetect
+
+[Protocols]
+  gQcomScmProtocolGuid
+
+[Depex]
+  TRUE
