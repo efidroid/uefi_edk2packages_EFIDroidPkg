@@ -71,25 +71,13 @@ enum MSM_BOOT_UART_DM_BITS_PER_CHAR {
 #define MSM_BOOT_UART_DM_LOOPBACK            (1 << 7)
 
 /* UART Clock Selection Register */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_CSR(base)             ((base) + 0xA0)
-#else
-#define MSM_BOOT_UART_DM_CSR(base)             ((base) + 0x08)
-#endif
+#define MSM_BOOT_UART_DM_CSR(base)             ((base) + ((UINTN)PcdGet64(PcdUartDmCsrOffset)))
 
 /* UART DM TX FIFO Registers - 4 */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_TF(base, x)         ((base) + 0x100+(4*(x)))
-#else
-#define MSM_BOOT_UART_DM_TF(base, x)         ((base) + 0x70+(4*(x)))
-#endif
+#define MSM_BOOT_UART_DM_TF(base, x)         ((base) + ((UINTN)PcdGet64(PcdUartDmTfOffset))+(4*(x)))
 
 /* UART Command Register */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_CR(base)              ((base) + 0xA8)
-#else
-#define MSM_BOOT_UART_DM_CR(base)              ((base) + 0x10)
-#endif
+#define MSM_BOOT_UART_DM_CR(base)              ((base) + ((UINTN)PcdGet64(PcdUartDmCrOffset)))
 #define MSM_BOOT_UART_DM_CR_RX_ENABLE        (1 << 0)
 #define MSM_BOOT_UART_DM_CR_RX_DISABLE       (1 << 1)
 #define MSM_BOOT_UART_DM_CR_TX_ENABLE        (1 << 2)
@@ -131,11 +119,7 @@ enum MSM_BOOT_UART_DM_BITS_PER_CHAR {
 #define MSM_BOOT_UART_DM_GCMD_DIS_STALE_EVT   MSM_BOOT_UART_DM_CR_GENERAL_CMD(6)
 
 /* UART Interrupt Mask Register */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_IMR(base)             ((base) + 0xB0)
-#else
-#define MSM_BOOT_UART_DM_IMR(base)             ((base) + 0x14)
-#endif
+#define MSM_BOOT_UART_DM_IMR(base)             ((base) + ((UINTN)PcdGet64(PcdUartDmImrOffset)))
 
 #define MSM_BOOT_UART_DM_TXLEV               (1 << 0)
 #define MSM_BOOT_UART_DM_RXHUNT              (1 << 1)
@@ -180,11 +164,7 @@ enum MSM_BOOT_UART_DM_BITS_PER_CHAR {
 #define MSM_BOOT_UART_DM_DMRX_DEF_VALUE    0x220
 
 /* Register to enable IRDA function */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_IRDA(base)            ((base) + 0xB8)
-#else
-#define MSM_BOOT_UART_DM_IRDA(base)            ((base) + 0x38)
-#endif
+#define MSM_BOOT_UART_DM_IRDA(base)            ((base) + ((UINTN)PcdGet64(PcdUartDmIrdaOffset)))
 
 /* UART Data Mover Enable Register */
 #define MSM_BOOT_UART_DM_DMEN(base)            ((base) + 0x3C)
@@ -196,11 +176,7 @@ enum MSM_BOOT_UART_DM_BITS_PER_CHAR {
 #define MSM_BOOT_UART_DM_BADR(base)            ((base) + 0x44)
 
 /* UART Status Register */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_SR(base)              ((base) + 0x0A4)
-#else
-#define MSM_BOOT_UART_DM_SR(base)              ((base) + 0x008)
-#endif
+#define MSM_BOOT_UART_DM_SR(base)              ((base) + ((UINTN)PcdGet64(PcdUartDmSrOffset)))
 #define MSM_BOOT_UART_DM_SR_RXRDY            (1 << 0)
 #define MSM_BOOT_UART_DM_SR_RXFULL           (1 << 1)
 #define MSM_BOOT_UART_DM_SR_TXRDY            (1 << 2)
@@ -212,32 +188,16 @@ enum MSM_BOOT_UART_DM_BITS_PER_CHAR {
 #define MSM_BOOT_UART_DM_RX_BRK_START_LAST   (1 << 8)
 
 /* UART Receive FIFO Registers - 4 in numbers */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_RF(base, x)      ((base) + 0x140 + (4*(x)))
-#else
-#define MSM_BOOT_UART_DM_RF(base, x)      ((base) + 0x70 + (4*(x)))
-#endif
+#define MSM_BOOT_UART_DM_RF(base, x)      ((base) + ((UINTN)PcdGet64(PcdUartDmRfOffset)) + (4*(x)))
 
 /* UART Masked Interrupt Status Register */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_MISR(base)         ((base) + 0xAC)
-#else
-#define MSM_BOOT_UART_DM_MISR(base)         ((base) + 0x10)
-#endif
+#define MSM_BOOT_UART_DM_MISR(base)         ((base) + ((UINTN)PcdGet64(PcdUartDmMisrOffset)))
 
 /* UART Interrupt Status Register */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_ISR(base)          ((base) + 0xB4)
-#else
-#define MSM_BOOT_UART_DM_ISR(base)          ((base) + 0x14)
-#endif
+#define MSM_BOOT_UART_DM_ISR(base)          ((base) + ((UINTN)PcdGet64(PcdUartDmIsrOffset)))
 
 /* Number of characters received since the end of last RX transfer */
-#if PERIPH_BLK_BLSP
-#define MSM_BOOT_UART_DM_RX_TOTAL_SNAP(base)  ((base) + 0xBC)
-#else
-#define MSM_BOOT_UART_DM_RX_TOTAL_SNAP(base)  ((base) + 0x38)
-#endif
+#define MSM_BOOT_UART_DM_RX_TOTAL_SNAP(base)  ((base) + ((UINTN)PcdGet64(PcdUartDmRxTotalSnapOffset)))
 
 /* UART TX FIFO Status Register */
 #define MSM_BOOT_UART_DM_TXFS(base)           ((base) + 0x4C)

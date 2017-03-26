@@ -21,6 +21,16 @@
 
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdUartDmClkRxTxBitRate
+  gQcomTokenSpaceGuid.PcdUartDmCsrOffset
+  gQcomTokenSpaceGuid.PcdUartDmTfOffset
+  gQcomTokenSpaceGuid.PcdUartDmCrOffset
+  gQcomTokenSpaceGuid.PcdUartDmImrOffset
+  gQcomTokenSpaceGuid.PcdUartDmIrdaOffset
+  gQcomTokenSpaceGuid.PcdUartDmSrOffset
+  gQcomTokenSpaceGuid.PcdUartDmRfOffset
+  gQcomTokenSpaceGuid.PcdUartDmMisrOffset
+  gQcomTokenSpaceGuid.PcdUartDmIsrOffset
+  gQcomTokenSpaceGuid.PcdUartDmRxTotalSnapOffset
 
 [Packages]
   EmbeddedPkg/EmbeddedPkg.dec

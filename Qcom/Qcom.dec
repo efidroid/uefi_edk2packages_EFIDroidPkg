@@ -70,3 +70,14 @@
   gQcomTokenSpaceGuid.PcdPmicArbCoreAddress|0x0|UINT64|0x00000019
   gQcomTokenSpaceGuid.PcdPmicArbChannelNum|0|UINT64|0x0000001A
   gQcomTokenSpaceGuid.PcdPmicArbOwnerId|0|UINT64|0x0000001B
+
+  gQcomTokenSpaceGuid.PcdUartDmCsrOffset|0|UINT64|0x0000001C
+  gQcomTokenSpaceGuid.PcdUartDmTfOffset|0|UINT64|0x0000001D
+  gQcomTokenSpaceGuid.PcdUartDmCrOffset|0|UINT64|0x0000001E
+  gQcomTokenSpaceGuid.PcdUartDmImrOffset|0|UINT64|0x0000001F
+  gQcomTokenSpaceGuid.PcdUartDmIrdaOffset|0|UINT64|0x00000020
+  gQcomTokenSpaceGuid.PcdUartDmSrOffset|0|UINT64|0x00000021
+  gQcomTokenSpaceGuid.PcdUartDmRfOffset|0|UINT64|0x00000022
+  gQcomTokenSpaceGuid.PcdUartDmMisrOffset|0|UINT64|0x00000023
+  gQcomTokenSpaceGuid.PcdUartDmIsrOffset|0|UINT64|0x00000024
+  gQcomTokenSpaceGuid.PcdUartDmRxTotalSnapOffset|0|UINT64|0x00000025
