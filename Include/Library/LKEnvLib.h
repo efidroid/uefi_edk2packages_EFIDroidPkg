@@ -42,10 +42,12 @@ typedef UINTN paddr_t;
 
 #define NO_ERROR 0
 #define ERROR -1
+#define ERR_NOT_FOUND -2
 #define ERR_NO_MEMORY -5
 #define ERR_NOT_VALID -7
 #define ERR_INVALID_ARGS -8
 #define ERR_IO -20
+#define ERR_NOT_SUPPORTED -24
 
 #define true TRUE
 #define false FALSE
