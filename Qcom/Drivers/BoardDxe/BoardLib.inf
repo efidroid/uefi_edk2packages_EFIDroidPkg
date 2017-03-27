@@ -4,7 +4,7 @@
   FILE_GUID                      = 699598F8-1148-4E34-8C5B-A0A401B0EFE6
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = BoardLib|DXE_DRIVER UEFI_APPLICATION UEFI_DRIVER
+  LIBRARY_CLASS                  = BoardLib|DXE_DRIVER UEFI_APPLICATION UEFI_DRIVER DXE_RUNTIME_DRIVER
   CONSTRUCTOR                    = BoardLibConstructor
 
 [Sources.common]
