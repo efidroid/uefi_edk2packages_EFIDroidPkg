@@ -15,5 +15,8 @@
   EFIDroidPkg/EFIDroidPkg.dec
   EFIDroidPkg/Qcom/Qcom.dec
 
+[LibraryClasses]
+  CacheMaintenanceLib
+
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdFbConScaleFactor
