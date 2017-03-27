@@ -183,6 +183,11 @@ struct smem_board_info_v8 {
 	unsigned fused_chip;
 	unsigned platform_subtype;
 	struct smem_pmic_info pmic_info[SMEM_V8_SMEM_MAX_PMIC_DEVICES];
+	/*
+	 * Need for 8 bytes alignment
+	 * while reading from shared memory
+	 */
+	unsigned buffer_align;
 };
 
 struct smem_board_info_v9 {
