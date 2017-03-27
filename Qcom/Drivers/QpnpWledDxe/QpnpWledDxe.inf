@@ -1,0 +1,31 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QpnpWledDxe
+  FILE_GUID                      = B014EDF7-D206-499D-B5C5-3DA19727E6F9
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+
+  ENTRY_POINT                    = QpnpWledDxeInitialize
+
+[Sources.common]
+  Driver.c
+  LibraryImpl.c
+  qpnp_wled.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  Pm8x41Lib
+  TimerLib
+  MemoryAllocationLib
+
+[Protocols]
+  gQcomQpnpWledProtocolGuid
+
+[Depex]
+  TRUE

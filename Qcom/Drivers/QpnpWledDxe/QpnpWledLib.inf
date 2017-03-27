@@ -1,0 +1,26 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QpnpWledLib
+  FILE_GUID                      = 865FF2BD-1FE2-4855-BE11-5EDD1154587D
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QpnpWledLib|DXE_DRIVER UEFI_APPLICATION UEFI_DRIVER
+  CONSTRUCTOR                    = QpnpWledLibConstructor
+
+[Sources.common]
+  LibraryBS.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+
+[Protocols]
+  gQcomQpnpWledProtocolGuid
+
+[Depex]
+  gQcomQpnpWledProtocolGuid
