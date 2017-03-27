@@ -7,6 +7,7 @@
   PTableLib|EFIDroidPkg/Qcom/Library/PTableLib/PTableLib.inf
   FbConLib|EFIDroidPkg/Qcom/Library/FbConLib/FbConLib.inf
   DloadUtilLib|EFIDroidPkg/Qcom/Library/DloadUtilLib/DloadUtilLib.inf
+  PlatformIdLib|EFIDroidPkg/Qcom/Library/PlatformIdLib/PlatformIdLib.inf
 
 [LibraryClasses.common.DXE_DRIVER]
   ChipVendorDxeInitLib|EFIDroidPkg/Qcom/Library/ChipVendorDxeInitLib/ChipVendorDxeInitLib.inf
