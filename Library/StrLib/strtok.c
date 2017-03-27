@@ -28,7 +28,7 @@
  */
 
 #include <Base.h>
-#include <Library/StrTokLib.h>
+#include <Library/StrLib.h>
 
 CHAR8 *
 strtok(CHAR8 *s, CONST CHAR8 *delim)
