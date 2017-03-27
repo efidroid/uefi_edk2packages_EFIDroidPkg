@@ -24,6 +24,7 @@ typedef UINT64 uint64_t;
 typedef UINTN size_t;
 typedef BOOLEAN bool;
 typedef UINTN addr_t;
+typedef UINTN paddr_t;
 
 #define UINT_MAX MAX_UINTN
 
