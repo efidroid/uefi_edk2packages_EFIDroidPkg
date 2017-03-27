@@ -22,7 +22,7 @@
   UefiDriverEntryPoint
   UefiBootServicesTableLib
   IoLib
-  StrTokLib
+  StrLib
   PTableLib
   SmemLib
 

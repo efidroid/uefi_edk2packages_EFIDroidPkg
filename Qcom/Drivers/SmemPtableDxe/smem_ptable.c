@@ -31,7 +31,7 @@
 #include <Library/LKEnvLib.h>
 #include <Library/ptable.h>
 #include <Library/QcomSmemLib.h>
-#include <Library/StrTokLib.h>
+#include <Library/StrLib.h>
 
 /* partition table from SMEM */
 static struct smem_ptable smem_ptable = {0};
