@@ -21,3 +21,7 @@ void gpio_set(uint32_t gpio, uint32_t dir)
 	return;
 }
 
+uint32_t gpio_status(uint32_t gpio)
+{
+	return readl(GPIO_IN_OUT_ADDR(gpio)) & GPIO_IN;
+}
