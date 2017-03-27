@@ -1,0 +1,39 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformDisplayLib
+  FILE_GUID                      = F40FDC47-18D0-4A5E-8B5B-625DB7BAF327
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformDisplayLib
+
+
+[Sources.common]
+  display.c
+  hdmi_pll_20nm.c
+  mdp5.c
+  mdss_hdmi.c
+  mipi_dsi.c
+  mipi_dsi_autopll.c
+  mipi_dsi_autopll_20nm.c
+  mipi_dsi_phy.c
+  gcdb_autopll.c
+  gcdb_display.c
+  gcdb_display_param.c
+  panel_display.c
+  misc.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8994/Msm8994.dec
+
+[LibraryClasses]
+  IoLib
+  DebugLib
+  TimerLib
+  ArmLib
+  ClockLib
+  CacheMaintenanceLib

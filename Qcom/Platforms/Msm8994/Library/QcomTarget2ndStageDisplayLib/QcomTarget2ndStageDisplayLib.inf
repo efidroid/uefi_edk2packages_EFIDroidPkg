@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomTarget2ndStageDisplayLib
+  FILE_GUID                      = 7A124AE8-F21E-43D6-A6E3-6358532E94C4
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomTargetDisplayLib
+
+
+[Sources.common]
+  target_display.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8994/Msm8994.dec
+
+[LibraryClasses]
+  IoLib

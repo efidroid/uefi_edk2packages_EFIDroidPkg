@@ -1,0 +1,36 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomTargetDisplayLib
+  FILE_GUID                      = 6B343FA4-DA6F-4881-AE2F-96C034219C95
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomTargetDisplayLib
+
+
+[Sources.common]
+  oem_panel.c
+  target_display.c
+  regulator.c
+  misc.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8994/Msm8994.dec
+
+[LibraryClasses]
+  IoLib
+  DebugLib
+  TimerLib
+  Pm8x41Lib
+  ScmLib
+  StrLib
+  BoardLib
+  GpioTlmmLib
+  QpnpWledLib
+  RpmLib
+  QcomPlatformDisplayLib
+  PlatformIdLib
