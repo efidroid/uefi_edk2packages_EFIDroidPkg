@@ -33,7 +33,7 @@
 #include "pm8x41_p.h"
 #include "pm8x41_hw.h"
 
-static uint8_t mpp_slave_id;
+static uint8_t mpp_slave_id = 0;
 
 void pmi8994_config_mpp_slave_id(uint8_t slave_id)
 {
