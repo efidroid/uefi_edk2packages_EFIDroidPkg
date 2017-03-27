@@ -11,6 +11,7 @@ QCOM_GPIO_TLMM_PROTOCOL *gGpioTlmm = NULL;
 STATIC QCOM_GPIO_TLMM_PROTOCOL mInternalGpioTlmm = {
   gpio_tlmm_config,
   gpio_set,
+  gpio_status,
   tlmm_set_hdrive_ctrl,
   tlmm_set_pull_ctrl,
 };

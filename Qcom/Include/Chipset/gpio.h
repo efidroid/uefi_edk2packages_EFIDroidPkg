@@ -53,6 +53,10 @@
 #define GPIO_ENABLE     0
 #define GPIO_DISABLE    1
 
+/* GPIO_IN_OUT register shifts. */
+#define GPIO_IN         BIT(0)
+#define GPIO_OUT        BIT(1)
+
 #define TLMM_PULL_MASK  0x3
 #define TLMM_HDRV_MASK  0x7
 
