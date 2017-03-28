@@ -32,13 +32,11 @@
 
 [Sources]
   PlatformBm.c
-  QemuKernel.c
 
 [Packages]
   IntelFrameworkModulePkg/IntelFrameworkModulePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   MdePkg/MdePkg.dec
-  OvmfPkg/OvmfPkg.dec
   EFIDroidPkg/EFIDroidPkg.dec
 
 [LibraryClasses]
@@ -50,8 +48,6 @@
   MemoryAllocationLib
   PcdLib
   PrintLib
-  QemuBootOrderLib
-  QemuFwCfgLib
   UefiBootManagerLib
   UefiBootServicesTableLib
   UefiLib
@@ -73,7 +69,6 @@
   gEfiFileSystemInfoGuid
   gEfiFileSystemVolumeLabelInfoIdGuid
   gEfiEndOfDxeEventGroupGuid
-  gRootBridgesConnectedEventGroupGuid
 
 [Protocols]
   gEfiDevicePathProtocolGuid

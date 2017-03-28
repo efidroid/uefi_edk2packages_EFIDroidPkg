@@ -19,7 +19,6 @@
 #include <Library/BootLogoLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/PcdLib.h>
-#include <Library/QemuBootOrderLib.h>
 #include <Library/UefiBootManagerLib.h>
 #include <Protocol/DevicePath.h>
 #include <Protocol/FirmwareVolume2.h>
@@ -28,7 +27,6 @@
 #include <Protocol/PciIo.h>
 #include <Protocol/PciRootBridgeIo.h>
 #include <Guid/EventGroup.h>
-#include <Guid/RootBridgesConnectedEventGroup.h>
 
 #include "PlatformBm.h"
 
@@ -388,136 +386,6 @@ PlatformRegisterFvBootOption (
 }
 
 
-/**
-  Remove all MemoryMapped(...)/FvFile(...) and Fv(...)/FvFile(...) boot options
-  whose device paths do not resolve exactly to an FvFile in the system.
-
-  This removes any boot options that point to binaries built into the firmware
-  and have become stale due to any of the following:
-  - FvMain's base address or size changed (historical),
-  - FvMain's FvNameGuid changed,
-  - the FILE_GUID of the pointed-to binary changed,
-  - the referenced binary is no longer built into the firmware.
-
-  EfiBootManagerFindLoadOption() used in PlatformRegisterFvBootOption() only
-  avoids exact duplicates.
-**/
-STATIC
-VOID
-RemoveStaleFvFileOptions (
-  VOID
-  )
-{
-  EFI_BOOT_MANAGER_LOAD_OPTION *BootOptions;
-  UINTN                        BootOptionCount;
-  UINTN                        Index;
-
-  BootOptions = EfiBootManagerGetLoadOptions (&BootOptionCount,
-                  LoadOptionTypeBoot);
-
-  for (Index = 0; Index < BootOptionCount; ++Index) {
-    EFI_DEVICE_PATH_PROTOCOL *Node1, *Node2, *SearchNode;
-    EFI_STATUS               Status;
-    EFI_HANDLE               FvHandle;
-
-    //
-    // If the device path starts with neither MemoryMapped(...) nor Fv(...),
-    // then keep the boot option.
-    //
-    Node1 = BootOptions[Index].FilePath;
-    if (!(DevicePathType (Node1) == HARDWARE_DEVICE_PATH &&
-          DevicePathSubType (Node1) == HW_MEMMAP_DP) &&
-        !(DevicePathType (Node1) == MEDIA_DEVICE_PATH &&
-          DevicePathSubType (Node1) == MEDIA_PIWG_FW_VOL_DP)) {
-      continue;
-    }
-
-    //
-    // If the second device path node is not FvFile(...), then keep the boot
-    // option.
-    //
-    Node2 = NextDevicePathNode (Node1);
-    if (DevicePathType (Node2) != MEDIA_DEVICE_PATH ||
-        DevicePathSubType (Node2) != MEDIA_PIWG_FW_FILE_DP) {
-      continue;
-    }
-
-    //
-    // Locate the Firmware Volume2 protocol instance that is denoted by the
-    // boot option. If this lookup fails (i.e., the boot option references a
-    // firmware volume that doesn't exist), then we'll proceed to delete the
-    // boot option.
-    //
-    SearchNode = Node1;
-    Status = gBS->LocateDevicePath (&gEfiFirmwareVolume2ProtocolGuid,
-                    &SearchNode, &FvHandle);
-
-    if (!EFI_ERROR (Status)) {
-      //
-      // The firmware volume was found; now let's see if it contains the FvFile
-      // identified by GUID.
-      //
-      EFI_FIRMWARE_VOLUME2_PROTOCOL     *FvProtocol;
-      MEDIA_FW_VOL_FILEPATH_DEVICE_PATH *FvFileNode;
-      UINTN                             BufferSize;
-      EFI_FV_FILETYPE                   FoundType;
-      EFI_FV_FILE_ATTRIBUTES            FileAttributes;
-      UINT32                            AuthenticationStatus;
-
-      Status = gBS->HandleProtocol (FvHandle, &gEfiFirmwareVolume2ProtocolGuid,
-                      (VOID **)&FvProtocol);
-      ASSERT_EFI_ERROR (Status);
-
-      FvFileNode = (MEDIA_FW_VOL_FILEPATH_DEVICE_PATH *)Node2;
-      //
-      // Buffer==NULL means we request metadata only: BufferSize, FoundType,
-      // FileAttributes.
-      //
-      Status = FvProtocol->ReadFile (
-                             FvProtocol,
-                             &FvFileNode->FvFileName, // NameGuid
-                             NULL,                    // Buffer
-                             &BufferSize,
-                             &FoundType,
-                             &FileAttributes,
-                             &AuthenticationStatus
-                             );
-      if (!EFI_ERROR (Status)) {
-        //
-        // The FvFile was found. Keep the boot option.
-        //
-        continue;
-      }
-    }
-
-    //
-    // Delete the boot option.
-    //
-    Status = EfiBootManagerDeleteLoadOptionVariable (
-               BootOptions[Index].OptionNumber, LoadOptionTypeBoot);
-    DEBUG_CODE (
-      CHAR16 *DevicePathString;
-
-      DevicePathString = ConvertDevicePathToText(BootOptions[Index].FilePath,
-                           FALSE, FALSE);
-      DEBUG ((
-        EFI_ERROR (Status) ? EFI_D_WARN : EFI_D_VERBOSE,
-        "%a: removing stale Boot#%04x %s: %r\n",
-        __FUNCTION__,
-        (UINT32)BootOptions[Index].OptionNumber,
-        DevicePathString == NULL ? L"<unavailable>" : DevicePathString,
-        Status
-        ));
-      if (DevicePathString != NULL) {
-        FreePool (DevicePathString);
-      }
-      );
-  }
-
-  EfiBootManagerFreeLoadOptions (BootOptions, BootOptionCount);
-}
-
-
 STATIC
 VOID
 PlatformRegisterOptionsAndKeys (
@@ -578,8 +446,6 @@ PlatformBootManagerBeforeConsole (
   VOID
   )
 {
-  RETURN_STATUS PcdStatus;
-
   //
   // Signal EndOfDxe PI Event
   //
@@ -596,11 +462,6 @@ PlatformBootManagerBeforeConsole (
   // them.
   //
   FilterAndProcess (&gEfiPciRootBridgeIoProtocolGuid, NULL, Connect);
-
-  //
-  // Signal the ACPI platform driver that it can download QEMU ACPI tables.
-  //
-  EfiEventGroupSignal (&gRootBridgesConnectedEventGroupGuid);
 
   //
   // Find all display class PCI devices (using the handles from the previous
@@ -632,13 +493,6 @@ PlatformBootManagerBeforeConsole (
     (EFI_DEVICE_PATH_PROTOCOL *)&mSerialConsole, NULL);
   EfiBootManagerUpdateConsoleVariable (ErrOut,
     (EFI_DEVICE_PATH_PROTOCOL *)&mSerialConsole, NULL);
-
-  //
-  // Set the front page timeout from the QEMU configuration.
-  //
-  PcdStatus = PcdSet16S (PcdPlatformBootTimeOut,
-                GetFrontPageTimeoutFromQemu ());
-  ASSERT_RETURN_ERROR (PcdStatus);
 
   //
   // Register platform-specific boot options and keyboard shortcuts.
@@ -674,16 +528,7 @@ PlatformBootManagerAfterConsole (
   EfiBootManagerConnectAll ();
 
   //
-  // Process QEMU's -kernel command line option. Note that the kernel booted
-  // this way should receive ACPI tables, which is why we connect all devices
-  // first (see above) -- PCI enumeration blocks ACPI table installation, if
-  // there is a PCI host.
-  //
-  TryRunningQemuKernel ();
-
-  //
-  // Enumerate all possible boot options, then filter and reorder them based on
-  // the QEMU configuration.
+  // Enumerate all possible boot options.
   //
   EfiBootManagerRefreshAllBootOption ();
 
@@ -693,9 +538,6 @@ PlatformBootManagerAfterConsole (
   PlatformRegisterFvBootOption (
     PcdGetPtr (PcdShellFile), L"EFI Internal Shell", LOAD_OPTION_ACTIVE
     );
-
-  RemoveStaleFvFileOptions ();
-  SetBootOrderFromQemu ();
 }
 
 /**

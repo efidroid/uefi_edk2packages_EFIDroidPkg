@@ -26,26 +26,4 @@
 #include <Library/UefiLib.h>
 #include <Library/UefiRuntimeServicesTableLib.h>
 
-/**
-  Download the kernel, the initial ramdisk, and the kernel command line from
-  QEMU's fw_cfg. Construct a minimal SimpleFileSystem that contains the two
-  image files, and load and start the kernel from it.
-
-  The kernel will be instructed via its command line to load the initrd from
-  the same Simple FileSystem.
-
-  @retval EFI_NOT_FOUND         Kernel image was not found.
-  @retval EFI_OUT_OF_RESOURCES  Memory allocation failed.
-  @retval EFI_PROTOCOL_ERROR    Unterminated kernel command line.
-
-  @return                       Error codes from any of the underlying
-                                functions. On success, the function doesn't
-                                return.
-**/
-EFI_STATUS
-EFIAPI
-TryRunningQemuKernel (
-  VOID
-  );
-
 #endif // _PLATFORM_BM_H_
