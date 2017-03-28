@@ -154,4 +154,17 @@ READ_LOCK_STATUS   = TRUE
     SECTION FV_IMAGE = FvMain$(EFIDROID_PLATFORM)
   }
 
+  #
+  # UEFI ramdisk
+  #
+  FILE FREEFORM = PCD(gEFIDroidTokenSpaceGuid.PcdUEFIRamdisk) {
+    SECTION RAW = $(EFIDROID_UEFIRD)
+  }
 
+  #
+  # EFIDroidUi
+  #
+  FILE APPLICATION = 1db8bf12-1b3d-4d8d-99e8-23309e10d5ee {
+    SECTION PE32 = Build/uefiapp_EFIDroidUi/$(TARGET)_$(TOOL_CHAIN_TAG)/$(ARCH)/EFIDroidUi.efi
+    SECTION UI   = "EFIDroidUi"
+  }
