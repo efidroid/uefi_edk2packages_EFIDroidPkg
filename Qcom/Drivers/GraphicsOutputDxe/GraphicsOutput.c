@@ -319,6 +319,16 @@ FreeMemory:
       FreePool (Private);
     }
   }
+  else {
+    Status = PcdSet32S (PcdVideoHorizontalResolution, Private->ModeInfo.HorizontalResolution);
+    ASSERT_EFI_ERROR (Status);
+    Status = PcdSet32S (PcdVideoVerticalResolution, Private->ModeInfo.VerticalResolution);
+    ASSERT_EFI_ERROR (Status);
+    Status = PcdSet32S (PcdSetupVideoHorizontalResolution, Private->ModeInfo.HorizontalResolution);
+    ASSERT_EFI_ERROR (Status);
+    Status = PcdSet32S (PcdSetupVideoVerticalResolution, Private->ModeInfo.VerticalResolution);
+    ASSERT_EFI_ERROR (Status);
+  }
 
 EarlyReturnStatus:
   return Status;

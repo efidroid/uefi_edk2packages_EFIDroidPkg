@@ -64,5 +64,11 @@
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdGraphicsOutputFbCacheability
 
+[Pcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoHorizontalResolution
+  gEfiMdeModulePkgTokenSpaceGuid.PcdVideoVerticalResolution
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoHorizontalResolution
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoVerticalResolution
+
 [Depex]
   gEfiCpuArchProtocolGuid
