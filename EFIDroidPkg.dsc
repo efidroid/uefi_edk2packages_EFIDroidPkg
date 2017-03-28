@@ -144,7 +144,7 @@
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuMemorySize|40
 
 [PcdsDynamicDefault.common]
-  gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|3
+  gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|0
 
   #
   # Set video resolution for boot options and for text setup.
