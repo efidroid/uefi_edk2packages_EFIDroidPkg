@@ -1,5 +1,6 @@
 #include <Library/LKEnvLib.h>
 #include <Platform/iomap.h>
+#include <Library/QcomGpioTlmmLib.h>
 
 void gpio_tlmm_config(uint32_t gpio, uint8_t func,
 		      uint8_t dir, uint8_t pull,
