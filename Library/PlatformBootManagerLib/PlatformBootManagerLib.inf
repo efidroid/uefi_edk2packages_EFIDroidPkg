@@ -42,7 +42,6 @@
 [LibraryClasses]
   BaseLib
   BaseMemoryLib
-  BootLogoLib
   DebugLib
   DevicePathLib
   MemoryAllocationLib
