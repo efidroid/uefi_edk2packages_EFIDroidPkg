@@ -32,6 +32,8 @@
 
 #define DP_NODE_LEN(Type) { (UINT8)sizeof (Type), (UINT8)(sizeof (Type) >> 8) }
 
+STATIC EFI_GUID mPcdUIFile = { 0x1db8bf12, 0x1b3d, 0x4d8d, {0x99, 0xe8, 0x23, 0x30, 0x9e, 0x10, 0xd5, 0xee}};
+
 
 #pragma pack (1)
 typedef struct {
@@ -528,6 +530,13 @@ PlatformBootManagerBeforeConsole (
     (EFI_DEVICE_PATH_PROTOCOL *)&mSerialConsole, NULL);
   EfiBootManagerUpdateConsoleVariable (ErrOut,
     (EFI_DEVICE_PATH_PROTOCOL *)&mSerialConsole, NULL);
+
+  //
+  // Register EFIDroid UI
+  //
+  PlatformRegisterFvBootOption (
+    &mPcdUIFile, L"EFIDroid UI", LOAD_OPTION_ACTIVE|LOAD_OPTION_HIDDEN
+    );
 
   //
   // Register platform-specific boot options and keyboard shortcuts.
