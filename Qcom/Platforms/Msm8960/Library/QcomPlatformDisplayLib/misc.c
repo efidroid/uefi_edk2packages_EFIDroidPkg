@@ -17,15 +17,7 @@ static struct pm8xxx_gpio_init pm8921_display_gpios_apq[] = {
 
 void apq8064_display_gpio_init(void)
 {
-	int i = 0;
-	int num = 0;
-
-	num = ARRAY_SIZE(pm8921_display_gpios_apq);
-
-	for (i = 0; i < num; i++) {
-		gPM8921->pm8921_gpio_config(pm8921_display_gpios_apq[i].gpio,
-			&(pm8921_display_gpios_apq[i].config));
-	}
+	gPM8921->pm8921_gpio_config_array(pm8921_display_gpios_apq, ARRAY_SIZE(pm8921_display_gpios_apq));
 }
 
 /* Turn on MDP related clocks and pll's for MDP */
