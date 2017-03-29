@@ -2,7 +2,7 @@
 #include <Library/LKEnvLib.h>
 #include <Library/TimerLib.h>
 #include <Library/DebugLib.h>
-#include <Library/QcomDxeTimerLib.h>
+#include <Library/BaseLib.h>
 
 #include "qtimer_p.h"
 #include "qtimer_mmap_hw.h"
@@ -97,8 +97,7 @@ GetPerformanceCounter (
   VOID
   )
 {
-  ASSERT (FALSE);
-  return 0;
+  return qtimer_get_phy_timer_cnt();
 }
 
 UINT64
@@ -108,9 +107,15 @@ GetPerformanceCounterProperties (
   OUT      UINT64                    *EndValue     OPTIONAL
   )
 {
-  ASSERT (FALSE);
+  if (StartValue != NULL) {
+    *StartValue = 0;
+  }
 
-  return (UINT64)(-1);
+  if (EndValue != NULL) {
+    *EndValue = 0xFFFFFFFFFFFFFFULL;
+  }
+
+  return (UINT64)qtimer_get_frequency();
 }
 
 UINT64
@@ -119,6 +124,24 @@ GetTimeInNanoSecond (
   IN      UINT64                     Ticks
   )
 {
-  ASSERT (FALSE);
-  return 0;
+  UINT64  NanoSeconds;
+  UINT32  Remainder;
+  UINT64  Frequency;
+
+  Frequency = GetPerformanceCounterProperties(NULL, NULL);
+
+  //
+  //          Ticks
+  // Time = --------- x 1,000,000,000
+  //        Frequency
+  //
+  NanoSeconds = MultU64x32 (DivU64x32Remainder (Ticks, Frequency, &Remainder), 1000000000u);
+
+  //
+  // Frequency < 0x100000000, so Remainder < 0x100000000, then (Remainder * 1,000,000,000)
+  // will not overflow 64-bit.
+  //
+  NanoSeconds += DivU64x32 (MultU64x32 ((UINT64) Remainder, 1000000000u), Frequency);
+
+  return NanoSeconds;
 }
