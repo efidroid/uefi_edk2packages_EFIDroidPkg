@@ -3,6 +3,7 @@
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
 #include <Library/DebugLib.h>
+#include <Library/BaseLib.h>
 
 #define GPT_REG(off)        (((UINTN)PcdGet64(PcdMsmGptBase)) + (off))
 
@@ -97,8 +98,7 @@ GetPerformanceCounter (
   VOID
   )
 {
-  ASSERT (FALSE);
-  return 0;
+  return (UINT64)MmioRead32(GPT_COUNT_VAL);
 }
 
 UINT64
@@ -108,9 +108,15 @@ GetPerformanceCounterProperties (
   OUT      UINT64                    *EndValue     OPTIONAL
   )
 {
-  ASSERT (FALSE);
+  if (StartValue != NULL) {
+    *StartValue = 0;
+  }
 
-  return (UINT64)(-1);
+  if (EndValue != NULL) {
+    *EndValue = 0xFFFFFFFF;
+  }
+
+  return (UINT64)32765;
 }
 
 UINT64
@@ -119,6 +125,24 @@ GetTimeInNanoSecond (
   IN      UINT64                     Ticks
   )
 {
-  ASSERT (FALSE);
-  return 0;
+  UINT64  NanoSeconds;
+  UINT32  Remainder;
+  UINT64  Frequency;
+
+  Frequency = GetPerformanceCounterProperties(NULL, NULL);
+
+  //
+  //          Ticks
+  // Time = --------- x 1,000,000,000
+  //        Frequency
+  //
+  NanoSeconds = MultU64x32 (DivU64x32Remainder (Ticks, Frequency, &Remainder), 1000000000u);
+
+  //
+  // Frequency < 0x100000000, so Remainder < 0x100000000, then (Remainder * 1,000,000,000)
+  // will not overflow 64-bit.
+  //
+  NanoSeconds += DivU64x32 (MultU64x32 ((UINT64) Remainder, 1000000000u), Frequency);
+
+  return NanoSeconds;
 }
