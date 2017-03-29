@@ -10,6 +10,7 @@
 typedef struct _QCOM_PM8921_PROTOCOL   QCOM_PM8921_PROTOCOL;
 
 typedef int  (EFIAPI *pm8921_gpio_config_t)(int gpio, struct pm8921_gpio *param);
+typedef int  (EFIAPI *pm8921_gpio_config_array_t)(struct pm8xxx_gpio_init *gpio_array, unsigned int num);
 typedef void (EFIAPI *pm8921_boot_done_t)(void);
 typedef int  (EFIAPI *pm8921_ldo_set_voltage_t)(uint32_t ldo_id, uint32_t voltage);
 typedef int  (EFIAPI *pm8921_config_reset_pwr_off_t)(unsigned reset);
@@ -28,6 +29,7 @@ typedef int  (EFIAPI *pm8921_HDMI_Switch_t)(void);
 
 struct _QCOM_PM8921_PROTOCOL {
   pm8921_gpio_config_t               pm8921_gpio_config;
+  pm8921_gpio_config_array_t         pm8921_gpio_config_array;
   pm8921_boot_done_t                 pm8921_boot_done;
   pm8921_ldo_set_voltage_t           pm8921_ldo_set_voltage;
   pm8921_config_reset_pwr_off_t      pm8921_config_reset_pwr_off;

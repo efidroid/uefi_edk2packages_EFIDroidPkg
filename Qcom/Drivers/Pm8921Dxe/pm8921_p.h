@@ -15,6 +15,7 @@ typedef struct
 
 void pm8921_init(pm8921_dev_t *);
 int  pm8921_gpio_config(int gpio, struct pm8921_gpio *param);
+int  pm8921_gpio_config_array(struct pm8xxx_gpio_init *gpio_array, unsigned int num);
 void pm8921_boot_done(void);
 int  pm8921_ldo_set_voltage(uint32_t ldo_id, uint32_t voltage);
 int  pm8921_config_reset_pwr_off(unsigned reset);

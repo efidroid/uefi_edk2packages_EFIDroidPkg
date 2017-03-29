@@ -168,6 +168,19 @@ int pm8921_gpio_config(int gpio, struct pm8921_gpio *param)
 	return 0;
 }
 
+int pm8921_gpio_config_array(struct pm8xxx_gpio_init *gpio_array, unsigned int num)
+{
+	int i;
+	int ret;
+
+	for (i = 0; i < num; i++) {
+		if (pm8921_gpio_config(gpio_array[i].gpio, &(gpio_array[i].config)))
+		ret = -1;
+	}
+
+	return ret;
+}
+
 /* Reads the value of the irq status for the requested block */
 int pm8921_irq_get_block_status(uint8_t block, uint8_t *status)
 {

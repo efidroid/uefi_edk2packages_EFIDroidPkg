@@ -11,6 +11,7 @@ QCOM_PM8921_PROTOCOL *gPM8921 = NULL;
 STATIC pm8921_dev_t pmic = {0};
 STATIC QCOM_PM8921_PROTOCOL mInternalPM8921 = {
   pm8921_gpio_config,
+  pm8921_gpio_config_array,
   pm8921_boot_done,
   pm8921_ldo_set_voltage,
   pm8921_config_reset_pwr_off,
