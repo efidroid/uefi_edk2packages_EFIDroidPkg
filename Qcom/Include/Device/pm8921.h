@@ -187,4 +187,17 @@ struct pm8xxx_gpio_init {
 			PM_GPIO_STRENGTH_##_strength, \
 			PM_GPIO_FUNC_NORMAL, 0, 0)
 
+#define PM8XXX_GPIO_OUTPUT(_gpio, _val) \
+	PM8XXX_GPIO_INIT(_gpio, PM_GPIO_DIR_OUT, 0, _val, \
+			PM_GPIO_PULL_NO, 2, \
+			PM_GPIO_STRENGTH_HIGH, \
+			PM_GPIO_FUNC_NORMAL, 1, 0)
+
+
+#define PM8XXX_GPIO_INPUT(_gpio, _pull) \
+	PM8XXX_GPIO_INIT(_gpio, PM_GPIO_DIR_IN, 0, 0, \
+			_pull, 2, \
+			PM_GPIO_STRENGTH_NO, \
+			PM_GPIO_FUNC_NORMAL, 1, 0)
+
 #endif
