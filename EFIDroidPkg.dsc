@@ -269,4 +269,4 @@
 
 !include EFIDroidPkg/$(EFIDROID_CHIPVENDOR)/$(EFIDROID_CHIPVENDOR).dsc.inc
 !include EFIDroidPkg/$(EFIDROID_CHIPVENDOR)/Platforms/$(EFIDROID_PLATFORM)/$(EFIDROID_PLATFORM).dsc.inc
-!include EFIDroidDevicePkg/EFIDroidDevice.dsc.inc
+!include EFIDroidDevicePkg/EFIDroidDevicePkg.dsc.inc
