@@ -76,3 +76,4 @@
   gEfiLoadedImageProtocolGuid
   gEfiPciRootBridgeIoProtocolGuid
   gEfiSimpleFileSystemProtocolGuid
+  gEFIDroidKeypadDeviceProtocolGuid
