@@ -49,7 +49,6 @@
   TimerLib
   SerialPortLib
   ExtractGuidedSectionLib
-  LzmaDecompressLib
   PeCoffGetEntryPointLib
   PrePiLib
   ArmPlatformLib

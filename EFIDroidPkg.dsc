@@ -35,6 +35,8 @@
   #
   DEFINE SECURE_BOOT_ENABLE      = FALSE
 
+  DEFINE FVMAIN_COMPRESSION_METHOD = LZMA
+
 !include EFIDroidPkg/EFIDroid.dsc.inc
 
 [LibraryClasses.AARCH64]
@@ -167,11 +169,20 @@
   EFIDroidPkg/PrePi/EFIDroidPrePiUniCoreRelocatable.inf {
     <LibraryClasses>
       ExtractGuidedSectionLib|EmbeddedPkg/Library/PrePiExtractGuidedSectionLib/PrePiExtractGuidedSectionLib.inf
-      LzmaDecompressLib|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
+!if $(FVMAIN_COMPRESSION_METHOD) == LZMA
+      NULL|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
+!endif
+!if $(FVMAIN_COMPRESSION_METHOD) == BROTLI
+      NULL|MdeModulePkg/Library/BrotliCustomDecompressLib/BrotliCustomDecompressLib.inf
+!endif
       PrePiLib|EmbeddedPkg/Library/PrePiLib/PrePiLib.inf
       HobLib|EmbeddedPkg/Library/PrePiHobLib/PrePiHobLib.inf
       PrePiHobListPointerLib|ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointerLib.inf
       MemoryAllocationLib|EmbeddedPkg/Library/PrePiMemoryAllocationLib/PrePiMemoryAllocationLib.inf
+
+    <BuildOptions>
+      RVCT:*_*_*_CC_FLAGS = -DFVMAIN_COMPRESSION_METHOD_$(FVMAIN_COMPRESSION_METHOD)
+      GCC:*_*_*_CC_FLAGS = -DFVMAIN_COMPRESSION_METHOD_$(FVMAIN_COMPRESSION_METHOD)
   }
 
   #
