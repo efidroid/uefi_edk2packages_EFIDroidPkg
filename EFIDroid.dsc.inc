@@ -98,6 +98,7 @@
   MemoryInitPeiLib|EFIDroidPkg/Library/EFIDroidMemoryInitPeiLib/EFIDroidMemoryInitPeiLib.inf
   LcmLib|EFIDroidPkg/Library/LcmLib/LcmLib.inf
   StrLib|EFIDroidPkg/Library/StrLib/StrLib.inf
+  KeypadDeviceHelperLib|EFIDroidPkg/Library/KeypadDeviceHelperLib/KeypadDeviceHelperLib.inf
 
   #
   # Uncomment (and comment out the next line) For RealView Debugger. The Standard IO window
