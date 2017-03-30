@@ -20,3 +20,4 @@
 [LibraryClasses]
   QcomTargetBoardLib
   SmemLib
+  PrintLib

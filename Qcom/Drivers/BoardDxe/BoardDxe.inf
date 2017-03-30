@@ -23,6 +23,7 @@
   UefiBootServicesTableLib
   QcomTargetBoardLib
   SmemLib
+  PrintLib
 
 [Protocols]
   gQcomBoardProtocolGuid
