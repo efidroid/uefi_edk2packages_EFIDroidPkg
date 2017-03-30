@@ -155,6 +155,13 @@ READ_LOCK_STATUS   = TRUE
   }
 
   #
+  # Device FV
+  #
+  FILE FV_IMAGE = 66A648D0-9913-4331-AEBF-C06E783384AE {
+    SECTION FV_IMAGE = FvMainDevice
+  }
+
+  #
   # UEFI ramdisk
   #
   FILE FREEFORM = PCD(gEFIDroidTokenSpaceGuid.PcdUEFIRamdisk) {

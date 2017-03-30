@@ -105,6 +105,7 @@ FV = FVMAIN_COMPACT
 !include EFIDroidFvMain.fdf.inc
 !include $(EFIDROID_CHIPVENDOR)/$(EFIDROID_CHIPVENDOR).fdf.inc
 !include $(EFIDROID_CHIPVENDOR)/Platforms/$(EFIDROID_PLATFORM)/$(EFIDROID_PLATFORM).fdf.inc
+!include EFIDroidDevicePkg/EFIDroidDevicePkg.fdf.inc
 
 [FV.FVMAIN_COMPACT]
 FvAlignment        = 16
