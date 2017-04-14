@@ -34,10 +34,10 @@
   PlatformBm.c
 
 [Packages]
-  IntelFrameworkModulePkg/IntelFrameworkModulePkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
   MdeModulePkg/MdeModulePkg.dec
   MdePkg/MdePkg.dec
-  EFIDroidPkg/EFIDroidPkg.dec
+  ShellPkg/ShellPkg.dec
 
 [LibraryClasses]
   BaseLib
@@ -53,7 +53,6 @@
   UefiRuntimeServicesTableLib
 
 [FixedPcd]
-  gEfiIntelFrameworkModulePkgTokenSpaceGuid.PcdShellFile
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultDataBits
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultParity
@@ -68,6 +67,7 @@
   gEfiFileSystemInfoGuid
   gEfiFileSystemVolumeLabelInfoIdGuid
   gEfiEndOfDxeEventGroupGuid
+  gUefiShellFileGuid
 
 [Protocols]
   gEfiDevicePathProtocolGuid
