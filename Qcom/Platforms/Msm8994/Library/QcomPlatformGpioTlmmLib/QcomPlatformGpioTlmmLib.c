@@ -1,5 +1,6 @@
 #include <Library/LKEnvLib.h>
 #include <Platform/iomap.h>
+#include <Library/QcomGpioTlmmLib.h>
 
 /* Remove the file after the gpio patch to move this to msm_shared gets merged. */
 void gpio_tlmm_config(uint32_t gpio, uint8_t func,
