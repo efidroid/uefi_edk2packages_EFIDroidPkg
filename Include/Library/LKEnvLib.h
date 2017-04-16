@@ -109,4 +109,6 @@ typedef UINTN paddr_t;
 #define arch_clean_invalidate_cache_range(start, len) WriteBackInvalidateDataCacheRange ((VOID *)(UINTN)(start), (UINTN)(len))
 #define arch_invalidate_cache_range(start, len) InvalidateDataCacheRange ((VOID *)(UINTN)(start), (UINTN)(len));
 
+#define __ALWAYS_INLINE __attribute__ ((always_inline))
+
 #endif
