@@ -10,10 +10,12 @@
   QcomPlatformGpioTlmmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformGpioTlmmLib/QcomPlatformGpioTlmmLib.inf
   QcomPlatformDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDisplayLib/QcomPlatformDisplayLib.inf
   QcomPlatformDisplayMinimalLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDisplayLib/QcomPlatformDisplayMinimalLib.inf
+  QcomPlatformMmcLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformMmcLib/QcomPlatformMmcLib.inf
 
   # target
   QcomTargetBoardLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetBoardLib/QcomTargetBoardLib.inf
   QcomTargetUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetUartDmLib/QcomTargetUartDmLib.inf
+  QcomTargetMmcLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomTargetMmcLib/QcomTargetMmcLib.inf
 
   # target display
 !if $(EARLYDEBUG_TYPE) == DISPLAY
@@ -111,3 +113,4 @@
   EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmDxe.inf
   EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiDxe.inf
   EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
+  EFIDroidPkg/Qcom/Drivers/MMCHSDxe/MMCHS.inf
