@@ -215,7 +215,7 @@ MMCHSInitialize (
 
   // set data
   Instance->BlockMedia.BlockSize = BLOCK_SIZE;
-  Instance->BlockMedia.LastBlock = get_mmc_card()->capacity/Instance->BlockMedia.BlockSize - 1;
+  Instance->BlockMedia.LastBlock = mmc_get_device_capacity()/Instance->BlockMedia.BlockSize - 1;
 
   // Publish BlockIO
   Status = gBS->InstallMultipleProtocolInterfaces (
