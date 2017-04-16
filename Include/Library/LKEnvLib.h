@@ -30,6 +30,7 @@ typedef UINTN paddr_t;
 
 #define writel(v, a) MmioWrite32((UINTN)(a), (UINT32)(v))
 #define readl(a) MmioRead32((UINTN)(a))
+#define RMWREG32(addr, startbit, width, val) writel((readl(addr) & ~(((1<<(width)) - 1) << (startbit))) | ((val) << (startbit)), addr)
 #define BIT(bit) (1 << (bit))
 
 #ifdef MSM_SECURE_IO
