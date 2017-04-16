@@ -68,6 +68,7 @@ typedef UINTN paddr_t;
 
 #define ROUNDUP(a, b) (((a) + ((b)-1)) & ~((b)-1))
 #define malloc AllocatePool
+#define calloc(num, sz) AllocateZeroPool ((num) * (sz))
 #define free(p) do {if((p))FreePool((p));} while(0)
 #define CACHE_LINE (ArmDataCacheLineLength())
 
