@@ -33,6 +33,7 @@ typedef struct {
   EFI_BLOCK_IO_PROTOCOL                 BlockIo;
   EFI_BLOCK_IO_MEDIA                    BlockMedia;
   MMCHS_DEVICE_PATH                     DevicePath;
+  struct mmc_device                     *MmcDev;
 } BIO_INSTANCE;
 
 extern QCOM_BAM_PROTOCOL *mBam;
@@ -77,6 +78,11 @@ EFI_STATUS
 EFIAPI
 MMCHSFlushBlocks (
   IN EFI_BLOCK_IO_PROTOCOL  *This
+  );
+
+EFI_STATUS
+BioInstanceContructor (
+  OUT BIO_INSTANCE** NewInstance
   );
 
 #endif

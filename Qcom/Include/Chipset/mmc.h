@@ -29,9 +29,9 @@
 #ifndef __MMC_H__
 #define __MMC_H__
 
-extern unsigned int mmc_boot_mci_base;
+#include <Chipset/bam.h>
 
-#define MMC_BOOT_MCI_REG(offset)          ((mmc_boot_mci_base) + offset)
+#define MMC_BOOT_MCI_REG(offset)          ((host->mci_base) + offset)
 
 /*
  * Define Macros for SDCC Registers
@@ -400,7 +400,7 @@ extern unsigned int mmc_boot_mci_base;
 #define MMC_BOOT_EXT_ERASE_TIMEOUT_MULT   223
 #define MMC_BOOT_EXT_HC_ERASE_GRP_SIZE    224
 
-#define IS_BIT_SET_EXT_CSD(val, bit)      ((ext_csd_buf[val]) & (1<<(bit)))
+#define IS_BIT_SET_EXT_CSD(val, bit)      ((card->ext_csd_buf[val]) & (1<<(bit)))
 #define IS_ADDR_OUT_OF_RANGE(resp)        ((resp >> 31) & 0x01)
 
 #define MMC_BOOT_US_PERM_WP_EN            2
@@ -514,6 +514,8 @@ struct mmc_card {
 	struct mmc_cid cid;
 	struct mmc_csd csd;
 	struct mmc_boot_scr scr;
+	unsigned char ext_csd_buf[512];
+	unsigned char wp_status_buf[8];
 };
 
 #define MMC_BOOT_XFER_MULTI_BLOCK        0
@@ -533,6 +535,21 @@ struct mmc_host {
 	unsigned int cmd_retry;
 	uint32_t mmc_cont_version;
 	struct mmc_caps caps;
+	unsigned int  mci_base;
+};
+
+#define MMC_BOOT_BAM_FIFO_SIZE           100
+
+struct mmc_device {
+	struct mmc_host host;
+	struct mmc_card card;
+
+	unsigned char slot;
+
+	uint32_t dml_base;
+	struct bam_instance bam;
+	/* Align at BAM_DESC_SIZE boundary */
+	struct bam_desc desc_fifo[MMC_BOOT_BAM_FIFO_SIZE] __attribute__ ((aligned(BAM_DESC_SIZE)));
 };
 
 /* MACRO used to evoke regcomp */
@@ -609,9 +626,9 @@ struct mmc_host {
 #define CORE_SW_RST_WIDTH                          0x1
 
 typedef struct {
-  unsigned int (*init_slot)(unsigned char slot, unsigned int base);
-  void         (*mci_clk_enable)(void);
-  void         (*mci_clk_disable)(void);
+  struct mmc_device*  (*init_slot)(unsigned char slot, unsigned int base);
+  void                (*mci_clk_enable)(struct mmc_device *dev);
+  void                (*mci_clk_disable)(struct mmc_device *dev);
 } MMC_PLATFORM_CALLBACK_API;
 
 #endif

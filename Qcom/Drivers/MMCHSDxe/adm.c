@@ -71,7 +71,7 @@ uint8_t sdc_crci_map[5] = {
  * used by other modules such as usb/uart/nand.
  */
 adm_result_t
-adm_transfer_mmc_data(unsigned char slot,
+adm_transfer_mmc_data(struct mmc_device *dev,
 		      unsigned char *data_ptr,
 		      unsigned int data_len, adm_dir_t direction)
 {
@@ -80,11 +80,12 @@ adm_transfer_mmc_data(unsigned char slot,
 	uint32_t row_num;
 	uint32_t adm_crci_num;
 	adm_result_t result = ADM_RESULT_SUCCESS;
+	struct mmc_host *host = &dev->host;
 
 	/* Make sure slot value is in the range 1..4 */
-	ASSERT((slot >= 1) && (slot <= 4));
+	ASSERT((dev->slot >= 1) && (dev->slot <= 4));
 
-	adm_crci_num = sdc_crci_map[slot];
+	adm_crci_num = sdc_crci_map[dev->slot];
 	row_len = MMC_BOOT_MCI_FIFO_SIZE;
 
 	/* While there is data to be transferred */

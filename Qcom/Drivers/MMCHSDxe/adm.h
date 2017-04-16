@@ -30,6 +30,8 @@
 #ifndef __PLATFORM_MSM_SHARED_ADM_H
 #define __PLATFORM_MSM_SHARED_ADM_H
 
+#include <Chipset/mmc.h>
+
 /* ADM base address for channel (n) and security_domain (s) */
 #define ADM_BASE_ADDR(n, s) (PcdGet64(PcdMmcAdmBase) + 4*(n) + ((PcdGet64(PcdMmcAdmSdOffset))*(s)))
 
@@ -76,7 +78,7 @@ typedef enum {
 	ADM_MMC_WRITE
 } adm_dir_t;
 
-adm_result_t adm_transfer_mmc_data(unsigned char slot,
+adm_result_t adm_transfer_mmc_data(struct mmc_device *dev,
 				   unsigned char *data_ptr,
 				   unsigned int data_len, adm_dir_t dir);
 #endif

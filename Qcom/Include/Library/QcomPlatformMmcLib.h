@@ -3,7 +3,7 @@
 
 #include <Chipset/mmc.h>
 
-VOID LibQcomPlatformMmcClockInit(MMC_PLATFORM_CALLBACK_API *Callback, UINT32 interface);
-VOID LibQcomPlatformMmcClockConfig(MMC_PLATFORM_CALLBACK_API *Callback, UINT32 interface, UINT32 freq);
+VOID LibQcomPlatformMmcClockInit(struct mmc_device *dev, MMC_PLATFORM_CALLBACK_API *Callback, UINT32 interface);
+VOID LibQcomPlatformMmcClockConfig(struct mmc_device *dev, MMC_PLATFORM_CALLBACK_API *Callback, UINT32 interface, UINT32 freq);
 
 #endif

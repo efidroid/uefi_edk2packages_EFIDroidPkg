@@ -2,8 +2,43 @@
 
 QCOM_BAM_PROTOCOL *mBam = NULL;
 
+STATIC struct mmc_device* PlatformCallbackInitSlot (unsigned char slot, unsigned int base)
+{
+  EFI_STATUS    Status;
+  BIO_INSTANCE  *Instance;
+
+  // initialize MMC device
+  struct mmc_device *dev = mmc_boot_main (slot, base);
+  if (dev == NULL)
+    return NULL;
+
+  // allocate instance
+  Status = BioInstanceContructor (&Instance);
+  if (EFI_ERROR(Status)) {
+    return dev;
+  }
+
+  // set data
+  Instance->MmcDev               = dev;
+  Instance->BlockMedia.BlockSize = mmc_get_device_blocksize(dev);
+  Instance->BlockMedia.LastBlock = mmc_get_device_capacity(dev)/Instance->BlockMedia.BlockSize - 1;
+
+  // give every device a slighty different GUID
+  Instance->DevicePath.Mmc.Guid.Data4[7] = slot;
+
+  // Publish BlockIO
+  Status = gBS->InstallMultipleProtocolInterfaces (
+              &Instance->Handle,
+              &gEfiBlockIoProtocolGuid,    &Instance->BlockIo,
+              &gEfiDevicePathProtocolGuid, &Instance->DevicePath,
+              NULL
+              );
+
+  return dev;
+}
+
 MMC_PLATFORM_CALLBACK_API mPlatformCallbackApi = {
-  mmc_boot_main,
+  PlatformCallbackInitSlot,
   mmc_boot_mci_clk_enable,
   mmc_boot_mci_clk_disable,
 };
@@ -102,7 +137,7 @@ MMCHSReadBlocks (
     return EFI_SUCCESS;
   }
 
-  RC = mmc_read ((UINT64) Lba * BlockSize, Buffer, BufferSize);
+  RC = mmc_read (Instance->MmcDev, (UINT64) Lba * BlockSize, Buffer, BufferSize);
   if (RC == MMC_BOOT_E_SUCCESS)
     return EFI_SUCCESS;
   else
@@ -152,7 +187,7 @@ MMCHSWriteBlocks (
     return EFI_SUCCESS;
   }
 
-  RC = mmc_write ((UINT64) Lba * BlockSize, BufferSize, Buffer);
+  RC = mmc_write (Instance->MmcDev, (UINT64) Lba * BlockSize, BufferSize, Buffer);
   if (RC == MMC_BOOT_E_SUCCESS)
     return EFI_SUCCESS;
   else
@@ -168,7 +203,6 @@ MMCHSFlushBlocks (
   return EFI_SUCCESS;
 }
 
-STATIC
 EFI_STATUS
 BioInstanceContructor (
   OUT BIO_INSTANCE** NewInstance
@@ -195,7 +229,6 @@ MMCHSInitialize (
   )
 {
   EFI_STATUS      Status;
-  BIO_INSTANCE    *Instance;
 
   if (FeaturePcdGet(PcdMmcBamSupport)) {
     Status = gBS->LocateProtocol (&gQcomBamProtocolGuid, NULL, (VOID **)&mBam);
@@ -204,26 +237,8 @@ MMCHSInitialize (
     }
   }
 
-  // Initialize device
+  // let the target register MMC devices
   LibQcomTargetMmcInit (&mPlatformCallbackApi);
 
-  // allocate instance
-  Status = BioInstanceContructor (&Instance);
-  if (EFI_ERROR(Status)) {
-    return Status;
-  }
-
-  // set data
-  Instance->BlockMedia.BlockSize = mmc_get_device_blocksize();
-  Instance->BlockMedia.LastBlock = mmc_get_device_capacity()/Instance->BlockMedia.BlockSize - 1;
-
-  // Publish BlockIO
-  Status = gBS->InstallMultipleProtocolInterfaces (
-              &Instance->Handle,
-              &gEfiBlockIoProtocolGuid,    &Instance->BlockIo,
-              &gEfiDevicePathProtocolGuid, &Instance->DevicePath,
-              NULL
-              );
-
-  return Status;
+  return EFI_SUCCESS;
 }
