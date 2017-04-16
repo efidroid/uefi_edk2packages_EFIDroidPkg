@@ -20,5 +20,6 @@ void mmc_boot_mci_clk_disable(void);
 uint8_t card_supports_ddr_mode(void);
 uint8_t card_supports_hs200_mode(void);
 uint64_t mmc_get_device_capacity(void);
+void mmc_put_card_to_sleep(void);
 
 #endif // _MMC_PRIVATE_H

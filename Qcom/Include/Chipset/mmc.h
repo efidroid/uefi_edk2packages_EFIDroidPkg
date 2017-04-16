@@ -276,6 +276,7 @@ extern unsigned int mmc_boot_mci_base;
 #define CMD2_ALL_SEND_CID                2
 #define CMD3_SEND_RELATIVE_ADDR          3
 #define CMD4_SET_DSR                     4
+#define CMD5_SLEEP_AWAKE                 5
 #define CMD6_SWITCH_FUNC                 6
 #define ACMD6_SET_BUS_WIDTH              6	/* SD card */
 #define CMD7_SELECT_DESELECT_CARD        7
@@ -414,6 +415,9 @@ extern unsigned int mmc_boot_mci_base;
 #define MMC_BOOT_SD_HC_HCS                0x40000000
 #define MMC_BOOT_SD_DEV_READY             0x80000000
 #define MMC_BOOT_SD_SWITCH_HS             0x80FFFFF1
+
+/* Put the card to sleep */
+#define MMC_CARD_SLEEP                    (1 << 15)
 
 /* Data structure definitions */
 struct mmc_boot_command {
@@ -555,6 +559,7 @@ struct mmc_host {
 #define MAX_FILE_ENTRIES          20
 
 #define MMC_RCA 2
+#define MMC_CARD_RCA_BIT                  16
 
 /* Can be used to unpack array of upto 32 bits data */
 #define UNPACK_BITS(array, start, len, size_of)                               \
