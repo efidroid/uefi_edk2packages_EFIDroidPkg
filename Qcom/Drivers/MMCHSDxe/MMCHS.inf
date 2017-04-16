@@ -1,0 +1,59 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MMCHS
+  FILE_GUID                      = D6A76669-2A55-486E-B06B-19257B45A011
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MMCHSInitialize
+
+
+[Sources.common]
+  MMCHS.c
+  mmc.c
+  adm.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+
+[LibraryClasses]
+  UefiLib
+  UefiDriverEntryPoint
+  QcomPlatformMmcLib
+  QcomTargetMmcLib
+  ArmLib
+
+[Protocols]
+  gEfiBlockIoProtocolGuid
+  gEfiDevicePathProtocolGuid
+  gQcomBamProtocolGuid
+
+[FeaturePcd]
+  gQcomTokenSpaceGuid.PcdMmcAdmSupport
+  gQcomTokenSpaceGuid.PcdMmcBamSupport
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdMmcSdc1BamBase
+  gQcomTokenSpaceGuid.PcdMmcSdc2BamBase
+  gQcomTokenSpaceGuid.PcdMmcSdc3BamBase
+  gQcomTokenSpaceGuid.PcdMmcSdc4BamBase
+  gQcomTokenSpaceGuid.PcdMmcSdc1DmlBase
+  gQcomTokenSpaceGuid.PcdMmcSdc2DmlBase
+  gQcomTokenSpaceGuid.PcdMmcSdc3DmlBase
+  gQcomTokenSpaceGuid.PcdMmcSdc4DmlBase
+
+  gQcomTokenSpaceGuid.PcdMmcAdmChn
+  gQcomTokenSpaceGuid.PcdMmcAdmSd
+  gQcomTokenSpaceGuid.PcdMmcAdmBase
+  gQcomTokenSpaceGuid.PcdMmcAdmSdOffset
+  gQcomTokenSpaceGuid.PcdMmcAdmMap0
+  gQcomTokenSpaceGuid.PcdMmcAdmMap1
+  gQcomTokenSpaceGuid.PcdMmcAdmMap2
+  gQcomTokenSpaceGuid.PcdMmcAdmMap3
+  gQcomTokenSpaceGuid.PcdMmcAdmMap4
+
+[Depex]
+  TRUE
