@@ -4,6 +4,6 @@
 #include <Chipset/mmc.h>
 
 VOID LibQcomTargetMmcInit(MMC_PLATFORM_CALLBACK_API *Callback);
-INTN LibQcomTargetMmcBusWidth(MMC_PLATFORM_CALLBACK_API *Callback);
+VOID LibQcomTargetMmcCaps(struct mmc_host *host);
 
 #endif

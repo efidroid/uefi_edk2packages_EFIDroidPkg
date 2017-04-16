@@ -1279,6 +1279,104 @@ mmc_boot_set_bus_width(struct mmc_card *card, unsigned int width)
 }
 
 /*
+ * Function to enable HS200 mode
+ * 1. Set the clock frequency to 100 MHZ
+ * 2. Set the bus width to 4/8 bit SDR as supported byt the target & host
+ * 3. Set the HS_TIMING on ext_csd 185 for the card
+ */
+static uint32_t mmc_set_hs200_mode(struct mmc_host *host,
+								   struct mmc_card *card)
+{
+	uint32_t mmc_ret = MMC_BOOT_E_SUCCESS;
+
+	/* Set Clock @ 100 MHZ */
+	LibQcomPlatformMmcClockConfig(&mPlatformCallbackApi, mmc_slot, host->caps.hs_clk_rate);
+	host->mclk_rate = host->caps.hs_clk_rate;
+
+	/* Set 4/8 bit SDR bus width */
+	mmc_ret = mmc_boot_set_bus_width(card, host->caps.bus_width);
+	if (mmc_ret != MMC_BOOT_E_SUCCESS) {
+		dprintf(CRITICAL,
+			"Error No.%d: Failure to set wide bus for Card(RCA:%x)\n",
+			mmc_ret, card->rca);
+			return mmc_ret;
+	}
+
+	/* Setting HS200 in HS_TIMING using EXT_CSD (CMD6) */
+	mmc_ret = mmc_boot_switch_cmd(card, MMC_BOOT_ACCESS_WRITE,
+				      MMC_BOOT_EXT_CMMC_HS_TIMING, 2);
+
+	if (mmc_ret != MMC_BOOT_E_SUCCESS) {
+		dprintf(CRITICAL, "Switch cmd returned failure %d\n", __LINE__);
+		return mmc_ret;
+	}
+
+	return mmc_ret;
+}
+
+/*
+ * Function to enable DDR mode
+ * 1. Set the bus width to 8 bit DDR
+ * 1. Set the clock frequency to 100 MHZ
+ * 3. Set DDR mode in mci clk register
+ * 4. Set Widebus enable in mci clock register
+ */
+static uint32_t mmc_set_ddr_mode(struct mmc_host *host,
+								 struct mmc_card *card)
+{
+	uint8_t mmc_ret = MMC_BOOT_E_SUCCESS;
+	uint32_t mmc_reg = 0;
+	uint32_t width = 0;
+
+	switch (host->caps.bus_width) {
+		case MMC_BOOT_BUS_WIDTH_4_BIT:
+			width = MMC_DDR_BUS_WIDTH_4_BIT;
+			break;
+		case MMC_BOOT_BUS_WIDTH_8_BIT:
+			width = MMC_DDR_BUS_WIDTH_8_BIT;
+			break;
+		default:
+			dprintf(CRITICAL, "Invalid bus width, DDR mode is not enabled\n");
+			mmc_ret = MMC_BOOT_E_FAILURE;
+			goto end;
+	};
+
+	/* Set width for 4/8 bit DDR bus width */
+	mmc_ret = mmc_boot_set_bus_width(card, width);
+
+	if (mmc_ret != MMC_BOOT_E_SUCCESS) {
+		dprintf(CRITICAL,
+			"Error No.%d: Failure to set wide bus for Card(RCA:%x)\n",
+			mmc_ret, card->rca);
+		return mmc_ret;
+	}
+
+	/* Bump up the clock frequency */
+	LibQcomPlatformMmcClockConfig(&mPlatformCallbackApi, mmc_slot, host->caps.hs_clk_rate);
+	host->mclk_rate = host->caps.hs_clk_rate;
+
+	/* Select DDR mode in mci register */
+	mmc_reg = readl(MMC_BOOT_MCI_CLK);
+	mmc_reg |= (MMC_MCI_DDR_MODE_EN << MMC_MCI_MODE_SELECT);
+
+	writel(mmc_reg, MMC_BOOT_MCI_CLK);
+
+	/* Wait for the MMC_BOOT_MCI_CLK write to go through. */
+	mmc_mclk_reg_wr_delay();
+
+	/* Enable wide bus for DDR */
+	mmc_reg = readl(MMC_BOOT_MCI_CLK);
+	mmc_reg |= MMC_BOOT_MCI_CLK_WIDEBUS_MODE;
+	writel(mmc_reg, MMC_BOOT_MCI_CLK);
+
+	/* Wait for the MMC_BOOT_MCI_CLK write to go through. */
+	mmc_mclk_reg_wr_delay();
+
+end:
+	return MMC_BOOT_E_SUCCESS;
+}
+
+/*
  * A command to start data read from card. Either a single block or
  * multiple blocks can be read. Multiple blocks read will continuously
  * transfer data from card to host unless requested to stop by issuing
@@ -2125,7 +2223,6 @@ mmc_boot_init_and_identify_cards(struct mmc_host *host,
 {
 	unsigned int mmc_return = MMC_BOOT_E_SUCCESS;
 	unsigned int status;
-	uint8_t mmc_bus_width = 0;
 
 	/* Basic check */
 	if (host == NULL) {
@@ -2182,18 +2279,38 @@ mmc_boot_init_and_identify_cards(struct mmc_host *host,
 				mmc_return);
 			return mmc_return;
 		}
-
-		/* enable wide bus */
-		mmc_bus_width = LibQcomTargetMmcBusWidth(&mPlatformCallbackApi);
-		mmc_return =
-		    mmc_boot_set_bus_width(card, mmc_bus_width);
-		if (mmc_return != MMC_BOOT_E_SUCCESS) {
-			dprintf(CRITICAL,
-				"Error No.%d: Failure to set wide bus for Card(RCA:%x)\n",
-				mmc_return, card->rca);
-			return mmc_return;
-		}
 	}
+
+		/* Enable HS200 mode by default if supported,
+		 * else if DDR mode is supported enable it.
+		 * else use default 4/8 bit mode
+		 */
+		if (card_supports_hs200_mode() && host->caps.hs200_mode) {
+			mmc_return = mmc_set_hs200_mode(host, card);
+			if (mmc_return != MMC_BOOT_E_SUCCESS) {
+				dprintf(CRITICAL,
+					"Error No.%d: Failure to set HS200 mode for Card(RCA:%x)\n",
+					mmc_return, card->rca);
+				return mmc_return;
+			}
+		} else if (card_supports_ddr_mode() && host->caps.ddr_mode) {
+			mmc_return = mmc_set_ddr_mode(host, card);
+			if (mmc_return != MMC_BOOT_E_SUCCESS) {
+				dprintf(CRITICAL,
+					"Error No.%d: Failure to set DDR mode for Card(RCA:%x)\n",
+					mmc_return, card->rca);
+				return mmc_return;
+			}
+		} else {
+			mmc_return =
+				mmc_boot_set_bus_width(card, host->caps.bus_width);
+			if (mmc_return != MMC_BOOT_E_SUCCESS) {
+				dprintf(CRITICAL,
+					"Error No.%d: Failure to set wide bus for Card(RCA:%x)\n",
+					mmc_return, card->rca);
+				return mmc_return;
+			}
+		}
 
 	/* Just checking whether we're in TRAN state after changing speed and bus width */
 	mmc_return = mmc_boot_get_card_status(card, 0, &status);
@@ -2238,6 +2355,9 @@ unsigned int mmc_boot_main(unsigned char slot, unsigned int base)
 
 	mmc_slot = slot;
 	mmc_boot_mci_base = base;
+
+	/* Get the capabilities for the host/target */
+	LibQcomTargetMmcCaps(&mmc_host);
 
 	/* Initialize necessary data structure and enable/set clock and power */
 	dprintf(SPEW, " Initializing MMC host data structure and clock!\n");
@@ -3233,4 +3353,28 @@ mmc_boot_bam_setup_desc(unsigned int *data_ptr,
 	}
 
 	return mmc_ret;
+}
+
+/*
+ * Check if card supports DDR mode
+ */
+uint8_t card_supports_ddr_mode(void)
+{
+	if (IS_BIT_SET_EXT_CSD(MMC_DEVICE_TYPE, 2) ||
+		IS_BIT_SET_EXT_CSD(MMC_DEVICE_TYPE, 3))
+		return 1;
+	else
+		return 0;
+}
+
+/*
+ * Check if card suppports HS200 mode
+ */
+uint8_t card_supports_hs200_mode(void)
+{
+	if (IS_BIT_SET_EXT_CSD(MMC_DEVICE_TYPE, 4) ||
+		IS_BIT_SET_EXT_CSD(MMC_DEVICE_TYPE, 5))
+		return 1;
+	else
+		return 0;
 }

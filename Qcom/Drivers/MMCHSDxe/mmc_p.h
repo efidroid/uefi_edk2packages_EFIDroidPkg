@@ -28,5 +28,7 @@ struct mmc_card *get_mmc_card(void);
 void mmc_mclk_reg_wr_delay(void);
 void mmc_boot_mci_clk_enable(void);
 void mmc_boot_mci_clk_disable(void);
+uint8_t card_supports_ddr_mode(void);
+uint8_t card_supports_hs200_mode(void);
 
 #endif // _MMC_PRIVATE_H
