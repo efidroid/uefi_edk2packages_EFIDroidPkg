@@ -1,0 +1,28 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformUartDmLib
+  FILE_GUID                      = 4A189C0D-85D7-428D-8265-0D8AB4FEC3D2
+  MODULE_TYPE                    = SEC
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformUartDmLib
+
+
+[Sources.common]
+  QcomPlatformUartDmLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8610/Msm8610.dec
+
+[Protocols]
+  gQcomClockProtocolGuid
+
+[LibraryClasses]
+  IoLib
+  DebugLib
+  ClockLib
+  GpioTlmmLib

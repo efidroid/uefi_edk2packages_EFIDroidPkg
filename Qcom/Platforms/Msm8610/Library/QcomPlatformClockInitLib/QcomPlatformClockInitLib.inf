@@ -1,0 +1,24 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformClockInitLib
+  FILE_GUID                      = D4E70DDF-9D88-4A73-A9FE-A7369722387C
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformClockInitLib
+
+
+[Sources.common]
+  msm8610-clock.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8610/Msm8610.dec
+
+[LibraryClasses]
+  IoLib
+  ArmLib
+  PlatformIdLib

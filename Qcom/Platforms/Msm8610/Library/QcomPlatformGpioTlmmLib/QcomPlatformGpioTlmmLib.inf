@@ -1,0 +1,23 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformGpioTlmmLib
+  FILE_GUID                      = 63DB19EF-486F-4153-B555-E7E1D87E300E
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformGpioTlmmLib
+
+
+[Sources.common]
+  QcomPlatformGpioTlmmLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8610/Msm8610.dec
+
+[LibraryClasses]
+  IoLib
+  DebugLib

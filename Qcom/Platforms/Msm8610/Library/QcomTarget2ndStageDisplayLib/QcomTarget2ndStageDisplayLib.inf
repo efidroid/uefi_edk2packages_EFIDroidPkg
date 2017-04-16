@@ -1,0 +1,23 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomTarget2ndStageDisplayLib
+  FILE_GUID                      = C81EFBFF-A98A-4C1A-B81B-51639AF3485F
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomTargetDisplayLib
+
+
+[Sources.common]
+  target_display.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8610/Msm8610.dec
+
+[LibraryClasses]
+  IoLib
+  TimerLib

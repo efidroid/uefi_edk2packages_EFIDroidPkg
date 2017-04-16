@@ -1,0 +1,35 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ResetSystemLib
+  FILE_GUID                      = A9D88990-F521-4AA6-8F91-3055D1D041B1
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = EfiResetSystemLib
+
+
+[Sources.common]
+  ResetSystemLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
+  EFIDroidPkg/Qcom/Platforms/Msm8610/Msm8610.dec
+
+[LibraryClasses]
+  IoLib
+  ArmLib
+  DebugLib
+  UefiBootServicesTableLib
+  TimerLib
+  DloadUtilLib
+  PlatformIdLib
+
+[Protocols]
+  gQcomPm8x41ProtocolGuid
+  gQcomScmProtocolGuid
+
+[Depex]
+  gQcomPm8x41ProtocolGuid AND gQcomScmProtocolGuid
