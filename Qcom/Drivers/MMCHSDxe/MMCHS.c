@@ -214,7 +214,7 @@ MMCHSInitialize (
   }
 
   // set data
-  Instance->BlockMedia.BlockSize = BLOCK_SIZE;
+  Instance->BlockMedia.BlockSize = mmc_get_device_blocksize();
   Instance->BlockMedia.LastBlock = mmc_get_device_capacity()/Instance->BlockMedia.BlockSize - 1;
 
   // Publish BlockIO
