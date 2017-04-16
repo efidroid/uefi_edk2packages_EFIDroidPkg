@@ -115,6 +115,30 @@ EFI_STATUS
   OUT INT32                   *Node
   );
 
+typedef
+EFI_STATUS
+(EFIAPI *FDT_CLIENT_FIND_SUB_NODE) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   ParentNode,
+  OUT INT32                   *Node
+  );
+
+typedef
+EFI_STATUS
+(EFIAPI *FDT_CLIENT_FIND_NEXT_SUB_NODE) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   PrevNode,
+  OUT INT32                   *Node
+  );
+
+typedef
+EFI_STATUS
+(EFIAPI *FDT_CLIENT_FIND_NODE_BY_PHANDLE) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  UINT32                  PHandleValue,
+  OUT INT32                   *Node
+  );
+
 struct _FDT_CLIENT_PROTOCOL {
   FDT_CLIENT_GET_NODE_PROPERTY             GetNodeProperty;
   FDT_CLIENT_SET_NODE_PROPERTY             SetNodeProperty;
@@ -128,6 +152,10 @@ struct _FDT_CLIENT_PROTOCOL {
   FDT_CLIENT_FIND_NEXT_MEMORY_NODE_REG     FindNextMemoryNodeReg;
 
   FDT_CLIENT_GET_OR_INSERT_CHOSEN_NODE     GetOrInsertChosenNode;
+
+  FDT_CLIENT_FIND_SUB_NODE                 FindSubNode;
+  FDT_CLIENT_FIND_NEXT_SUB_NODE            FindNextSubNode;
+  FDT_CLIENT_FIND_NODE_BY_PHANDLE          FindNodeByPHandle;
 };
 
 extern EFI_GUID gFdtClientProtocolGuid;

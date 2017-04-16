@@ -296,6 +296,85 @@ GetOrInsertChosenNode (
   return EFI_SUCCESS;
 }
 
+STATIC
+EFI_STATUS
+EFIAPI
+FindNextSubNode (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   PrevNode,
+  OUT INT32                   *Node
+  )
+{
+  INT32 Offset;
+
+  Offset = fdt_next_subnode(mDeviceTreeBase, PrevNode);
+  if (Offset < 0)
+    return EFI_NOT_FOUND;
+
+  *Node = Offset;
+
+  return EFI_SUCCESS;
+}
+
+STATIC
+EFI_STATUS
+EFIAPI
+FindSubNode (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   ParentNode,
+  OUT INT32                   *Node
+  )
+{
+  INT32 Offset;
+
+  Offset = fdt_first_subnode(mDeviceTreeBase, ParentNode);
+  if (Offset < 0)
+    return EFI_NOT_FOUND;
+
+  *Node = Offset;
+
+  return EFI_SUCCESS;
+}
+
+STATIC
+EFI_STATUS
+EFIAPI
+FindNodeByPHandle (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  UINT32                  PHandleValue,
+  OUT INT32                   *Node
+  )
+{
+  INT32          Prev, Next;
+  CONST UINT32   *ValuePtr;
+  EFI_STATUS     Status;
+  UINT32         PropertySize;
+
+  ASSERT (mDeviceTreeBase != NULL);
+  ASSERT (Node != NULL);
+
+  for (Prev = 0;; Prev = Next) {
+    Next = fdt_next_node (mDeviceTreeBase, Prev, NULL);
+    if (Next < 0) {
+      break;
+    }
+
+    Status = GetNodeProperty (This, Next, "linux,phandle", (CONST VOID **)&ValuePtr, &PropertySize);
+    if (EFI_ERROR(Status) || PropertySize!=sizeof(UINT32)) {
+      Status = GetNodeProperty (This, Next, "phandle", (CONST VOID **)&ValuePtr, &PropertySize);
+    }
+    if (EFI_ERROR(Status) || PropertySize!=sizeof(UINT32)) {
+      continue;
+    }
+
+    if (SwapBytes32 (*ValuePtr)==PHandleValue) {
+      *Node = Next;
+      return EFI_SUCCESS;
+    }
+  }
+  return EFI_NOT_FOUND;
+}
+
 STATIC FDT_CLIENT_PROTOCOL mFdtClientProtocol = {
   GetNodeProperty,
   SetNodeProperty,
@@ -306,6 +385,9 @@ STATIC FDT_CLIENT_PROTOCOL mFdtClientProtocol = {
   FindMemoryNodeReg,
   FindNextMemoryNodeReg,
   GetOrInsertChosenNode,
+  FindSubNode,
+  FindNextSubNode,
+  FindNodeByPHandle,
 };
 
 STATIC
