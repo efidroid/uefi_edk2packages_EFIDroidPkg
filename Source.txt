@@ -1,2 +1,2 @@
 URL:    https://github.com/tianocore/edk2/tree/master/ArmVirtPkg
-BRANCH: master @ 5d5a19028a
+BRANCH: master @ 4830018e08
