@@ -110,6 +110,12 @@
   gQcomTokenSpaceGuid.PcdMmcAdmMap3|0|UINT8|0x00000038
   gQcomTokenSpaceGuid.PcdMmcAdmMap4|0|UINT8|0x00000039
 
+  gQcomTokenSpaceGuid.PcdSdccMciHcMode|0|UINT64|0x0000003a
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlStatusReg|0|UINT64|0x0000003b
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlMaskReg|0|UINT64|0x0000003c
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlClearReg|0|UINT64|0x0000003d
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlCtlReg|0|UINT64|0x0000003e
+
 
 [PcdsFeatureFlag.common]
   gQcomTokenSpaceGuid.PcdMmcAdmSupport|FALSE|BOOLEAN|0x00010001
