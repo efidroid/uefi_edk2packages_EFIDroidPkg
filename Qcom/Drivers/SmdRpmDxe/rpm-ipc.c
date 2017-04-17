@@ -28,6 +28,7 @@
  */
 
 #include <Library/LKEnvLib.h>
+#include <Library/MallocLib.h>
 #include <Protocol/QcomRpm.h>
 
 #include "rpm-ipc.h"
@@ -35,39 +36,28 @@
 
 void fill_kvp_object(kvp_data **kdata, uint32_t *data, uint32_t len)
 {
-  UINTN AlignedLength = ROUNDUP(len, CACHE_LINE);
-  VOID  *Memory;
+	*kdata = (kvp_data *) memalign(CACHE_LINE, ROUNDUP(len, CACHE_LINE));
+	ASSERT(*kdata);
 
-  Memory = AllocateAlignedPages(EFI_SIZE_TO_PAGES(CACHE_LINE + AlignedLength), CACHE_LINE);
-  ASSERT(Memory);
-
-  *kdata = Memory + CACHE_LINE;
-  memcpy(*kdata, data+2, len);
-
-  *((UINT32*)Memory) = len;
+	memcpy(*kdata, data+2, len);
 }
 
 void free_kvp_object(kvp_data **kdata)
 {
-  VOID *Memory;
-
-  if(*kdata) {
-    Memory = (*kdata) - CACHE_LINE;
-
-    FreeAlignedPages(Memory, *((UINT32*)Memory));
-  }
+	if(*kdata)
+		free(*kdata);
 }
 
 int rpm_send_data(uint32_t *data, uint32_t len, msg_type type)
 {
-  return rpm_smd_send_data(data, len, type);
+	return rpm_smd_send_data(data, len, type);
 }
 
 void rpm_clk_enable(uint32_t *data, uint32_t len)
 {
-  if(rpm_send_data(data, len, RPM_REQUEST_TYPE))
-  {
-    dprintf(CRITICAL, "Clock enable failure\n");
-    ASSERT(0);
-  }
+	if(rpm_send_data(data, len, RPM_REQUEST_TYPE))
+	{
+		dprintf(CRITICAL, "Clock enable failure\n");
+		ASSERT(0);
+	}
 }

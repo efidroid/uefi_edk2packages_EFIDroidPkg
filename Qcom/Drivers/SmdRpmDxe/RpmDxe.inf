@@ -23,12 +23,12 @@
 [LibraryClasses]
   UefiDriverEntryPoint
   IoLib
-  MemoryAllocationLib
   ArmLib
   CacheMaintenanceLib
   SmemLib
   TimerLib
   MallocLib
+  InterruptsLib
 
 [Protocols]
   gQcomRpmProtocolGuid

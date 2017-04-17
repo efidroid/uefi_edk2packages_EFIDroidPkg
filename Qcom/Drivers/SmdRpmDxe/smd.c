@@ -30,6 +30,8 @@
 #include <PiDxe.h>
 #include <Library/LKEnvLib.h>
 #include <Library/QcomSmemLib.h>
+#include <Library/InterruptsLib.h>
+#include <Library/MallocLib.h>
 #include <Library/UefiBootServicesTableLib.h>
 #include <Protocol/HardwareInterrupt.h>
 
@@ -37,17 +39,8 @@
 
 #define SMD_CHANNEL_ACCESS_RETRY 1000000
 
-VOID
-EFIAPI
-smd_irq_handler (
-  IN  HARDWARE_INTERRUPT_SOURCE   Source,
-  IN  EFI_SYSTEM_CONTEXT          SystemContext
-  );
-
 STATIC smd_channel_alloc_entry_t *smd_channel_alloc_entry;
 STATIC EFI_EVENT                 smd_closed = (EFI_EVENT)NULL;
-STATIC EFI_HARDWARE_INTERRUPT_PROTOCOL *mInterrupt = NULL;
-STATIC smd_channel_info_t        *mChannelInfo = NULL;
 
 static void smd_write_state(smd_channel_info_t *ch, uint32_t state)
 {
@@ -126,13 +119,8 @@ int smd_init(smd_channel_info_t *ch, uint32_t ch_type)
 	unsigned ret = 0;
 	int chnl_found = 0;
 	uint64_t timeout = SMD_CHANNEL_ACCESS_RETRY;
-	EFI_STATUS Status;
-	EFI_TPL    OriginalTPL;
 
-	Status = gBS->LocateProtocol (&gHardwareInterruptProtocolGuid, NULL, (VOID **)&mInterrupt);
-	ASSERT_EFI_ERROR(Status);
-
-	smd_channel_alloc_entry = (smd_channel_alloc_entry_t*)AllocateAlignedPages(EFI_SIZE_TO_PAGES(SMD_CHANNEL_ALLOC_MAX), CACHE_LINE);
+	smd_channel_alloc_entry = (smd_channel_alloc_entry_t*)memalign(CACHE_LINE, SMD_CHANNEL_ALLOC_MAX);
 	ASSERT(smd_channel_alloc_entry);
 
 	dprintf(INFO, "Waiting for the RPM to populate smd channel table\n");
@@ -159,15 +147,13 @@ int smd_init(smd_channel_info_t *ch, uint32_t ch_type)
 		ASSERT(0);
 	}
 
-	OriginalTPL = gBS->RaiseTPL (TPL_HIGH_LEVEL);
-	mInterrupt->RegisterInterruptSource (mInterrupt, PcdGet64(PcdSmdIrq), smd_irq_handler);
-	mChannelInfo = ch;
+	register_int_handler(PcdGet64(PcdSmdIrq), smd_irq_handler, ch);
 
 	smd_set_state(ch, SMD_SS_OPENING, 1);
 
 	smd_notify_rpm();
 
-	gBS->RestoreTPL (OriginalTPL);
+	unmask_interrupt(PcdGet64(PcdSmdIrq));
 
 	return 0;
 }
@@ -424,20 +410,15 @@ void smd_set_state(smd_channel_info_t *ch, uint32_t state, uint32_t flag)
 }
 
 
-VOID
-EFIAPI
-smd_irq_handler (
-  IN  HARDWARE_INTERRUPT_SOURCE   Source,
-  IN  EFI_SYSTEM_CONTEXT          SystemContext
-  )
+enum handler_return smd_irq_handler(void* data)
 {
-	smd_channel_info_t *ch = mChannelInfo;
+	smd_channel_info_t *ch = (smd_channel_info_t*)data;
 
 	if(ch->current_state == SMD_SS_CLOSED)
 	{
-		FreeAlignedPages(smd_channel_alloc_entry, EFI_SIZE_TO_PAGES(SMD_CHANNEL_ALLOC_MAX));
+		free(smd_channel_alloc_entry);
 		gBS->SignalEvent(smd_closed);
-		goto END_OF_INTERRUPT;
+		return INT_NO_RESCHEDULE;
 	}
 
 	if(ch->port_info->ch1.state_updated)
@@ -456,6 +437,5 @@ smd_irq_handler (
 		dprintf(CRITICAL,"Channel alloc freed\n");
 	}
 
-END_OF_INTERRUPT:
-	mInterrupt->EndOfInterrupt (mInterrupt, Source);
+	return INT_NO_RESCHEDULE;
 }
