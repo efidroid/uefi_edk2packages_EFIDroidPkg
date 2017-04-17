@@ -27,8 +27,8 @@
  */
 
 #include <Library/LKEnvLib.h>
+#include <Library/MallocLib.h>
 #include <Library/dload_util.h>
-//#include <platform/iomap.h>
 #include <Chipset/scm.h>
 
 #include "scm_p.h"
@@ -94,7 +94,7 @@ static struct scm_command *alloc_scm_command(size_t cmd_size, size_t resp_size)
 	size_t len = sizeof(*cmd) + sizeof(struct scm_response) + cmd_size +
 	    resp_size;
 
-	cmd = AllocateAlignedPages(EFI_SIZE_TO_PAGES(ROUNDUP(len, CACHE_LINE)), CACHE_LINE);
+	cmd = memalign(CACHE_LINE, ROUNDUP(len, CACHE_LINE));
 	if (cmd) {
 		memset(cmd, 0, len);
 		cmd->len = len;
@@ -112,8 +112,7 @@ static struct scm_command *alloc_scm_command(size_t cmd_size, size_t resp_size)
  */
 static inline void free_scm_command(struct scm_command *cmd)
 {
-	if (cmd)
-		FreeAlignedPages(cmd, EFI_SIZE_TO_PAGES(ROUNDUP(cmd->len, CACHE_LINE)));
+	free(cmd);
 }
 
 /**
@@ -1150,14 +1149,13 @@ uint32_t scm_call2(scmcall_arg *arg, scmcall_ret *ret)
 	uint32_t x5;
 	int i;
 	uint32_t rc;
-	UINTN indir_arg_numpages = EFI_SIZE_TO_PAGES(SCM_INDIR_MAX_LEN * sizeof(uint32_t));
 
 	arg->x0 = arg->atomic ? (arg->x0 | SCM_ATOMIC_BIT) : arg->x0;
 	x5 = arg->x5[0];
 
 	if ((arg->x1 & 0xF) > SCM_MAX_ARG_LEN - 1)
 	{
-		indir_arg = AllocateAlignedPages(indir_arg_numpages, CACHE_LINE);
+		indir_arg = memalign(CACHE_LINE, (SCM_INDIR_MAX_LEN * sizeof(uint32_t)));
 		ASSERT(indir_arg);
 
 		for (i = 0 ; i < SCM_INDIR_MAX_LEN; i++)
@@ -1177,7 +1175,7 @@ uint32_t scm_call2(scmcall_arg *arg, scmcall_ret *ret)
 	}
 
 	if (indir_arg)
-		FreeAlignedPages(indir_arg, indir_arg_numpages);
+		free(indir_arg);
 
 	return 0;
 }

@@ -22,7 +22,7 @@
   UefiDriverEntryPoint
   UefiBootServicesTableLib
   ArmLib
-  MemoryAllocationLib
+  MallocLib
   CacheMaintenanceLib
 
 [Pcd.common]

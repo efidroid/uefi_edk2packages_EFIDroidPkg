@@ -19,7 +19,7 @@
 
 [LibraryClasses]
   ArmLib
-  MemoryAllocationLib
+  MallocLib
   CacheMaintenanceLib
 
 [Pcd.common]
