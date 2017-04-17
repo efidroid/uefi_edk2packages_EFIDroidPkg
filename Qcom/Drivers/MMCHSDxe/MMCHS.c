@@ -37,12 +37,6 @@ STATIC struct mmc_device* PlatformCallbackInitSlot (unsigned char slot, unsigned
   return dev;
 }
 
-MMC_PLATFORM_CALLBACK_API mPlatformCallbackApi = {
-  PlatformCallbackInitSlot,
-  mmc_boot_mci_clk_enable,
-  mmc_boot_mci_clk_disable,
-};
-
 STATIC BIO_INSTANCE mBioTemplate = {
   BIO_INSTANCE_SIGNATURE,
   NULL, // Handle
@@ -238,7 +232,7 @@ MMCHSInitialize (
   }
 
   // let the target register MMC devices
-  LibQcomTargetMmcInit (&mPlatformCallbackApi);
+  LibQcomTargetMmcInit (PlatformCallbackInitSlot);
 
   return EFI_SUCCESS;
 }

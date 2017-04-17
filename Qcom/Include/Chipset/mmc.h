@@ -625,10 +625,4 @@ struct mmc_device {
 #define CORE_SW_RST_START                          0x7
 #define CORE_SW_RST_WIDTH                          0x1
 
-typedef struct {
-  struct mmc_device*  (*init_slot)(unsigned char slot, unsigned int base);
-  void                (*mci_clk_enable)(struct mmc_device *dev);
-  void                (*mci_clk_disable)(struct mmc_device *dev);
-} MMC_PLATFORM_CALLBACK_API;
-
 #endif

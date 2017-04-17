@@ -7,7 +7,7 @@
 static unsigned mmc_sdc_base[] =
     { MSM_SDC1_BASE, MSM_SDC2_BASE, MSM_SDC3_BASE, MSM_SDC4_BASE };
 
-VOID LibQcomTargetMmcInit(MMC_PLATFORM_CALLBACK_API *Callback)
+VOID LibQcomTargetMmcInit(INIT_SLOT_CB InitSlot)
 {
   unsigned base_addr;
   unsigned char slot;
@@ -15,11 +15,11 @@ VOID LibQcomTargetMmcInit(MMC_PLATFORM_CALLBACK_API *Callback)
   /* Trying Slot 1 first */
   slot = 1;
   base_addr = mmc_sdc_base[slot - 1];
-  if (Callback->init_slot(slot, base_addr) == NULL) {
+  if (InitSlot(slot, base_addr) == NULL) {
     /* Trying Slot 3 next */
     slot = 3;
     base_addr = mmc_sdc_base[slot - 1];
-    if (Callback->init_slot(slot, base_addr) == NULL) {
+    if (InitSlot(slot, base_addr) == NULL) {
       DEBUG((EFI_D_ERROR, "mmc init failed!"));
     }
   }

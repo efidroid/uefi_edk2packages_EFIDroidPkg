@@ -37,7 +37,6 @@ typedef struct {
 } BIO_INSTANCE;
 
 extern QCOM_BAM_PROTOCOL *mBam;
-extern MMC_PLATFORM_CALLBACK_API mPlatformCallbackApi;
 
 #define BIO_INSTANCE_SIGNATURE  SIGNATURE_32('e', 'm', 'm', 'c')
 

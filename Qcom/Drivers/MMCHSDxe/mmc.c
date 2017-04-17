@@ -1283,9 +1283,15 @@ static uint32_t mmc_set_hs200_mode(struct mmc_device *dev)
 	struct mmc_host *host = &dev->host;
 	struct mmc_card *card = &dev->card;
 
+	/* Disable MCI_CLK before changing the sdcc clock */
+	mmc_boot_mci_clk_disable(dev);
+
 	/* Set Clock @ 100 MHZ */
-	LibQcomPlatformMmcClockConfig(dev, &mPlatformCallbackApi, dev->slot, host->caps.hs_clk_rate);
+	LibQcomPlatformMmcClockConfig(dev->slot, host->caps.hs_clk_rate);
 	host->mclk_rate = host->caps.hs_clk_rate;
+
+	/* Enable MCI clk */
+	mmc_boot_mci_clk_enable(dev);
 
 	/* Set 4/8 bit SDR bus width */
 	mmc_ret = mmc_boot_set_bus_width(host, card, host->caps.bus_width);
@@ -1346,9 +1352,15 @@ static uint32_t mmc_set_ddr_mode(struct mmc_device *dev)
 		return mmc_ret;
 	}
 
+	/* Disable MCI_CLK before changing the sdcc clock */
+	mmc_boot_mci_clk_disable(dev);
+
 	/* Bump up the clock frequency */
-	LibQcomPlatformMmcClockConfig(dev, &mPlatformCallbackApi, dev->slot, host->caps.hs_clk_rate);
+	LibQcomPlatformMmcClockConfig(dev->slot, host->caps.hs_clk_rate);
 	host->mclk_rate = host->caps.hs_clk_rate;
+
+	/* Enable MCI clk */
+	mmc_boot_mci_clk_enable(dev);
 
 	/* Select DDR mode in mci register */
 	mmc_reg = readl(MMC_BOOT_MCI_CLK);
@@ -1658,7 +1670,13 @@ mmc_boot_adjust_interface_speed(struct mmc_device *dev)
 		return mmc_ret;
 	}
 
-	LibQcomPlatformMmcClockConfig(dev, &mPlatformCallbackApi, dev->slot, MMC_CLK_50MHZ);
+	/* Disable MCI_CLK before changing the sdcc clock */
+	mmc_boot_mci_clk_disable(dev);
+
+	LibQcomPlatformMmcClockConfig(dev->slot, MMC_CLK_50MHZ);
+
+	/* Enable MCI clk */
+	mmc_boot_mci_clk_enable(dev);
 
 	host->mclk_rate = MMC_CLK_50MHZ;
 
@@ -1884,13 +1902,19 @@ static unsigned int mmc_boot_init(struct mmc_device *dev)
 	mmc_mclk_reg_wr_delay(host);
 
 	/* Initialize any clocks needed for SDC controller */
-	LibQcomPlatformMmcClockInit(dev, &mPlatformCallbackApi, dev->slot);
+	LibQcomPlatformMmcClockInit(dev->slot);
 
 	/* Save the verison on the mmc controller. */
 	host->mmc_cont_version = readl(MMC_BOOT_MCI_VERSION);
 
+	/* Disable MCI_CLK before changing the sdcc clock */
+	mmc_boot_mci_clk_disable(dev);
+
 	/* Setup initial freq to 400KHz */
-	LibQcomPlatformMmcClockConfig(dev, &mPlatformCallbackApi, dev->slot, MMC_CLK_400KHZ);
+	LibQcomPlatformMmcClockConfig(dev->slot, MMC_CLK_400KHZ);
+
+	/* Enable MCI clk */
+	mmc_boot_mci_clk_enable(dev);
 
 	host->mclk_rate = MMC_CLK_400KHZ;
 
@@ -2222,7 +2246,13 @@ mmc_boot_set_sd_hs(struct mmc_device *dev)
 		return mmc_ret;
 	}
 
-	LibQcomPlatformMmcClockConfig(dev, &mPlatformCallbackApi, dev->slot, MMC_CLK_50MHZ);
+	/* Disable MCI_CLK before changing the sdcc clock */
+	mmc_boot_mci_clk_disable(dev);
+
+	LibQcomPlatformMmcClockConfig(dev->slot, MMC_CLK_50MHZ);
+
+	/* Enable MCI clk */
+	mmc_boot_mci_clk_enable(dev);
 
 	host->mclk_rate = MMC_CLK_50MHZ;
 
