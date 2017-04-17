@@ -72,6 +72,7 @@ typedef UINTN paddr_t;
 
 #define ROUNDUP(a, b) (((a) + ((b)-1)) & ~((b)-1))
 #define CACHE_LINE (ArmDataCacheLineLength())
+#define IS_CACHE_LINE_ALIGNED(addr)  !((UINTN) (addr) & (CACHE_LINE - 1))
 
 #define snprintf(s, n, fmt, ...) ((int)AsciiSPrint((s), (n), (fmt), ##__VA_ARGS__))
 
