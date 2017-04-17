@@ -29,6 +29,7 @@
 #include <Library/LKEnvLib.h>
 #include <Library/QcomPm8x41Lib.h>
 #include <Library/QcomQpnpWledLib.h>
+#include <Library/MallocLib.h>
 
 #include "qpnp_wled_p.h"
 

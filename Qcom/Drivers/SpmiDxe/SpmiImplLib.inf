@@ -17,6 +17,9 @@
   EFIDroidPkg/EFIDroidPkg.dec
   EFIDroidPkg/Qcom/Qcom.dec
 
+[LibraryClasses]
+  MallocLib
+
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdSpmiMaxPeripherals
   gQcomTokenSpaceGuid.PcdSpmiBaseAddress

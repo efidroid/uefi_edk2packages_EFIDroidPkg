@@ -23,6 +23,7 @@
   Pm8x41Lib
   TimerLib
   MemoryAllocationLib
+  MallocLib
 
 [Protocols]
   gQcomQpnpWledProtocolGuid

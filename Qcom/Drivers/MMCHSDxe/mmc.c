@@ -29,6 +29,7 @@
 #include <Library/LKEnvLib.h>
 #include <Library/QcomPlatformMmcLib.h>
 #include <Library/QcomTargetMmcLib.h>
+#include <Library/MallocLib.h>
 #include <Chipset/mmc.h>
 #include <Chipset/bam.h>
 

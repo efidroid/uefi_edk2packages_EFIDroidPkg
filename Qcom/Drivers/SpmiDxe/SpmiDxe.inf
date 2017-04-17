@@ -22,6 +22,7 @@
   UefiDriverEntryPoint
   IoLib
   MemoryAllocationLib
+  MallocLib
 
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdSpmiMaxPeripherals

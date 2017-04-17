@@ -28,6 +28,7 @@
   CacheMaintenanceLib
   SmemLib
   TimerLib
+  MallocLib
 
 [Protocols]
   gQcomRpmProtocolGuid

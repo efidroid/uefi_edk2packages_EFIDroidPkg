@@ -6,7 +6,6 @@
 #include <Library/PrintLib.h>
 #include <Library/DebugLib.h>
 #include <Library/BaseMemoryLib.h>
-#include <Library/MemoryAllocationLib.h>
 #include <Library/TimerLib.h>
 #include <Library/CacheMaintenanceLib.h>
 #include <Library/ArmLib.h>
@@ -72,9 +71,6 @@ typedef UINTN paddr_t;
 #define __PACKED __attribute__((packed))
 
 #define ROUNDUP(a, b) (((a) + ((b)-1)) & ~((b)-1))
-#define malloc AllocatePool
-#define calloc(num, sz) AllocateZeroPool ((num) * (sz))
-#define free(p) do {if((p))FreePool((p));} while(0)
 #define CACHE_LINE (ArmDataCacheLineLength())
 
 #define snprintf(s, n, fmt, ...) ((int)AsciiSPrint((s), (n), (fmt), ##__VA_ARGS__))

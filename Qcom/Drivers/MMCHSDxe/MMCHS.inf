@@ -25,6 +25,7 @@
   QcomPlatformMmcLib
   QcomTargetMmcLib
   ArmLib
+  MallocLib
 
 [Protocols]
   gEfiBlockIoProtocolGuid

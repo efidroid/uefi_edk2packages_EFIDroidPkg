@@ -27,6 +27,7 @@
  */
 
 #include <Library/LKEnvLib.h>
+#include <Library/MallocLib.h>
 #include <Protocol/QcomSpmi.h>
 
 #include "spmi_p.h"

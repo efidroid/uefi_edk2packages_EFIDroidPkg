@@ -28,6 +28,7 @@
  */
 
 #include <Library/LKEnvLib.h>
+#include <Library/MallocLib.h>
 #include <Protocol/QcomRpm.h>
 
 #include "smd.h"
