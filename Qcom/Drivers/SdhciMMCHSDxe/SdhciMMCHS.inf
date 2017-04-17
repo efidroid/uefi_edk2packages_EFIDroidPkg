@@ -37,6 +37,9 @@
   gEfiBlockIoProtocolGuid
   gEfiDevicePathProtocolGuid
 
+[FeaturePcd]
+  gQcomTokenSpaceGuid.PcdMmcHs200Caps
+
 [Pcd.common]
   gQcomTokenSpaceGuid.PcdSdccMciHcMode
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlStatusReg

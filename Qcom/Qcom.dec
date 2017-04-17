@@ -121,3 +121,4 @@
 [PcdsFeatureFlag.common]
   gQcomTokenSpaceGuid.PcdMmcAdmSupport|FALSE|BOOLEAN|0x00010001
   gQcomTokenSpaceGuid.PcdMmcBamSupport|FALSE|BOOLEAN|0x00010002
+  gQcomTokenSpaceGuid.PcdMmcHs200Caps|FALSE|BOOLEAN|0x00010003
