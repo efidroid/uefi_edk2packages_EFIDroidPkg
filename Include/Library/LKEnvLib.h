@@ -65,6 +65,7 @@ typedef UINTN paddr_t;
 #define memset(s, c, n) SetMem((s), (UINTN)(n), (UINT8)(c))
 #define memcpy(s1, s2, n) CopyMem((s1), (s2), (n))
 #define memmove(s1, s2, n) CopyMem((s1), (s2), (n))
+#define memcmp(s1, s2, n) ((int)CompareMem((s1), (s2), (n)))
 
 #define va_list VA_LIST
 #define offsetof(type, member) OFFSET_OF (type, member)
