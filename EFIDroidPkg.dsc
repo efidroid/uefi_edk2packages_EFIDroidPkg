@@ -34,7 +34,6 @@
   # -D FLAG=VALUE
   #
   DEFINE SECURE_BOOT_ENABLE      = FALSE
-  DEFINE PURE_ACPI_BOOT_ENABLE   = FALSE
 
   DEFINE FVMAIN_COMPRESSION_METHOD = LZMA
 
@@ -84,10 +83,6 @@
   #  It could be set FALSE to save size.
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutGopSupport|TRUE
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutUgaSupport|FALSE
-
-!if $(PURE_ACPI_BOOT_ENABLE) == TRUE
-  gArmVirtTokenSpaceGuid.PcdPureAcpiBoot|TRUE
-!endif
 
 [PcdsFixedAtBuild.common]
   gArmPlatformTokenSpaceGuid.PcdCoreCount|1
