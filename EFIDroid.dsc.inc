@@ -99,6 +99,7 @@
   LcmLib|EFIDroidPkg/Library/LcmLib/LcmLib.inf
   StrLib|EFIDroidPkg/Library/StrLib/StrLib.inf
   KeypadDeviceHelperLib|EFIDroidPkg/Library/KeypadDeviceHelperLib/KeypadDeviceHelperLib.inf
+  MallocLib|EFIDroidPkg/Library/MallocLib/MallocLib.inf
 
   #
   # Uncomment (and comment out the next line) For RealView Debugger. The Standard IO window
