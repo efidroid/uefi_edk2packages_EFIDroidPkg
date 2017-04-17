@@ -163,7 +163,7 @@ void smd_uninit(smd_channel_info_t *ch)
 	EFI_STATUS Status;
 	UINTN      Index;
 
-	Status = gBS->CreateEvent(0, 0, NULL, NULL, smd_closed);
+	Status = gBS->CreateEvent(0, 0, NULL, NULL, &smd_closed);
 	ASSERT_EFI_ERROR(Status);
 
 	smd_set_state(ch, SMD_SS_CLOSING, 1);
