@@ -43,6 +43,7 @@
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlMaskReg
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlClearReg
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlCtlReg
+  gQcomTokenSpaceGuid.PcdMmcSdhciDdrCfgVal
 
 [Depex]
   TRUE

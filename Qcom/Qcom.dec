@@ -115,6 +115,7 @@
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlMaskReg|0|UINT64|0x0000003c
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlClearReg|0|UINT64|0x0000003d
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlCtlReg|0|UINT64|0x0000003e
+  gQcomTokenSpaceGuid.PcdMmcSdhciDdrCfgVal|0x80040853|UINT64|0x0000003f # DDR_CONFIG_VAL
 
 
 [PcdsFeatureFlag.common]
