@@ -27,6 +27,7 @@
  *
  */
 #include <Library/LKEnvLib.h>
+#include <Library/MallocLib.h>
 #include <Chipset/msm_panel.h>
 #include <Platform/clock.h>
 #include <Chipset/mdp5.h>
@@ -520,7 +521,7 @@ static void mdss_hdmi_audio_playback(void)
 	char *base_addr;
 	uint32_t sample_rate;
 
-	base_addr = (char *) AllocateAlignedPages(EFI_SIZE_TO_PAGES(0x1000), 4096);
+	base_addr = (char *) memalign(4096, 0x1000);
 	if (base_addr == NULL) {
 		dprintf(CRITICAL, "%s: Error audio buffer alloc\n", __func__);
 		return;

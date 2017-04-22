@@ -37,3 +37,4 @@
   ArmLib
   ClockLib
   CacheMaintenanceLib
+  MallocLib
