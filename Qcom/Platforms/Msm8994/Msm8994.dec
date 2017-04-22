@@ -6,3 +6,9 @@
 
 [Includes.common]
   Include
+
+[Guids.common]
+  gQcomMsm8994TokenSpaceGuid = { 0x546a85e3, 0x0bb1, 0x4240, { 0xb5, 0x36, 0x0b, 0xe9, 0x88, 0x7f, 0x17, 0x67 } }
+
+[PcdsFeatureFlag.common]
+  gQcomMsm8994TokenSpaceGuid.PcdDisplayEnable20nmPll90Phase|FALSE|BOOLEAN|0x00010000

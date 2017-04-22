@@ -213,23 +213,22 @@ static uint32_t calculate_vco_28nm(uint8_t bpp, uint8_t num_of_lanes)
 	return NO_ERROR;
 }
 
-#ifndef DISPLAY_EN_20NM_PLL_90_PHASE
+
 static void config_20nm_pll_vco_range(void)
 {
-	pll_data.vco_min = 300000000;
-	pll_data.vco_max = 1500000000;
-	pll_data.en_vco_zero_phase = 1;
-	dprintf(SPEW, "%s: Configured VCO for zero phase\n", __func__);
+	if (FeaturePcdGet(PcdDisplayEnable20nmPll90Phase)) {
+		pll_data.vco_min = 1000000000;
+		pll_data.vco_max = 2000000000;
+		pll_data.en_vco_zero_phase = 0;
+		dprintf(SPEW, "%s: Configured VCO for 90 phase\n", __func__);
+	}
+	else {
+		pll_data.vco_min = 300000000;
+		pll_data.vco_max = 1500000000;
+		pll_data.en_vco_zero_phase = 1;
+		dprintf(SPEW, "%s: Configured VCO for zero phase\n", __func__);
+	}
 }
-#else
-static void config_20nm_pll_vco_range(void)
-{
-	pll_data.vco_min = 1000000000;
-	pll_data.vco_max = 2000000000;
-	pll_data.en_vco_zero_phase = 0;
-	dprintf(SPEW, "%s: Configured VCO for 90 phase\n", __func__);
-}
-#endif
 
 static uint32_t calculate_vco_20nm(uint8_t bpp, uint8_t lanes)
 {

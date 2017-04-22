@@ -89,6 +89,8 @@
   # without this, the memory speed is very slow
   gArmTokenSpaceGuid.PcdNormalMemoryNonshareableOverride|TRUE
 
+  gQcomMsm8994TokenSpaceGuid.PcdDisplayEnable20nmPll90Phase|TRUE
+
 [PcdsFixedAtBuild.common]
   gArmTokenSpaceGuid.PcdGicDistributorBase|0xF9000000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0xF9002000

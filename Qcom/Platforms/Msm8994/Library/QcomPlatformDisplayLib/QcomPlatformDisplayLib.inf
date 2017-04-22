@@ -38,3 +38,6 @@
   ClockLib
   CacheMaintenanceLib
   MallocLib
+
+[FeaturePcd]
+  gQcomMsm8994TokenSpaceGuid.PcdDisplayEnable20nmPll90Phase
