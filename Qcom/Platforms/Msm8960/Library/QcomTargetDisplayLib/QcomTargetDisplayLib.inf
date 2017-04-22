@@ -34,3 +34,4 @@
   Pm8921Lib
   TimerLib
   QcomPlatformDisplayLib
+  MallocLib

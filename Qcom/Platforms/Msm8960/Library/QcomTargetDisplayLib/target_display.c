@@ -27,6 +27,7 @@
  *
  */
 #include <Library/LKEnvLib.h>
+#include <Library/MallocLib.h>
 #include <Chipset/msm_panel.h>
 #include <Protocol/QcomPm8921.h>
 #include <Protocol/QcomBoard.h>
@@ -333,7 +334,7 @@ void target_display_init(void)
 		panel.fb.bpp     = panel.panel_info.bpp;
 		panel.fb.format  = FB_FORMAT_RGB565;
 		panel.mdp_rev    = MDP_REV_44;
-		panel.fb.base    = (void *) AllocateAlignedPages(EFI_SIZE_TO_PAGES(panel.fb.width * panel.fb.height * (panel.fb.bpp / 8)), 4096);
+		panel.fb.base    = (void *) memalign(4096, panel.fb.width * panel.fb.height * (panel.fb.bpp / 8));
 
 		hdmi_set_fb_addr(panel.fb.base);
 		break;

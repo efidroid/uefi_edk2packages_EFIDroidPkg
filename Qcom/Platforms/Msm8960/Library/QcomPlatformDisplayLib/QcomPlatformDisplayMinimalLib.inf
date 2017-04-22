@@ -25,3 +25,4 @@
   TimerLib
   ArmLib
   CacheMaintenanceLib
+  MallocLib
