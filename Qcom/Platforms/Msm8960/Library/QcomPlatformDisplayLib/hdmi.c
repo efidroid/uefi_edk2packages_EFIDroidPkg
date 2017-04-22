@@ -91,7 +91,7 @@ void hdmi_msm_set_mode(int on)
 	}
 }
 
-struct hdmi_disp_mode_timing_type *hdmi_common_init_panel_info()
+struct hdmi_disp_mode_timing_type *hdmi_common_init_panel_info(void)
 {
 	return &hdmi_timing_default;
 }
