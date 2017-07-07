@@ -171,11 +171,11 @@ int pm8921_gpio_config(int gpio, struct pm8921_gpio *param)
 int pm8921_gpio_config_array(struct pm8xxx_gpio_init *gpio_array, unsigned int num)
 {
 	int i;
-	int ret;
+	int ret = 0;
 
 	for (i = 0; i < num; i++) {
 		if (pm8921_gpio_config(gpio_array[i].gpio, &(gpio_array[i].config)))
-		ret = -1;
+			ret = -1;
 	}
 
 	return ret;
