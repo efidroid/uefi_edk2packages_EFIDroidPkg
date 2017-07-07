@@ -32,7 +32,7 @@ STATIC inline INTN AtomicAnd(volatile INTN *Address, INTN Value) {
 
   OriginalTPL = gBS->RaiseTPL (TPL_HIGH_LEVEL);
   OldValue = *Address;
-  *Address |= Value;
+  *Address &= Value;
   gBS->RestoreTPL (OriginalTPL);
 
   return OldValue;
@@ -44,7 +44,7 @@ STATIC inline INTN AtomicOr(volatile INTN *Address, INTN Value) {
 
   OriginalTPL = gBS->RaiseTPL (TPL_HIGH_LEVEL);
   OldValue = *Address;
-  *Address &= Value;
+  *Address |= Value;
   gBS->RestoreTPL (OriginalTPL);
 
   return OldValue;
