@@ -60,14 +60,14 @@ INTN mask_interrupt(UINTN Vector)
 {
   EFI_STATUS Status = mInterrupt->DisableInterruptSource (mInterrupt, Vector);
   ASSERT_EFI_ERROR (Status);
-  return 0;
+  return Status==EFI_SUCCESS?0:-1;
 }
 
 INTN unmask_interrupt(UINTN Vector)
 {
   EFI_STATUS Status = mInterrupt->EnableInterruptSource (mInterrupt, Vector);
   ASSERT_EFI_ERROR (Status);
-  return 0;
+  return Status==EFI_SUCCESS?0:-1;
 }
 
 VOID register_int_handler(UINTN Vector, int_handler Handler, VOID *Arg)
