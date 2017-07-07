@@ -1,10 +1,11 @@
 #include <PiDxe.h>
 
-#include <Library/LKEnvLib.h>
-#include <Library/BaseLib.h>
-#include <Library/IoLib.h>
-#include <Library/EfiResetSystemLib.h>
+#include <Library/DebugLib.h>
+#include <Library/ResetSystemLib.h>
 #include <Library/UefiBootServicesTableLib.h>
+
+#include <Library/LKEnvLib.h>
+#include <Library/IoLib.h>
 #include <Library/dload_util.h>
 #include <Library/PlatformIdLib.h>
 #include <Protocol/QcomPm8x41.h>
@@ -51,40 +52,56 @@ STATIC VOID reboot_device(UINTN reboot_reason)
   DEBUG((EFI_D_ERROR, "Rebooting failed\n"));
 }
 
-EFI_STATUS
+VOID
 EFIAPI
-LibResetSystem (
-  IN EFI_RESET_TYPE   ResetType,
-  IN EFI_STATUS       ResetStatus,
-  IN UINTN            DataSize,
-  IN CHAR16           *ResetData OPTIONAL
+ResetCold (
+  VOID
   )
 {
-  switch (ResetType) {
-  case EfiResetCold:
-    reboot_device(0);
-    break;
-
-  case EfiResetWarm:
-    reboot_device(0);
-    break;
-
-  case EfiResetShutdown:
-    shutdown_device();
-    break;
-
-  default:
-    return EFI_INVALID_PARAMETER;
-  }
-
-  return EFI_DEVICE_ERROR;
+  reboot_device(0);
 }
 
-EFI_STATUS
+VOID
 EFIAPI
-LibInitializeResetSystem (
-  IN EFI_HANDLE        ImageHandle,
-  IN EFI_SYSTEM_TABLE  *SystemTable
+ResetWarm (
+  VOID
+  )
+{
+  ResetCold ();
+}
+
+VOID
+EFIAPI
+ResetShutdown (
+  VOID
+  )
+{
+  shutdown_device();
+}
+
+VOID
+EFIAPI
+EnterS3WithImmediateWake (
+  VOID
+  )
+{
+  // not implemented
+}
+
+VOID
+EFIAPI
+ResetPlatformSpecific (
+  IN UINTN   DataSize,
+  IN VOID    *ResetData
+  )
+{
+  ResetCold ();
+}
+
+RETURN_STATUS
+EFIAPI
+ResetLibConstructor (
+  VOID
   )
 {
   EFI_STATUS Status;

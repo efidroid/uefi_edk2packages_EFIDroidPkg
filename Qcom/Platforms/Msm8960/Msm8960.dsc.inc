@@ -1,7 +1,7 @@
 !include EFIDroidPkg/Qcom/Library/UartDmSerialPortLib/UartDmSerialConfigNormal.dsc.inc
 
 [LibraryClasses.common]
-  EfiResetSystemLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/ResetSystemLib/ResetSystemLib.inf
+  ResetSystemLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/ResetSystemLib/ResetSystemLib.inf
   TimerLib|EFIDroidPkg/Qcom/Library/GPTTimerLib/GPTTimerLib.inf
 
   # platform

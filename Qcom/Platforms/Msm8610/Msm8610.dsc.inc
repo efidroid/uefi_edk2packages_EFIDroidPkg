@@ -1,7 +1,7 @@
 !include EFIDroidPkg/Qcom/Library/UartDmSerialPortLib/UartDmSerialConfigBlkBlsp.dsc.inc
 
 [LibraryClasses.common]
-  EfiResetSystemLib|EFIDroidPkg/Qcom/Platforms/Msm8610/Library/ResetSystemLib/ResetSystemLib.inf
+  ResetSystemLib|EFIDroidPkg/Qcom/Platforms/Msm8610/Library/ResetSystemLib/ResetSystemLib.inf
   TimerLib|EFIDroidPkg/Qcom/Library/QTimerLib/QTimerLib.inf
 
   # platform
