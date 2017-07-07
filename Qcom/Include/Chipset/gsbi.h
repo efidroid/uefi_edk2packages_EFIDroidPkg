@@ -53,6 +53,7 @@ enum {
 	GSBI_ID_10,
 	GSBI_ID_11,
 	GSBI_ID_12,
+	GSBI_ID_MAX,
 };
 
 #endif
