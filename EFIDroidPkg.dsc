@@ -80,9 +80,7 @@
 
 [PcdsFixedAtBuild.common]
   gArmPlatformTokenSpaceGuid.PcdCoreCount|1
-!if $(ARCH) == AARCH64
   gArmTokenSpaceGuid.PcdVFPEnabled|1
-!endif
 
   gArmPlatformTokenSpaceGuid.PcdCPUCoresStackBase|0x4007c000
   gArmPlatformTokenSpaceGuid.PcdCPUCorePrimaryStackSize|0x4000
