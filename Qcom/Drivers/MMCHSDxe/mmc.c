@@ -2513,6 +2513,7 @@ mmc_boot_read_reg(struct mmc_device *dev,
 	unsigned int mmc_reg = 0;
 	struct mmc_host *host = &dev->host;
 	struct mmc_card *card = &dev->card;
+	(void)(card);
 
 	/* Set the FLOW_ENA bit of MCI_CLK register to 1 */
 	mmc_reg = readl(MMC_BOOT_MCI_CLK);
