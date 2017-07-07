@@ -26,6 +26,8 @@
   QcomTargetMmcLib
   ArmLib
   MallocLib
+  IoLib
+  TimerLib
 
 [Protocols]
   gEfiBlockIoProtocolGuid
