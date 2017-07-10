@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright 2001, Travis Geiselbrecht. All rights reserved.
 ** Distributed under the terms of the NewOS License.
 */
@@ -30,8 +30,8 @@
 CHAR8 *
 strchr(CONST CHAR8 *s, INTN c)
 {
-	for(; *s != (CHAR8) c; ++s)
-		if (*s == '\0')
-			return NULL;
-	return (CHAR8 *) s;
+    for (; *s != (CHAR8) c; ++s)
+        if (*s == '\0')
+            return NULL;
+    return (CHAR8 *) s;
 }

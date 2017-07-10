@@ -1,5 +1,5 @@
-/*  $NetBSD: strlcat.c,v 1.3 2007/06/04 18:19:27 christos Exp $ */
-/*  $OpenBSD: strlcat.c,v 1.10 2003/04/12 21:56:39 millert Exp $  */
+/*	$NetBSD: strlcat.c,v 1.4 2013/01/23 07:57:27 matt Exp $	*/
+/*	$OpenBSD: strlcat.c,v 1.10 2003/04/12 21:56:39 millert Exp $	*/
 
 /*
  * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -32,30 +32,30 @@
 UINTN
 strlcat(CHAR8 *dst, CONST CHAR8 *src, UINTN siz)
 {
-  CHAR8 *d = dst;
-  CONST CHAR8 *s = src;
-  UINTN n = siz;
-  UINTN dlen;
+	CHAR8 *d = dst;
+	CONST CHAR8 *s = src;
+	UINTN n = siz;
+	UINTN dlen;
 
-  ASSERT(dst != NULL);
-  ASSERT(src != NULL);
+	ASSERT(dst != NULL);
+	ASSERT(src != NULL);
 
-  /* Find the end of dst and adjust bytes left but don't go past end */
-  while (n-- != 0 && *d != '\0')
-    d++;
-  dlen = d - dst;
-  n = siz - dlen;
+	/* Find the end of dst and adjust bytes left but don't go past end */
+	while (n-- != 0 && *d != '\0')
+		d++;
+	dlen = d - dst;
+	n = siz - dlen;
 
-  if (n == 0)
-    return(dlen + AsciiStrLen(s));
-  while (*s != '\0') {
-    if (n != 1) {
-      *d++ = *s;
-      n--;
-    }
-    s++;
-  }
-  *d = '\0';
+	if (n == 0)
+		return(dlen + AsciiStrLen(s));
+	while (*s != '\0') {
+		if (n != 1) {
+			*d++ = *s;
+			n--;
+		}
+		s++;
+	}
+	*d = '\0';
 
-  return(dlen + (s - src)); /* count does not include NUL */
+	return(dlen + (s - src));	/* count does not include NUL */
 }
