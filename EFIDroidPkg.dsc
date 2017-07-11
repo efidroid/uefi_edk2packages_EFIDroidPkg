@@ -243,6 +243,21 @@
   MdeModulePkg/Universal/FvSimpleFileSystemDxe/FvSimpleFileSystemDxe.inf
 
   #
+  # Thread support
+  #
+  EFIDroidLKLPkg/UEFIThreads/UEFIThreads.inf
+
+  #
+  # LKL support
+  #
+  # this has to be done by EFIDroidDevicePkg, so device-specific LibraryClasses can be added
+
+  #
+  # LKL filesystem
+  #
+  EFIDroidLKLPkg/LKLFS/LKLFS.inf
+
+  #
   # Bds
   #
   MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf

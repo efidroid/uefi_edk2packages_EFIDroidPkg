@@ -110,6 +110,21 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/FvSimpleFileSystemDxe/FvSimpleFileSystemDxe.inf
 
   #
+  # Thread support
+  #
+  INF EFIDroidLKLPkg/UEFIThreads/UEFIThreads.inf
+
+  #
+  # LKL support
+  #
+  INF EFIDroidLKLPkg/LKL/LKL.inf
+
+  #
+  # LKL filesystem
+  #
+  INF EFIDroidLKLPkg/LKLFS/LKLFS.inf
+
+  #
   # Platform Driver
   #
   INF EFIDroidPkg/Drivers/FdtClientDxe/FdtClientDxe.inf
