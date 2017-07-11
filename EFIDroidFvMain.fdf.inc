@@ -160,26 +160,3 @@ READ_LOCK_STATUS   = TRUE
   FILE FV_IMAGE = 66A648D0-9913-4331-AEBF-C06E783384AE {
     SECTION FV_IMAGE = FvMainDevice
   }
-
-  #
-  # UEFI ramdisk
-  #
-  FILE FREEFORM = PCD(gEFIDroidTokenSpaceGuid.PcdUEFIRamdisk) {
-    SECTION RAW = $(EFIDROID_UEFIRD)
-  }
-
-  #
-  # EFIDroidUi
-  #
-  FILE APPLICATION = 1db8bf12-1b3d-4d8d-99e8-23309e10d5ee {
-    SECTION PE32 = Build/uefiapp_EFIDroidUi/$(TARGET)_$(TOOL_CHAIN_TAG)/$(ARCH)/EFIDroidUi.efi
-    SECTION UI   = "EFIDroidUi"
-  }
-
-  #
-  # LKL
-  #
-  FILE DRIVER = 21db9c99-120a-4c7a-a0bb-7ec6b5f3b49b {
-    SECTION PE32 = Build/uefiapp_LKL/$(TARGET)_$(TOOL_CHAIN_TAG)/$(ARCH)/LKL.efi
-    SECTION UI   = "LKL"
-  }
