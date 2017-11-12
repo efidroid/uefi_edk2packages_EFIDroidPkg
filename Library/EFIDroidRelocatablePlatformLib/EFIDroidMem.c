@@ -111,15 +111,31 @@ ArmPlatformGetVirtualMemoryMap (
   Fdt = (VOID*)(UINTN)PcdGet64 (PcdDeviceTreeInitialBaseAddress);
   if (Fdt != NULL && fdt_check_header (Fdt) == 0) {
     INT32         MemoryNode;
+    INT32         RootNode;
     INT32         Offset;
     INT32         AddressCells = 1;
     INT32         SizeCells = 1;
     INT32         Length;
     CONST INT32   *Prop;
 
+    RootNode = fdt_path_offset (Fdt, "/");
+    if (RootNode < 0) {
+      goto END_OF_TABLE;
+    }
+
     MemoryNode = fdt_path_offset (Fdt, "/memory");
     if (MemoryNode <= 0) {
       goto END_OF_TABLE;
+    }
+
+    Prop = fdt_getprop (Fdt, RootNode, "#address-cells", &Length);
+    if (Length == 4) {
+      AddressCells = fdt32_to_cpu (*Prop);
+    }
+
+    Prop = fdt_getprop (Fdt, RootNode, "#size-cells", &Length);
+    if (Length == 4) {
+      SizeCells = fdt32_to_cpu (*Prop);
     }
 
     Prop = fdt_getprop (Fdt, MemoryNode, "#address-cells", &Length);
