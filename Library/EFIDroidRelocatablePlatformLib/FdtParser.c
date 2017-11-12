@@ -22,14 +22,27 @@ FindMemnodeFdt (
   )
 {
   INT32         MemoryNode;
+  INT32         RootNode;
+  INT32         ReservedMemoryNode;
   INT32         AddressCells;
   INT32         SizeCells;
+  INT32         AddressCellsRoot;
+  INT32         SizeCellsRoot;
   INT32         Length;
   UINTN         NumMemoryRanges;
   UINTN         Index;
   CONST INT32   *Prop;
+  UINT64        HighestNoMap;
 
   if (fdt_check_header (DeviceTreeBlob) != 0) {
+    return FALSE;
+  }
+
+  //
+  // Look for the root node
+  //
+  RootNode = fdt_path_offset (DeviceTreeBlob, "/");
+  if (RootNode < 0) {
     return FALSE;
   }
 
@@ -43,10 +56,24 @@ FindMemnodeFdt (
 
   //
   // Retrieve the #address-cells and #size-cells properties
-  // from the root node, or use the default if not provided.
+  // from the memory or root node, or use the default if not provided.
   //
   AddressCells = 1;
   SizeCells = 1;
+  AddressCellsRoot = -1;
+  SizeCellsRoot = -1;
+
+  Prop = fdt_getprop (DeviceTreeBlob, RootNode, "#address-cells", &Length);
+  if (Length == 4) {
+    AddressCells = fdt32_to_cpu (*Prop);
+    AddressCellsRoot = AddressCells;
+  }
+
+  Prop = fdt_getprop (DeviceTreeBlob, RootNode, "#size-cells", &Length);
+  if (Length == 4) {
+    SizeCells = fdt32_to_cpu (*Prop);
+    SizeCellsRoot = SizeCells;
+  }
 
   Prop = fdt_getprop (DeviceTreeBlob, MemoryNode, "#address-cells", &Length);
   if (Length == 4) {
@@ -89,6 +116,67 @@ FindMemnodeFdt (
       *SystemMemoryBase = LocalBase;
       *SystemMemorySize = LocalSize;
     }
+  }
+
+  //
+  // no-map and no-map-fixup
+  //
+  HighestNoMap = 0;
+  AddressCells = (AddressCellsRoot == -1) ? 1 : AddressCellsRoot;
+  SizeCells = (SizeCellsRoot == -1) ? 1 : SizeCellsRoot;
+
+  ReservedMemoryNode = fdt_path_offset (DeviceTreeBlob, "/reserved-memory");
+  if (ReservedMemoryNode > 0) {
+    UINT64 LocalBase;
+    UINT64 LocalSize;
+    INT32 Offset;
+
+    Prop = fdt_getprop (DeviceTreeBlob, ReservedMemoryNode, "#address-cells", &Length);
+    if (Length == 4) {
+      AddressCells = fdt32_to_cpu (*Prop);
+    }
+
+    Prop = fdt_getprop (DeviceTreeBlob, ReservedMemoryNode, "#size-cells", &Length);
+    if (Length == 4) {
+      SizeCells = fdt32_to_cpu (*Prop);
+    }
+
+    for (Offset = fdt_first_subnode(DeviceTreeBlob, ReservedMemoryNode); Offset>=0; Offset = fdt_next_subnode(DeviceTreeBlob, Offset)) {
+      CONST INT32 *PropNoMap;
+      CONST INT32 *PropNoMapFixup;
+
+      PropNoMap = fdt_getprop (DeviceTreeBlob, Offset, "no-map", &Length);
+      PropNoMapFixup = fdt_getprop (DeviceTreeBlob, Offset, "no-map-fixup", &Length);
+      if ((PropNoMap == NULL) && (PropNoMapFixup == NULL)) {
+        continue;
+      }
+
+      Prop = fdt_getprop (DeviceTreeBlob, Offset, "reg", &Length);
+      if (Length != ((AddressCells + SizeCells) * sizeof (INT32))) {
+        continue;
+      }
+
+      LocalBase = fdt32_to_cpu (Prop[0]);
+      if (AddressCells > 1) {
+        LocalBase = (LocalBase << 32) | fdt32_to_cpu (Prop[1]);
+      }
+      Prop += AddressCells;
+
+      LocalSize = fdt32_to_cpu (Prop[0]);
+      if (SizeCells > 1) {
+        LocalSize = (LocalSize << 32) | fdt32_to_cpu (Prop[1]);
+      }
+      Prop += SizeCells;
+
+      if (HighestNoMap < LocalBase + LocalSize) {
+        HighestNoMap = LocalBase +LocalSize;
+      }
+    }
+  }
+
+  if (*SystemMemoryBase < HighestNoMap) {
+    *SystemMemorySize -= HighestNoMap - *SystemMemoryBase;
+    *SystemMemoryBase = HighestNoMap;
   }
 
   return TRUE;
