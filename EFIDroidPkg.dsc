@@ -166,6 +166,9 @@
 !if $(FVMAIN_COMPRESSION_METHOD) == BROTLI
       NULL|MdeModulePkg/Library/BrotliCustomDecompressLib/BrotliCustomDecompressLib.inf
 !endif
+!if $(FVMAIN_COMPRESSION_METHOD) == GZIP
+      NULL|MdeModulePkg/Library/GzipCustomDecompressLib/GzipCustomDecompressLib.inf
+!endif
       PrePiLib|EmbeddedPkg/Library/PrePiLib/PrePiLib.inf
       HobLib|EmbeddedPkg/Library/PrePiHobLib/PrePiHobLib.inf
       PrePiHobListPointerLib|ArmPlatformPkg/Library/PrePiHobListPointerLib/PrePiHobListPointerLib.inf

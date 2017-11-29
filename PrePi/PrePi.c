@@ -32,6 +32,8 @@
 #include "LzmaDecompress.h"
 #elif defined(FVMAIN_COMPRESSION_METHOD_BROTLI)
 #include "BrotliDecompress.h"
+#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
+#include "GzipDecompress.h"
 #endif
 
 EFI_STATUS
@@ -50,6 +52,12 @@ LzmaDecompressLibConstructor (
 EFI_STATUS
 EFIAPI
 BrotliDecompressLibConstructor (
+  VOID
+  );
+#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
+EFI_STATUS
+EFIAPI
+GzipDecompressLibConstructor (
   VOID
   );
 #endif
@@ -143,6 +151,8 @@ PrePiMain (
   LzmaDecompressLibConstructor ();
 #elif defined(FVMAIN_COMPRESSION_METHOD_BROTLI)
   BrotliDecompressLibConstructor ();
+#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
+  GzipDecompressLibConstructor ();
 #endif
 
   // Build HOBs to pass up our version of stuff the DXE Core needs to save space
@@ -156,6 +166,10 @@ PrePiMain (
     &gBrotliCustomDecompressGuid,
     BrotliGuidedSectionGetInfo,
     BrotliGuidedSectionExtraction
+#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
+    &gGzipCustomDecompressGuid,
+    GzipGuidedSectionGetInfo,
+    GzipGuidedSectionExtraction
 #endif
     );
 
