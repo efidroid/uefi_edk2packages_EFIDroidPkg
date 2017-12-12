@@ -44,6 +44,7 @@
   ArmMmuLib|ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
 
   ArmPlatformLib|EFIDroidPkg/Library/EFIDroidRelocatablePlatformLib/EFIDroidRelocatablePlatformLib.inf
+  EFIDroidMemInfoLib|EFIDroidPkg/Library/EFIDroidMemInfoLib/EFIDroidMemInfoLib.inf
 
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
   BootLogoLib|MdeModulePkg/Library/BootLogoLib/BootLogoLib.inf
