@@ -24,10 +24,6 @@
 // Number of Virtual Memory Map Descriptors
 #define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS          20
 
-// DDR attributes
-#define DDR_ATTRIBUTES_CACHED    ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK
-#define DDR_ATTRIBUTES_UNCACHED  ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED
-
 EFI_PHYSICAL_ADDRESS
 ArmGetPhysAddrTop (
   VOID
@@ -73,7 +69,7 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].PhysicalBase = PcdGet64 (PcdSystemMemoryBase);
   VirtualMemoryTable[Index].VirtualBase  = VirtualMemoryTable[Index].PhysicalBase;
   VirtualMemoryTable[Index].Length       = PcdGet64 (PcdSystemMemorySize);
-  VirtualMemoryTable[Index].Attributes   = DDR_ATTRIBUTES_CACHED;
+  VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK;
   IndexDram = Index++;
 
   DEBUG ((EFI_D_INFO, "%a: Dumping System DRAM Memory Map:\n"
@@ -105,7 +101,7 @@ ArmPlatformGetVirtualMemoryMap (
   VirtualMemoryTable[Index].PhysicalBase = PcdGet64 (PcdFdBaseAddress);
   VirtualMemoryTable[Index].VirtualBase  = VirtualMemoryTable[Index].PhysicalBase;
   VirtualMemoryTable[Index].Length       = FixedPcdGet32 (PcdFdSize);
-  VirtualMemoryTable[Index++].Attributes   = DDR_ATTRIBUTES_CACHED;
+  VirtualMemoryTable[Index++].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK;
 
   // Remap 'remove-completely' regions as device memory to prevent the hypervisor from rebooting the device
   Fdt = (VOID*)(UINTN)PcdGet64 (PcdDeviceTreeInitialBaseAddress);
