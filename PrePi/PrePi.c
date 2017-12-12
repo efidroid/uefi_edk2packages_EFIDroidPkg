@@ -36,31 +36,11 @@
 #include "GzipDecompress.h"
 #endif
 
-EFI_STATUS
+VOID
 EFIAPI
-ExtractGuidedSectionLibConstructor (
+ProcessLibraryConstructorList (
   VOID
   );
-
-#ifdef FVMAIN_COMPRESSION_METHOD_LZMA
-EFI_STATUS
-EFIAPI
-LzmaDecompressLibConstructor (
-  VOID
-  );
-#elif defined(FVMAIN_COMPRESSION_METHOD_BROTLI)
-EFI_STATUS
-EFIAPI
-BrotliDecompressLibConstructor (
-  VOID
-  );
-#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
-EFI_STATUS
-EFIAPI
-GzipDecompressLibConstructor (
-  VOID
-  );
-#endif
 
 EFI_STATUS
 GetPlatformPpi (
@@ -146,14 +126,7 @@ PrePiMain (
   PERF_START (NULL, "PEI", NULL, StartTimeStamp);
 
   // SEC phase needs to run library constructors by hand.
-  ExtractGuidedSectionLibConstructor ();
-#ifdef FVMAIN_COMPRESSION_METHOD_LZMA
-  LzmaDecompressLibConstructor ();
-#elif defined(FVMAIN_COMPRESSION_METHOD_BROTLI)
-  BrotliDecompressLibConstructor ();
-#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
-  GzipDecompressLibConstructor ();
-#endif
+  ProcessLibraryConstructorList ();
 
   // Build HOBs to pass up our version of stuff the DXE Core needs to save space
   BuildPeCoffLoaderHob ();
