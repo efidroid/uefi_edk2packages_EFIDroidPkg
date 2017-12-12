@@ -46,10 +46,10 @@ MicroSecondDelay (
   IN      UINTN                     MicroSeconds
   )
 {
-  volatile UINTN Count;
-  UINTN InitCount;
-  UINTN Timeout;
-  UINTN Ticks;
+  volatile UINT64 Count;
+  UINT64 InitCount;
+  UINT64 Timeout;
+  UINT64 Ticks;
 
   // calculate number of ticks we have to wait
   Ticks = ((UINT64) MicroSeconds * qtimer_get_frequency()) / 1000000;
