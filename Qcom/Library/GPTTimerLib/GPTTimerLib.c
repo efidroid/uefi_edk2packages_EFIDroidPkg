@@ -48,12 +48,12 @@ MicroSecondDelay (
   )
 {
   volatile UINTN Count;
-  UINTN InitCount;
-  UINTN Timeout;
-  UINTN Ticks;
+  UINT64 InitCount;
+  UINT64 Timeout;
+  UINT64 Ticks;
 
   // calculate number of ticks we have to wait
-  Ticks = (MicroSeconds * 33 + 1000 - 33) / 1000;
+  Ticks = ((UINT64)MicroSeconds * 33 + 1000 - 33) / 1000;
 
   // get current counter value
   Count = MmioRead32(GPT_COUNT_VAL);
