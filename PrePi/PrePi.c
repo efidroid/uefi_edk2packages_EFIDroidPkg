@@ -13,6 +13,7 @@
 **/
 
 #include <PiPei.h>
+#include <Pi/PiBootMode.h>
 
 #include <Library/PrePiLib.h>
 #include <Library/PrintLib.h>
@@ -92,7 +93,7 @@ PrePiMain (
   BuildCpuHob (PcdGet8 (PcdPrePiCpuMemorySize), PcdGet8 (PcdPrePiCpuIoSize));
 
   // Set the Boot Mode
-  SetBootMode (ArmPlatformGetBootMode ());
+  SetBootMode (BOOT_WITH_FULL_CONFIGURATION);
 
   // Initialize Platform HOBs (CpuHob and FvHob)
   Status = PlatformPeim ();
@@ -139,9 +140,6 @@ CEntryPoint (
   )
 {
   UINT64   StartTimeStamp;
-
-  // Initialize the platform specific controllers
-  ArmPlatformInitialize (MpId);
 
   // give the platform a chance to initialize the global counter
   TimerEarlyInit ();
