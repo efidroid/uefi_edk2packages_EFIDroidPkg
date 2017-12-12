@@ -85,6 +85,11 @@ READ_LOCK_STATUS   = TRUE
   INF MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
 
   #
+  # TimestampDxe
+  #
+  INF MdeModulePkg/Universal/TimestampDxe/TimestampDxe.inf
+
+  #
   # Multiple Console IO support
   #
   INF MdeModulePkg/Universal/Console/ConPlatformDxe/ConPlatformDxe.inf

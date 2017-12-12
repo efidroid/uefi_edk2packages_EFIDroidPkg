@@ -227,6 +227,11 @@
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
 
   #
+  # TimestampDxe
+  #
+  MdeModulePkg/Universal/TimestampDxe/TimestampDxe.inf
+
+  #
   # Platform Driver
   #
   EFIDroidPkg/Drivers/FdtClientDxe/FdtClientDxe.inf
