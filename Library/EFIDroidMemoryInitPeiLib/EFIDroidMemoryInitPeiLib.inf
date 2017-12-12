@@ -29,13 +29,14 @@
   EmbeddedPkg/EmbeddedPkg.dec
   ArmPkg/ArmPkg.dec
   ArmPlatformPkg/ArmPlatformPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
 
 [LibraryClasses]
   DebugLib
   HobLib
   ArmLib
   ArmMmuLib
-  ArmPlatformLib
+  EFIDroidMemInfoLib
   CacheMaintenanceLib
 
 [Guids]
