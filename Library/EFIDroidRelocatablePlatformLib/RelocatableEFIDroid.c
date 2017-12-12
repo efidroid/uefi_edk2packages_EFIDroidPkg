@@ -20,12 +20,6 @@
 #include <Library/DebugLib.h>
 #include <Pi/PiBootMode.h>
 
-VOID
-EFIAPI
-ArmWriteSctlr (
-  IN  UINT32   Value
-  );
-
 /**
   Return the current Boot Mode
 
@@ -55,11 +49,6 @@ ArmPlatformInitialize (
   // InitializeMemory (), which only occurs if the following feature is disabled
   //
   ASSERT (!FeaturePcdGet (PcdSystemMemoryInitializeInSec));
-
-  UINT32 sctlr = ArmReadSctlr ();
-  sctlr |=  (1<<22); /* enable unaligned access */
-  sctlr &= ~(1<<1);  /* disable alignment abort */
-  ArmWriteSctlr (sctlr);
 
   return RETURN_SUCCESS;
 }

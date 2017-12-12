@@ -114,7 +114,3 @@ ASM_FUNC(ArmGetPhysAddrTop)
   mov   r0, #0x00000000
   mov   r1, #0x10000
   bx    lr
-
-ASM_FUNC(ArmWriteSctlr)
-  mcr     p15, 0, r0, c1, c0, 0
-  bx      lr

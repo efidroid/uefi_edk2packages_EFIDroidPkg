@@ -19,6 +19,11 @@ ArchInitialize (
   VOID
   )
 {
+  UINT32 sctlr = ArmReadSctlr ();
+  sctlr |=  (1<<22); /* enable unaligned access */
+  sctlr &= ~(1<<1);  /* disable alignment abort */
+  ArmWriteSctlr (sctlr);
+
   // Enable Floating Point
   if (FixedPcdGet32 (PcdVFPEnabled)) {
     ArmEnableVFP ();
