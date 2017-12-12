@@ -17,7 +17,6 @@
 
 #include <Library/PrePiLib.h>
 #include <Library/PrintLib.h>
-#include <Library/PeCoffGetEntryPointLib.h>
 #include <Library/PrePiHobListPointerLib.h>
 #include <Library/TimerLib.h>
 #include <Library/PerformanceLib.h>
@@ -27,15 +26,6 @@
 #include <Ppi/ArmMpCoreInfo.h>
 
 #include "PrePi.h"
-
-#ifdef FVMAIN_COMPRESSION_METHOD_LZMA
-#include <Guid/LzmaDecompress.h>
-#include "LzmaDecompress.h"
-#elif defined(FVMAIN_COMPRESSION_METHOD_BROTLI)
-#include "BrotliDecompress.h"
-#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
-#include "GzipDecompress.h"
-#endif
 
 VOID
 EFIAPI
@@ -104,24 +94,6 @@ PrePiMain (
 
   // SEC phase needs to run library constructors by hand.
   ProcessLibraryConstructorList ();
-
-  // Build HOBs to pass up our version of stuff the DXE Core needs to save space
-  BuildPeCoffLoaderHob ();
-  BuildExtractSectionHob (
-#ifdef FVMAIN_COMPRESSION_METHOD_LZMA
-    &gLzmaCustomDecompressGuid,
-    LzmaGuidedSectionGetInfo,
-    LzmaGuidedSectionExtraction
-#elif defined(FVMAIN_COMPRESSION_METHOD_BROTLI)
-    &gBrotliCustomDecompressGuid,
-    BrotliGuidedSectionGetInfo,
-    BrotliGuidedSectionExtraction
-#elif defined(FVMAIN_COMPRESSION_METHOD_GZIP)
-    &gGzipCustomDecompressGuid,
-    GzipGuidedSectionGetInfo,
-    GzipGuidedSectionExtraction
-#endif
-    );
 
   // Assume the FV that contains the SEC (our code) also contains a compressed FV.
   Status = DecompressFirstFv ();

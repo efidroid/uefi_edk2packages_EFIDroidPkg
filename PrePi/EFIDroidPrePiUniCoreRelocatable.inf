@@ -50,7 +50,6 @@
   TimerLib
   SerialPortLib
   ExtractGuidedSectionLib
-  PeCoffGetEntryPointLib
   PrePiLib
   MemoryAllocationLib
   HobLib
