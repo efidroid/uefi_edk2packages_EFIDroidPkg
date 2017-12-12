@@ -44,7 +44,6 @@
   ArmMmuLib|ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
 
   ArmPlatformLib|EFIDroidPkg/Library/EFIDroidRelocatablePlatformLib/EFIDroidRelocatablePlatformLib.inf
-  ArmPlatformSysConfigLib|ArmPlatformPkg/Library/ArmPlatformSysConfigLibNull/ArmPlatformSysConfigLibNull.inf
 
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
   BootLogoLib|MdeModulePkg/Library/BootLogoLib/BootLogoLib.inf
@@ -55,10 +54,6 @@
 
 [LibraryClasses.common.UEFI_DRIVER]
   UefiScsiLib|MdePkg/Library/UefiScsiLib/UefiScsiLib.inf
-
-[BuildOptions]
-  RVCT:*_*_ARM_PLATFORM_FLAGS == --cpu Cortex-A15
-  GCC:*_*_ARM_PLATFORM_FLAGS == -mcpu=cortex-a15
 
 [BuildOptions.ARM.EDKII.SEC, BuildOptions.ARM.EDKII.BASE]
   # Avoid MOVT/MOVW instruction pairs in code that may end up in the PIE
