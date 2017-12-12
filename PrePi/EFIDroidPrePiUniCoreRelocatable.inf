@@ -53,7 +53,6 @@
   ExtractGuidedSectionLib
   PeCoffGetEntryPointLib
   PrePiLib
-  ArmPlatformStackLib
   MemoryAllocationLib
   HobLib
   PrePiHobListPointerLib
