@@ -1,6 +1,7 @@
 #include <Library/PrintLib.h>
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
+#include <Library/DebugLib.h>
 
 #include <stdio.h>
 
@@ -33,3 +34,21 @@ int snprintf(char *str, size_t size, const char *format, ...) {
     return err;
 }
 
+int vprintf(const char *format, va_list ap) {
+    CHAR8 buf[100];
+
+    vsnprintf(buf, ARRAY_SIZE(buf), format, ap);
+    DEBUG((DEBUG_ERROR, "%a", buf));
+    return 0;
+}
+
+int printf(const char *format, ...) {
+    int err;
+
+    VA_LIST ap;
+    VA_START(ap, format);
+    err = vprintf(format, ap);
+    VA_END(ap);
+
+    return err;
+}
