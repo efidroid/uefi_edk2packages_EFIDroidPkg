@@ -149,7 +149,11 @@ SerialPortGetControl (
   OUT UINT32 *Control
   )
 {
-  return RETURN_UNSUPPORTED;
+  *Control = 0;
+  if (!SerialPortPoll ()) {
+    *Control = EFI_SERIAL_INPUT_BUFFER_EMPTY;
+  }
+  return RETURN_SUCCESS;
 }
 
 /**
