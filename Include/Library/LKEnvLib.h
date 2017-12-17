@@ -77,10 +77,10 @@ typedef UINTN paddr_t;
 #define snprintf(s, n, fmt, ...) ((int)AsciiSPrint((s), (n), (fmt), ##__VA_ARGS__))
 
 /* debug levels */
-#define CRITICAL EFI_D_ERROR
-#define ALWAYS EFI_D_ERROR
-#define INFO EFI_D_WARN
-#define SPEW EFI_D_INFO
+#define CRITICAL DEBUG_ERROR
+#define ALWAYS DEBUG_ERROR
+#define INFO DEBUG_INFO
+#define SPEW DEBUG_VERBOSE
 
 #if !defined(MDEPKG_NDEBUG)
 #define dprintf(level, fmt, ...) do { \
