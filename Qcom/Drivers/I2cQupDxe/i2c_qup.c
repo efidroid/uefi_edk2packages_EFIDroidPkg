@@ -211,7 +211,7 @@ static int qup_i2c_poll_state(struct qup_i2c_dev *dev, unsigned state)
 {
 	unsigned retries = 0;
 
-	dprintf(INFO, "Polling Status for state:0x%x\n", state);
+	dprintf(SPEW, "Polling Status for state:0x%x\n", state);
 
 	while (retries != 2000) {
 		unsigned status = readl(dev->qup_base + QUP_STATE);
@@ -230,9 +230,9 @@ static void
 qup_verify_fifo(struct qup_i2c_dev *dev, unsigned val, unsigned addr, int rdwr)
 {
 	if (rdwr)
-		dprintf(INFO, "RD:Wrote 0x%x to out_ff:0x%x\n", val, addr);
+		dprintf(SPEW, "RD:Wrote 0x%x to out_ff:0x%x\n", val, addr);
 	else
-		dprintf(INFO, "WR:Wrote 0x%x to out_ff:0x%x\n", val, addr);
+		dprintf(SPEW, "WR:Wrote 0x%x to out_ff:0x%x\n", val, addr);
 }
 #else
 static inline void
@@ -485,7 +485,7 @@ int qup_i2c_xfer(struct qup_i2c_dev *dev, struct i2c_msg msgs[], int num)
 		    dev->out_blk_sz * (2 << ((fifo_reg & 0x1C) >> 2));
 		dev->in_fifo_sz =
 		    dev->in_blk_sz * (2 << ((fifo_reg & 0x380) >> 7));
-		dprintf(INFO, "QUP IN:bl:%d, ff:%d, OUT:bl:%d, ff:%d\n",
+		dprintf(SPEW, "QUP IN:bl:%d, ff:%d, OUT:bl:%d, ff:%d\n",
 			dev->in_blk_sz, dev->in_fifo_sz, dev->out_blk_sz,
 			dev->out_fifo_sz);
 	}
@@ -597,7 +597,7 @@ int qup_i2c_xfer(struct qup_i2c_dev *dev, struct i2c_msg msgs[], int num)
 				ret = err;
 				goto out_err;
 			}
-			dprintf(INFO, "idx:%d, rem:%d, num:%d, mode:%d\n",
+			dprintf(SPEW, "idx:%d, rem:%d, num:%d, mode:%d\n",
 				idx, rem, num, dev->mode);
 
 			qup_print_status(dev);
