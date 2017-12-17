@@ -8,6 +8,7 @@
 
 [Sources]
   bsearch.c
+  errno.c
   stdio.c
 
 [Packages]
