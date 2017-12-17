@@ -77,6 +77,7 @@
   GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmLib.inf
   SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiLib.inf
   Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Lib.inf
+  I2cQupLib|EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupLib.inf
 
 [PcdsFeatureFlag.common]
   # without this, the memory speed is very slow
@@ -114,3 +115,4 @@
   EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiDxe.inf
   EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
   EFIDroidPkg/Qcom/Drivers/MMCHSDxe/MMCHS.inf
+  EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupDxe.inf
