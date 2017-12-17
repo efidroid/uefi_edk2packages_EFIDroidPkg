@@ -24,13 +24,12 @@
   IoLib
   InterruptsLib
   MallocLib
-  ClockLib
-  GpioTlmmLib
   TimerLib
   BaseLib
   DebugLib
   PrintLib
-  QcomPlatformI2cQupLib
+  QcomPlatformI2cQupGsbiLib
+  QcomPlatformI2cQupBlspLib
 
 [Protocols]
   gQcomI2cQupProtocolGuid

@@ -4,20 +4,20 @@
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Protocol/QcomI2cQup.h>
-#include <Chipset/gsbi.h>
-#include <Library/QcomPlatformI2cQupLib.h>
+#include <Library/QcomPlatformI2cQupGsbiLib.h>
+#include <Library/QcomPlatformI2cQupBlspLib.h>
 
 #include "i2c_qup_p.h"
 
 typedef struct {
   LIST_ENTRY            Link;
-  UINT8                 Id;
+  UINTN                 Id;
   struct qup_i2c_dev    *Device;
 } DEVICE_LIST_NODE;
 
 STATIC LIST_ENTRY mDevices = INITIALIZE_LIST_HEAD_VARIABLE (mDevices);
 
-STATIC struct qup_i2c_dev * qup_i2c_get_dev(UINT8 Id) {
+STATIC struct qup_i2c_dev * qup_i2c_get_dev(UINTN Id) {
   DEVICE_LIST_NODE  *Node;
   LIST_ENTRY        *Link;
 
@@ -32,14 +32,9 @@ STATIC struct qup_i2c_dev * qup_i2c_get_dev(UINT8 Id) {
   return NULL;
 }
 
-STATIC EFIAPI EFI_STATUS RegisterI2cDevice(UINT8 gsbi_id, UINTN clk_freq, UINTN src_clk_freq) {
+STATIC EFI_STATUS InternalRegisterI2cDevice(UINTN device_id, struct qup_i2c_dev *Device) {
   EFI_STATUS        Status;
   DEVICE_LIST_NODE  *NewNode;
-
-  struct qup_i2c_dev *Device = qup_i2c_init(gsbi_id, clk_freq, src_clk_freq);
-  if (Device==NULL) {
-    return EFI_DEVICE_ERROR;
-  }
 
   NewNode = AllocatePool (sizeof (DEVICE_LIST_NODE));
   if (NewNode == NULL) {
@@ -47,7 +42,7 @@ STATIC EFIAPI EFI_STATUS RegisterI2cDevice(UINT8 gsbi_id, UINTN clk_freq, UINTN 
     goto DEVICE_DEINIT;
   }
 
-  NewNode->Id         = gsbi_id;
+  NewNode->Id         = device_id;
   NewNode->Device     = Device;
 
   InsertTailList (&mDevices, &NewNode->Link);
@@ -58,6 +53,24 @@ DEVICE_DEINIT:
   qup_i2c_deinit(Device);
 
   return Status;
+}
+
+STATIC EFIAPI EFI_STATUS RegisterGsbiI2cDevice(UINTN device_id, UINT8 gsbi_id, UINTN clk_freq, UINTN src_clk_freq) {
+  struct qup_i2c_dev *Device = qup_i2c_init(gsbi_id, clk_freq, src_clk_freq);
+  if (Device==NULL) {
+    return EFI_DEVICE_ERROR;
+  }
+
+  return InternalRegisterI2cDevice(device_id, Device);
+}
+
+STATIC EFIAPI EFI_STATUS RegisterBlspI2cDevice(UINTN device_id, UINT8 blsp_id, UINT8 qup_id, UINTN clk_freq, UINTN src_clk_freq) {
+  struct qup_i2c_dev *Device = qup_blsp_i2c_init(blsp_id, qup_id, clk_freq, src_clk_freq);
+  if (Device==NULL) {
+    return EFI_DEVICE_ERROR;
+  }
+
+  return InternalRegisterI2cDevice(device_id, Device);
 }
 
 STATIC EFIAPI VOID qup_i2c_iterate (qup_i2c_iterate_cb_t cb) {
@@ -88,7 +101,8 @@ I2cQupDxeInitialize (
   EFI_HANDLE Handle = NULL;
   EFI_STATUS Status;
 
-  LibQcomPlatformI2cQupAddBusses (RegisterI2cDevice);
+  LibQcomPlatformI2cQupAddGsbiBusses (RegisterGsbiI2cDevice);
+  LibQcomPlatformI2cQupAddBlspBusses (RegisterBlspI2cDevice);
 
   Status = gBS->InstallMultipleProtocolInterfaces(
                   &Handle,

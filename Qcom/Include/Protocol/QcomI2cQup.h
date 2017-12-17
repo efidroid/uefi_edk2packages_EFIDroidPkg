@@ -9,7 +9,7 @@
 typedef struct _QCOM_I2C_QUP_PROTOCOL   QCOM_I2C_QUP_PROTOCOL;
 typedef VOID (EFIAPI *qup_i2c_iterate_cb_t)(UINT8 id);
 
-typedef struct qup_i2c_dev *  (EFIAPI *qup_i2c_get_dev_t)(UINT8 id);
+typedef struct qup_i2c_dev *  (EFIAPI *qup_i2c_get_dev_t)(UINTN id);
 typedef int                   (EFIAPI *qup_i2c_xfer_t)(struct qup_i2c_dev *dev, struct i2c_msg msgs[], int num);
 typedef void                  (EFIAPI *qup_i2c_iterate_t)(qup_i2c_iterate_cb_t cb);
 
