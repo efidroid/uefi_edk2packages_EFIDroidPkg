@@ -13,6 +13,10 @@
 #define va_end VA_END
 #endif
 
+#ifndef va_arg
+#define va_arg VA_ARG
+#endif
+
 #ifndef va_copy
 #define va_copy VA_COPY
 #endif
