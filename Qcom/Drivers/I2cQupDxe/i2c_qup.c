@@ -42,7 +42,7 @@
 
 #include "i2c_qup_p.h"
 
-static struct qup_i2c_dev *dev_addr = NULL;
+static struct qup_i2c_dev *dev_addr[GSBI_ID_MAX];
 
 /* QUP Registers */
 enum {
@@ -140,14 +140,9 @@ static inline void qup_print_status(struct qup_i2c_dev *dev)
 }
 #endif
 
-static irqreturn_t qup_i2c_interrupt(void)
+static irqreturn_t qup_i2c_interrupt(void *pdata)
 {
-	struct qup_i2c_dev *dev = dev_addr;
-	if (!dev) {
-		dprintf(CRITICAL,
-			"dev_addr is NULL, that means i2c_qup_init failed...\n");
-		return IRQ_FAIL;
-	}
+	struct qup_i2c_dev *dev = pdata;
 	unsigned status = readl(dev->qup_base + QUP_I2C_STATUS);
 	unsigned status1 = readl(dev->qup_base + QUP_ERROR_FLAGS);
 	unsigned op_flgs = readl(dev->qup_base + QUP_OPERATIONAL);
@@ -676,8 +671,14 @@ struct qup_i2c_dev *qup_i2c_init(uint8_t gsbi_id, unsigned clk_freq,
 				 unsigned src_clk_freq)
 {
 	struct qup_i2c_dev *dev;
-	if (dev_addr != NULL) {
-		return dev_addr;
+
+	if (gsbi_id >= GSBI_ID_MAX) {
+		dprintf(CRITICAL, "Error GSBI index: %d out of range\n", gsbi_id);
+		return NULL;
+	}
+
+	if (dev_addr[gsbi_id] != NULL) {
+		return dev_addr[gsbi_id];
 	}
 
 	dev = malloc(sizeof(struct qup_i2c_dev));
@@ -693,7 +694,7 @@ struct qup_i2c_dev *qup_i2c_init(uint8_t gsbi_id, unsigned clk_freq,
 	dev->gsbi_number = gsbi_id;
 
 	/* This must be done for qup_i2c_interrupt to work. */
-	dev_addr = dev;
+	dev_addr[gsbi_id] = dev;
 
 	/* Initialize the GPIO for GSBIn as i2c */
 	LibQcomPlatformI2cQupGpioConfig(dev->gsbi_number);
@@ -712,7 +713,7 @@ struct qup_i2c_dev *qup_i2c_init(uint8_t gsbi_id, unsigned clk_freq,
 	dev->clk_ctl = 0;
 
 	/* Register the GSBIn QUP IRQ */
-	register_int_handler(dev->qup_irq, (int_handler) qup_i2c_interrupt, 0);
+	register_int_handler(dev->qup_irq, (int_handler) qup_i2c_interrupt, dev);
 
 	/* Then disable it */
 	mask_interrupt(dev->qup_irq);
