@@ -12,6 +12,7 @@
   strlcat.c
   strspn.c
   strchr.c
+  strpbrk.c
 
 [Packages]
   MdePkg/MdePkg.dec
