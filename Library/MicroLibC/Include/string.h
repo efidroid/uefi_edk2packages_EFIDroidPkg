@@ -7,6 +7,7 @@
 #include <Library/BaseMemoryLib.h>
 
 #define strcmp(s1, s2) AsciiStrCmp((s1), (s2))
+#define strcasecmp(s1, s2) AsciiStriCmp((s1), (s2))
 #define strncmp(s1, s2, n) ((int)AsciiStrnCmp((s1), (s2), (n)))
 #define strlen(s) ((size_t)AsciiStrLen((s)))
 #define strstr(s1 , s2) AsciiStrStr((s1), (s2))
