@@ -107,11 +107,37 @@
 
   gQcomTokenSpaceGuid.PcdSpssTimerStatusReg|0x0200A088
 
+  gQcomTokenSpaceGuid.PcdGpioTlmmBaseAddress|0x00800000
+  gQcomTokenSpaceGuid.PcdGpioTlmmSummaryIrq|48
+
+  gQcomTokenSpaceGuid.PcdGpioTlmmIoOffset|0x1004
+  gQcomTokenSpaceGuid.PcdGpioTlmmIoElementSize|0x10
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgOffset|0x1008
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgElementSize|0x10
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusOffset|0x100c
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusElementSize|0x10
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetOffset|0x400
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetElementSize|0x4
+
+  gQcomTokenSpaceGuid.PcdGpioTlmmInBit|0
+
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrEnableBit|0
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusBit|0
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrAckHigh|TRUE
+
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetBit|0
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetKpssValue|4
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrRawStatusBit|3
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrPolarityBit|1
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionBit|2
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionWidth|1
+
 [Components.common]
   EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemDxe.inf
   EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardDxe.inf
   EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockDxe.inf
   EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmDxe.inf
+  EFIDroidGPLPkg/Qcom/Drivers/GpioTlmmInterruptDxe/GpioTlmmInterruptDxe.inf
   EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiDxe.inf
   EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
   EFIDroidPkg/Qcom/Drivers/MMCHSDxe/MMCHS.inf
