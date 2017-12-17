@@ -2,6 +2,7 @@
 #define _STDLIB_H
 
 #include <stdint.h>
+#include <Library/MallocLib.h>
 
 int atoi(const char *num);
 
