@@ -50,4 +50,12 @@ STATIC inline INTN AtomicOr(volatile INTN *Address, INTN Value) {
   return OldValue;
 }
 
+STATIC inline INTN AtomicRead(volatile INTN *Address) {
+    return *Address;
+}
+
+STATIC inline VOID AtomicSet(volatile INTN *Address, INTN Value) {
+    *Address = Value;
+}
+
 #endif
