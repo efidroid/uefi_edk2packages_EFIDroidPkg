@@ -51,6 +51,7 @@ EFIDroidGetMemoryMap (
   VOID                          *Fdt;
   INTN                          Index = 0;
   INTN                          IndexDram = -1;
+  INTN                          Count;
 
   ASSERT (VirtualMemoryMap != NULL);
 
@@ -72,15 +73,6 @@ EFIDroidGetMemoryMap (
   VirtualMemoryTable[Index].Length       = PcdGet64 (PcdSystemMemorySize);
   VirtualMemoryTable[Index].Attributes   = ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK;
   IndexDram = Index++;
-
-  DEBUG ((DEBUG_INFO, "%a: Dumping System DRAM Memory Map:\n"
-      "\tPhysicalBase: 0x%lX\n"
-      "\tVirtualBase: 0x%lX\n"
-      "\tLength: 0x%lX\n",
-      __FUNCTION__,
-      VirtualMemoryTable[IndexDram].PhysicalBase,
-      VirtualMemoryTable[IndexDram].VirtualBase,
-      VirtualMemoryTable[IndexDram].Length));
 
   // Peripheral space before DRAM
   if (VirtualMemoryTable[IndexDram].PhysicalBase != 0) {
@@ -167,6 +159,20 @@ EFIDroidGetMemoryMap (
 END_OF_TABLE:
   // End of Table
   ZeroMem (&VirtualMemoryTable[Index++], sizeof (ARM_MEMORY_REGION_DESCRIPTOR));
+
+  for (Count = 0; Count < Index - 1; Count++) {
+    DEBUG ((DEBUG_INFO, "%a: VirtualMemoryTable[%d]:\n"
+        "\tPhysicalBase: 0x%016lX\n"
+        "\tVirtualBase:  0x%016lX\n"
+        "\tLength:       0x%016lX\n"
+        "\tAttributes:   0x%016lX\n",
+        __FUNCTION__,
+        Count,
+        VirtualMemoryTable[Count].PhysicalBase,
+        VirtualMemoryTable[Count].VirtualBase,
+        VirtualMemoryTable[Count].Length,
+        (UINT64)VirtualMemoryTable[Count].Attributes));
+  }
 
   *VirtualMemoryMap = VirtualMemoryTable;
 }
