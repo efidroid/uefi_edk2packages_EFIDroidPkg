@@ -99,7 +99,7 @@ struct qup_i2c_dev {
 	int mode;
 	int clk_ctl;
 	int clk_freq;
-	int src_clk_freq;
+	int src_clk_rate;
 	int one_bit_t;
 	int out_fifo_sz;
 	int in_fifo_sz;
@@ -108,6 +108,9 @@ struct qup_i2c_dev {
 	int wr_sz;
 	int suspended;
 	int clk_state;
+	unsigned int noise_rjct_scl;
+	unsigned int noise_rjct_sda;
+	int xfer_progress;
 };
 
 struct device {
