@@ -153,7 +153,7 @@ struct clk *clk_get (const char * cid)
 		}
 	}
 
-	dprintf(CRITICAL, "Alert!! Requested clock \"%s\" is not supported!", cid);
+	dprintf(CRITICAL, "Alert!! Requested clock \"%s\" is not supported!\n", cid);
 	return NULL;
 }
 
