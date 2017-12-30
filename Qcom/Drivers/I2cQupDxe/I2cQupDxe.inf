@@ -28,8 +28,7 @@
   BaseLib
   DebugLib
   PrintLib
-  QcomPlatformI2cQupGsbiLib
-  QcomPlatformI2cQupBlspLib
+  QcomPlatformI2cQupLib
 
 [Protocols]
   gQcomI2cQupProtocolGuid

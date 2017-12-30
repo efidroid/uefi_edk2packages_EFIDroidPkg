@@ -9,8 +9,7 @@
   DloadUtilLib|EFIDroidPkg/Qcom/Library/DloadUtilLib/DloadUtilLib.inf
   PlatformIdLib|EFIDroidPkg/Qcom/Library/PlatformIdLib/PlatformIdLib.inf
 
-  QcomPlatformI2cQupGsbiLib|EFIDroidPkg/Qcom/Library/QcomPlatformI2cQupGsbiLibNull/QcomPlatformI2cQupGsbiLibNull.inf
-  QcomPlatformI2cQupBlspLib|EFIDroidPkg/Qcom/Library/QcomPlatformI2cQupBlspLibNull/QcomPlatformI2cQupBlspLibNull.inf
+  QcomPlatformI2cQupLib|EFIDroidPkg/Qcom/Library/QcomPlatformI2cQupLibNull/QcomPlatformI2cQupLibNull.inf
 
 [LibraryClasses.common.DXE_DRIVER]
   ChipVendorDxeInitLib|EFIDroidPkg/Qcom/Library/ChipVendorDxeInitLib/ChipVendorDxeInitLib.inf

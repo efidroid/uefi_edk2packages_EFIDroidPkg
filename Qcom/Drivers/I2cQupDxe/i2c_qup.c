@@ -40,8 +40,7 @@
 #include <Library/MallocLib.h>
 #include <Library/QcomClockLib.h>
 #include <Library/QcomGpioTlmmLib.h>
-#include <Library/QcomPlatformI2cQupGsbiLib.h>
-#include <Library/QcomPlatformI2cQupBlspLib.h>
+#include <Library/QcomPlatformI2cQupLib.h>
 
 #include "i2c_qup_p.h"
 
@@ -666,16 +665,6 @@ qup_i2c_xfer(struct qup_i2c_dev *dev, struct i2c_msg msgs[], int num)
 		return -EIO;
 	}
 
-	/* Set the GSBIn_QUP_APPS_CLK to 24MHz, then below figure out what speed to
-	   run I2C_MASTER_CORE at. */
-	if (dev->device_type == I2C_QUP_DEVICE_TYPE_GSBI) {
-		if (dev->clk_state == 0) {
-			if (dev->clk_ctl == 0) {
-				LibQcomPlatformI2cQupGsbiClockConfig(dev->gsbi_number, dev->src_clk_rate);
-			}
-		}
-	}
-
 	AtomicSet(&dev->xfer_progress, 1);
 	/* Initialize QUP registers during first transfer */
 	if (dev->clk_ctl == 0) {
@@ -931,65 +920,6 @@ void qup_i2c_sec_init(struct qup_i2c_dev *dev, uint32_t clk_freq,
 
 	/* Then disable it */
 	mask_interrupt(dev->qup_irq);
-}
-
-struct qup_i2c_dev *qup_i2c_init(uint8_t gsbi_id, unsigned clk_freq,
-				 unsigned src_clk_rate)
-{
-	struct qup_i2c_dev *dev;
-
-	dev = malloc(sizeof(struct qup_i2c_dev));
-	if (!dev) {
-		return NULL;
-	}
-	dev = memset(dev, 0, sizeof(struct qup_i2c_dev));
-
-	/*
-	 * Platform uses gsbi, setup base addresses and
-	 * irq based on gsbi_id
-	 */
-	dev->qup_irq = LibQcomPlatformI2cQupGetGsbiQupIrq(gsbi_id);
-	dev->qup_base = LibQcomPlatformI2cQupGetGsbiQupBase(gsbi_id);
-	dev->gsbi_base = LibQcomPlatformI2cQupGetGsbiBase(gsbi_id);
-	dev->gsbi_number = gsbi_id;
-
-	/* Initialize the GPIO for GSBIn as i2c */
-	LibQcomPlatformI2cQupGsbiGpioConfig(dev->gsbi_number);
-
-	/* Configure the GSBI Protocol Code for i2c */
-	writel((GSBI_PROTOCOL_CODE_I2C <<
-		GSBI_CTRL_REG_PROTOCOL_CODE_S), GSBI_CTRL_REG(dev->gsbi_base));
-
-	dev->device_type = I2C_QUP_DEVICE_TYPE_GSBI;
-	qup_i2c_sec_init(dev, clk_freq, src_clk_rate);
-
-	return dev;
-}
-
-struct qup_i2c_dev *qup_blsp_i2c_init(uint8_t blsp_id, uint8_t qup_id,
-									  uint32_t clk_freq, uint32_t src_clk_rate)
-{
-	struct qup_i2c_dev *dev;
-
-	dev = malloc(sizeof(struct qup_i2c_dev));
-	if (!dev) {
-		return NULL;
-	}
-	dev = memset(dev, 0, sizeof(struct qup_i2c_dev));
-
-	/* Platform uses BLSP */
-	dev->qup_irq = LibQcomPlatformI2cQupGetBlspQupIrq(blsp_id, qup_id);
-	dev->qup_base = LibQcomPlatformI2cQupGetBlspQupBase(blsp_id, qup_id);
-
-	/* Initialize the GPIO for BLSP i2c */
-	LibQcomPlatformI2cQupBlspGpioConfig(blsp_id, qup_id);
-
-	LibQcomPlatformI2cQupBlspClockConfig(blsp_id, qup_id);
-
-	dev->device_type = I2C_QUP_DEVICE_TYPE_BLSP;
-	qup_i2c_sec_init(dev, clk_freq, src_clk_rate);
-
-	return dev;
 }
 
 int qup_i2c_deinit(struct qup_i2c_dev *dev)

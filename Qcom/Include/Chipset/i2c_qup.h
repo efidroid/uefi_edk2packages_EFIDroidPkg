@@ -86,6 +86,9 @@ struct i2c_msg {
 };
 
 struct qup_i2c_dev {
+	LIST_ENTRY Link;
+	int id;
+
 	i2c_qup_device_type_t device_type;
 	unsigned int gsbi_base;
 	unsigned int qup_base;

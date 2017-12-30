@@ -1,15 +1,15 @@
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = QcomPlatformI2cQupGsbiLibNull
+  BASE_NAME                      = QcomPlatformI2cQupLibNull
 
   FILE_GUID                      = 413a6d46-9bff-4f35-a0f9-85b1cddb6eb9
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = QcomPlatformI2cQupGsbiLib
+  LIBRARY_CLASS                  = QcomPlatformI2cQupLib
 
 
 [Sources.common]
-  QcomPlatformI2cQupGsbiLibNull.c
+  QcomPlatformI2cQupLibNull.c
 
 [Packages]
   MdePkg/MdePkg.dec
