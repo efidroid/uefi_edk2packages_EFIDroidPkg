@@ -161,6 +161,9 @@
   gQcomTokenSpaceGuid.PcdGpioTlmmPullBit|0|UINT64|0x0000011a
   gQcomTokenSpaceGuid.PcdGpioTlmmNumFunctions|0|UINT64|0x0000011b
 
+  # misc
+  gQcomTokenSpaceGuid.PcdGicSpiStart|0|UINT64|0x00000200
+
 [PcdsFeatureFlag.common]
   # MMCHSDxe
   gQcomTokenSpaceGuid.PcdMmcAdmSupport|FALSE|BOOLEAN|0x00010001
