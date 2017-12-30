@@ -131,27 +131,35 @@
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlCtlReg|0|UINT64|0x000000e4
   gQcomTokenSpaceGuid.PcdMmcSdhciDdrCfgVal|0x80040853|UINT64|0x000000e5 # DDR_CONFIG_VAL
 
-  # GpioTlmmInterruptDxe
+  # GpioTlmmDxe and GpioTlmmInterruptDxe
   gQcomTokenSpaceGuid.PcdGpioTlmmBaseAddress|0|UINT64|0x00000100
   gQcomTokenSpaceGuid.PcdGpioTlmmSummaryIrq|0|UINT64|0x00000101
   gQcomTokenSpaceGuid.PcdGpioTlmmIoOffset|0|UINT64|0x00000102
   gQcomTokenSpaceGuid.PcdGpioTlmmIoElementSize|0|UINT64|0x00000103
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgOffset|0|UINT64|0x00000104
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgElementSize|0|UINT64|0x00000105
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusOffset|0|UINT64|0x00000106
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusElementSize|0|UINT64|0x00000107
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetOffset|0|UINT64|0x00000108
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetElementSize|0|UINT64|0x00000109
-  gQcomTokenSpaceGuid.PcdGpioTlmmInBit|0|UINT64|0x0000010a
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrEnableBit|0|UINT64|0x0000010b
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusBit|0|UINT64|0x0000010c
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrAckHigh|FALSE|BOOLEAN|0x0000010d
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetBit|0|UINT64|0x0000010e
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetKpssValue|0|UINT64|0x0000010f
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrRawStatusBit|0|UINT64|0x00000110
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrPolarityBit|0|UINT64|0x00000111
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionBit|0|UINT64|0x00000112
-  gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionWidth|0|UINT64|0x00000113
+  gQcomTokenSpaceGuid.PcdGpioTlmmCtlOffset|0|UINT64|0x00000104
+  gQcomTokenSpaceGuid.PcdGpioTlmmCtlElementSize|0|UINT64|0x00000105
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgOffset|0|UINT64|0x00000106
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgElementSize|0|UINT64|0x00000107
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusOffset|0|UINT64|0x00000108
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusElementSize|0|UINT64|0x00000109
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetOffset|0|UINT64|0x0000010a
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetElementSize|0|UINT64|0x0000010b
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrEnableBit|0|UINT64|0x0000010c
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusBit|0|UINT64|0x0000010d
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrAckHigh|FALSE|BOOLEAN|0x0000010e
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetBit|0|UINT64|0x0000010f
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetKpssValue|0|UINT64|0x00000110
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrRawStatusBit|0|UINT64|0x00000111
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrPolarityBit|0|UINT64|0x00000112
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionBit|0|UINT64|0x00000113
+  gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionWidth|0|UINT64|0x00000114
+  gQcomTokenSpaceGuid.PcdGpioTlmmInBit|0|UINT64|0x00000115
+  gQcomTokenSpaceGuid.PcdGpioTlmmOutBit|0|UINT64|0x00000116
+  gQcomTokenSpaceGuid.PcdGpioTlmmOeBit|0|UINT64|0x00000117
+  gQcomTokenSpaceGuid.PcdGpioTlmmMuxBit|0|UINT64|0x00000118
+  gQcomTokenSpaceGuid.PcdGpioTlmmDrvBit|0|UINT64|0x00000119
+  gQcomTokenSpaceGuid.PcdGpioTlmmPullBit|0|UINT64|0x0000011a
+  gQcomTokenSpaceGuid.PcdGpioTlmmNumFunctions|0|UINT64|0x0000011b
 
 [PcdsFeatureFlag.common]
   # MMCHSDxe
