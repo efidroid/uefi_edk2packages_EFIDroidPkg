@@ -278,7 +278,7 @@ FindNextMemoryNodeReg (
     }
 
     NodeStatus = fdt_getprop (mDeviceTreeBase, Next, "status", &Len);
-    if (NodeStatus != NULL && AsciiStrCmp (NodeStatus, "okay") != 0) {
+    if (NodeStatus != NULL && AsciiStrCmp (NodeStatus, "okay") != 0 && AsciiStrCmp (NodeStatus, "ok") != 0) {
       DEBUG ((DEBUG_WARN, "%a: ignoring memory node with status \"%a\"\n",
         __FUNCTION__, NodeStatus));
       continue;
