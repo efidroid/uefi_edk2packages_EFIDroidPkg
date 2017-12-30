@@ -98,6 +98,11 @@
 /* Clocks */
 #define CLK_CTL_BASE                0xFC400000
 
+/* I2C */
+#define BLSP1_QUP2_I2C_APPS_CBCR    (CLK_CTL_BASE + 0x06C8)
+#define GCC_BLSP1_QUP2_CFG_RCGR     (CLK_CTL_BASE + 0x06E0)
+#define GCC_BLSP1_QUP2_CMD_RCGR     (CLK_CTL_BASE + 0x06E4)
+
 /* GPLL */
 #define GPLL0_MODE                  (CLK_CTL_BASE + 0x0000)
 #define GPLL4_MODE                  (CLK_CTL_BASE + 0x1DC0)

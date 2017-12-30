@@ -865,6 +865,37 @@ static struct branch_clk mdss_extpclk_clk = {
 	},
 };
 
+/* BLSP1_QUP2 Clocks */
+static struct clk_freq_tbl ftbl_blsp_i2c_apps_clk_src[] = {
+	F(  19200000,	     cxo,   1,	  0,	0),
+	F(  50000000,	   gpll0,  16,	  0,	0),
+	F_END
+};
+
+static struct rcg_clk gcc_blsp1_qup2_i2c_apps_clk_src =
+{
+	.cmd_reg      = (uint32_t *) GCC_BLSP1_QUP2_CMD_RCGR,
+	.cfg_reg      = (uint32_t *) GCC_BLSP1_QUP2_CFG_RCGR,
+	.set_rate     = clock_lib2_rcg_set_rate_hid,
+	.freq_tbl     = ftbl_blsp_i2c_apps_clk_src,
+	.current_freq = &rcg_dummy_freq,
+
+	.c = {
+		.dbg_name = "gcc_blsp1_qup2_i2c_apps_clk_src",
+		.ops      = &clk_ops_rcg,
+	},
+};
+
+static struct branch_clk gcc_blsp1_qup2_i2c_apps_clk = {
+	.cbcr_reg = (uint32_t *) BLSP1_QUP2_I2C_APPS_CBCR,
+	.parent   = &gcc_blsp1_qup2_i2c_apps_clk_src.c,
+
+	.c = {
+		.dbg_name = "gcc_blsp1_qup2_i2c_apps_clk",
+		.ops      = &clk_ops_branch,
+	},
+};
+
 /* Clock lookup table */
 static struct clk_lookup msm_8994_clocks[] =
 {
@@ -912,6 +943,10 @@ static struct clk_lookup msm_8994_clocks[] =
 	CLK_LOOKUP("hdmi_ahb_clk",         mdss_hdmi_ahb_clk.c),
 	CLK_LOOKUP("hdmi_core_clk",        mdss_hdmi_clk.c),
 	CLK_LOOKUP("hdmi_extp_clk",        mdss_extpclk_clk.c),
+
+	CLK_LOOKUP("qupF9924000_ahb_iface_clk",        gcc_blsp1_ahb_clk.c),
+	CLK_LOOKUP("gcc_qupF9924000_i2c_apps_clk_src", gcc_blsp1_qup2_i2c_apps_clk_src.c),
+	CLK_LOOKUP("gcc_qupF9924000_i2c_apps_clk",     gcc_blsp1_qup2_i2c_apps_clk.c),
 };
 
 void msm8992_sdc1_clock_override(void)
