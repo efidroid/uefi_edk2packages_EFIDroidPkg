@@ -162,4 +162,3 @@
   EFIDroidPkg/Qcom/Drivers/ScmDxe/ScmDxe.inf
   EFIDroidPkg/Qcom/Drivers/QpnpWledDxe/QpnpWledDxe.inf
   EFIDroidPkg/Qcom/Drivers/SmdRpmDxe/RpmDxe.inf
-  EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupDxe.inf
