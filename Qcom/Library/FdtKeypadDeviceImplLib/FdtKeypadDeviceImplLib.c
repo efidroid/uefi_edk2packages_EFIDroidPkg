@@ -219,7 +219,7 @@ EFI_STATUS KeypadDeviceImplGetKeys (KEYPAD_DEVICE_PROTOCOL *This, KEYPAD_RETURN_
 
     // get status
     if (Context->DeviceType == KEY_DEVICE_TYPE_TLMM) {
-      GpioStatus = gGpioTlmm->gpio_status(Context->Gpio);
+      GpioStatus = gGpioTlmm->Get(Context->Gpio);
       RC = 0;
     }
     else if (Context->DeviceType == KEY_DEVICE_TYPE_PM8X41) {
