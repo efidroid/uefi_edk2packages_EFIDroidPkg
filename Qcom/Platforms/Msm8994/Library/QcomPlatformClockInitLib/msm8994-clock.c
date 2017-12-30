@@ -909,9 +909,9 @@ static struct clk_lookup msm_8994_clocks[] =
 	CLK_LOOKUP("edp_link_clk",         mdss_edplink_clk.c),
 	CLK_LOOKUP("edp_aux_clk",          mdss_edpaux_clk.c),
 
-        CLK_LOOKUP("hdmi_ahb_clk",         mdss_hdmi_ahb_clk.c),
-        CLK_LOOKUP("hdmi_core_clk",        mdss_hdmi_clk.c),
-        CLK_LOOKUP("hdmi_extp_clk",        mdss_extpclk_clk.c),
+	CLK_LOOKUP("hdmi_ahb_clk",         mdss_hdmi_ahb_clk.c),
+	CLK_LOOKUP("hdmi_core_clk",        mdss_hdmi_clk.c),
+	CLK_LOOKUP("hdmi_extp_clk",        mdss_extpclk_clk.c),
 };
 
 void msm8992_sdc1_clock_override(void)
