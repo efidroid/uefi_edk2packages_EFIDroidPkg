@@ -37,6 +37,11 @@
 
   DEFINE FVMAIN_COMPRESSION_METHOD = GZIP
 
+  DEFINE FD_BLOCK_SIZE       = 0x00800000
+  DEFINE FD_BLOCK_SIZE_ARRAY = 0x00, 0x00, 0x80, 0x00
+  DEFINE FD_NUM_BLOCKS       = 0x800
+  DEFINE FVMAIN_SIZE         = 0x007fe000
+
 !include EFIDroidPkg/EFIDroid.dsc.inc
 
 [LibraryClasses.common]
