@@ -10,6 +10,7 @@
   PlatformIdLib|EFIDroidPkg/Qcom/Library/PlatformIdLib/PlatformIdLib.inf
 
   QcomPlatformI2cQupLib|EFIDroidPkg/Qcom/Library/QcomPlatformI2cQupLibNull/QcomPlatformI2cQupLibNull.inf
+  QcomPlatformMmcClockOverrideLib|EFIDroidPkg/Qcom/Library/QcomPlatformMmcClockOverrideLibNull/QcomPlatformMmcClockOverrideLibNull.inf
 
 [LibraryClasses.common.DXE_DRIVER]
   ChipVendorDxeInitLib|EFIDroidPkg/Qcom/Library/ChipVendorDxeInitLib/ChipVendorDxeInitLib.inf

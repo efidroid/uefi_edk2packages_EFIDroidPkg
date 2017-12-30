@@ -130,6 +130,10 @@
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlClearReg|0|UINT64|0x000000e3
   gQcomTokenSpaceGuid.PcdSdccHcPwrctlCtlReg|0|UINT64|0x000000e4
   gQcomTokenSpaceGuid.PcdMmcSdhciDdrCfgVal|0x80040853|UINT64|0x000000e5 # DDR_CONFIG_VAL
+  gQcomTokenSpaceGuid.PcdMmcSdc1HdrvPullCtlOffset|0|UINT64|0x000000e6
+  gQcomTokenSpaceGuid.PcdMmcSdc2HdrvPullCtlOffset|0|UINT64|0x000000e7
+  gQcomTokenSpaceGuid.PcdMmcSdc3HdrvPullCtlOffset|0|UINT64|0x000000e8
+  gQcomTokenSpaceGuid.PcdMmcSdc4HdrvPullCtlOffset|0|UINT64|0x000000e9
 
   # GpioTlmmDxe and GpioTlmmInterruptDxe
   gQcomTokenSpaceGuid.PcdGpioTlmmBaseAddress|0|UINT64|0x00000100

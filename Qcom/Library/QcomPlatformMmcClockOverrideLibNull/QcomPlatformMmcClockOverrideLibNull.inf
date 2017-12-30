@@ -1,0 +1,18 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomPlatformMmcClockOverrideLib
+  FILE_GUID                      = b0047a34-2652-4b37-974b-a67dc9dba682
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomPlatformMmcClockOverrideLib
+
+
+[Sources.common]
+  QcomPlatformMmcClockOverrideLibNull.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  EFIDroidPkg/EFIDroidPkg.dec
+  EFIDroidPkg/Qcom/Qcom.dec
