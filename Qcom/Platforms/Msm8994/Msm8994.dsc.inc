@@ -80,6 +80,7 @@
   ScmLib|EFIDroidPkg/Qcom/Drivers/ScmDxe/ScmLib.inf
   QpnpWledLib|EFIDroidPkg/Qcom/Drivers/QpnpWledDxe/QpnpWledLib.inf
   RpmLib|EFIDroidPkg/Qcom/Drivers/SmdRpmDxe/RpmLib.inf
+  I2cQupLib|EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupLib.inf
 
 [LibraryClasses.common.DXE_RUNTIME_DRIVER]
   BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardLib.inf
@@ -93,6 +94,7 @@
 [PcdsFixedAtBuild.common]
   gArmTokenSpaceGuid.PcdGicDistributorBase|0xF9000000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0xF9002000
+  gQcomTokenSpaceGuid.PcdGicSpiStart|32
 
   gQcomTokenSpaceGuid.PcdMsmSharedBase|0x06A00000
   gQcomTokenSpaceGuid.PcdMsmSharedSize|0x00200000
@@ -149,3 +151,4 @@
   EFIDroidPkg/Qcom/Drivers/ScmDxe/ScmDxe.inf
   EFIDroidPkg/Qcom/Drivers/QpnpWledDxe/QpnpWledDxe.inf
   EFIDroidPkg/Qcom/Drivers/SmdRpmDxe/RpmDxe.inf
+  EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupDxe.inf
