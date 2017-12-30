@@ -156,7 +156,7 @@ LibQcomPlatformI2cQupAddBusses (
       else
         SetPull = FALSE;
 
-      // get pinctrl node
+      // get parent node
       Status = mFdtClient->GetParentNode(mFdtClient, PinCtrl0Node, &PinCtrlParentNode);
       if (EFI_ERROR (Status)) {
         DEBUG((DEBUG_ERROR, "Can't find parent node of pinctrl\n"));
