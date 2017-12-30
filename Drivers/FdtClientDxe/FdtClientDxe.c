@@ -145,6 +145,7 @@ FindNextCompatibleNode (
   INT32          Prev, Next;
   CONST CHAR8    *Type, *Compatible;
   INT32          Len;
+  CONST CHAR8    *NodeStatus;
 
   ASSERT (mDeviceTreeBase != NULL);
   ASSERT (Node != NULL);
@@ -167,6 +168,13 @@ FindNextCompatibleNode (
     for (Compatible = Type; Compatible < Type + Len && *Compatible;
          Compatible += 1 + AsciiStrLen (Compatible)) {
       if (AsciiStrCmp (CompatibleString, Compatible) == 0) {
+        NodeStatus = fdt_getprop (mDeviceTreeBase, Next, "status", &Len);
+        if (NodeStatus != NULL && AsciiStrCmp (NodeStatus, "okay") != 0 && AsciiStrCmp (NodeStatus, "ok") != 0) {
+          DEBUG ((DEBUG_WARN, "%a: ignoring compatible node with status \"%a\"\n",
+            __FUNCTION__, NodeStatus));
+          break;
+        }
+
         *Node = Next;
         return EFI_SUCCESS;
       }
@@ -366,11 +374,21 @@ FindNextSubNode (
   OUT INT32                   *Node
   )
 {
-  INT32 Offset;
+  INT32        Offset;
+  CONST CHAR8  *NodeStatus;
+  INT32        Len;
 
+AGAIN:
   Offset = fdt_next_subnode(mDeviceTreeBase, PrevNode);
   if (Offset < 0)
     return EFI_NOT_FOUND;
+
+  NodeStatus = fdt_getprop (mDeviceTreeBase, Offset, "status", &Len);
+  if (NodeStatus != NULL && AsciiStrCmp (NodeStatus, "okay") != 0 && AsciiStrCmp (NodeStatus, "ok") != 0) {
+    DEBUG ((DEBUG_WARN, "%a: ignoring subnode with status \"%a\"\n",
+      __FUNCTION__, NodeStatus));
+    goto AGAIN;
+  }
 
   *Node = Offset;
 
@@ -386,11 +404,21 @@ FindSubNode (
   OUT INT32                   *Node
   )
 {
-  INT32 Offset;
+  INT32        Offset;
+  CONST CHAR8  *NodeStatus;
+  INT32        Len;
 
+AGAIN:
   Offset = fdt_first_subnode(mDeviceTreeBase, ParentNode);
   if (Offset < 0)
     return EFI_NOT_FOUND;
+
+  NodeStatus = fdt_getprop (mDeviceTreeBase, Offset, "status", &Len);
+  if (NodeStatus != NULL && AsciiStrCmp (NodeStatus, "okay") != 0 && AsciiStrCmp (NodeStatus, "ok") != 0) {
+    DEBUG ((DEBUG_WARN, "%a: ignoring subnode with status \"%a\"\n",
+      __FUNCTION__, NodeStatus));
+    goto AGAIN;
+  }
 
   *Node = Offset;
 
