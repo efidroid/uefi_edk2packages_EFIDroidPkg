@@ -39,12 +39,30 @@ EFI_STATUS
 
 typedef
 EFI_STATUS
+(EFIAPI *FDT_CLIENT_GET_NODE_PROPERTY_BY_OFFSET) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   Offset,
+  OUT CONST VOID              **Prop,
+  OUT UINT32                  *PropSize OPTIONAL,
+  OUT CONST CHAR8             **PropName OPTIONAL
+  );
+
+typedef
+EFI_STATUS
 (EFIAPI *FDT_CLIENT_SET_NODE_PROPERTY) (
   IN  FDT_CLIENT_PROTOCOL     *This,
   IN  INT32                   Node,
   IN  CONST CHAR8             *PropertyName,
   IN  CONST VOID              *Prop,
   IN  UINT32                  PropSize
+  );
+
+typedef
+BOOLEAN
+(EFIAPI *FDT_CLIENT_HAS_NODE_PROPERTY) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   Node,
+  IN  CONST CHAR8             *PropertyName
   );
 
 typedef
@@ -133,15 +151,49 @@ EFI_STATUS
 
 typedef
 EFI_STATUS
+(EFIAPI *FDT_CLIENT_FIND_PROPERTY) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   ParentNode,
+  OUT INT32                   *Node
+  );
+
+typedef
+EFI_STATUS
+(EFIAPI *FDT_CLIENT_FIND_NEXT_PROPERTY) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   PrevNode,
+  OUT INT32                   *Node
+  );
+
+typedef
+EFI_STATUS
 (EFIAPI *FDT_CLIENT_FIND_NODE_BY_PHANDLE) (
   IN  FDT_CLIENT_PROTOCOL     *This,
   IN  UINT32                  PHandleValue,
   OUT INT32                   *Node
   );
 
+typedef
+EFI_STATUS
+(EFIAPI *FDT_CLIENT_GET_PARENT_NODE) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   ChildNode,
+  OUT INT32                   *Node
+  );
+
+typedef
+EFI_STATUS
+(EFIAPI *FDT_CLIENT_FIND_ALIAS_FOR_NODE) (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   Node,
+  OUT CONST CHAR8             **Alias
+  );
+
 struct _FDT_CLIENT_PROTOCOL {
   FDT_CLIENT_GET_NODE_PROPERTY             GetNodeProperty;
+  FDT_CLIENT_GET_NODE_PROPERTY_BY_OFFSET   GetNodePropertyByOffset;
   FDT_CLIENT_SET_NODE_PROPERTY             SetNodeProperty;
+  FDT_CLIENT_HAS_NODE_PROPERTY             HasNodeProperty;
 
   FDT_CLIENT_FIND_COMPATIBLE_NODE          FindCompatibleNode;
   FDT_CLIENT_FIND_NEXT_COMPATIBLE_NODE     FindNextCompatibleNode;
@@ -155,7 +207,11 @@ struct _FDT_CLIENT_PROTOCOL {
 
   FDT_CLIENT_FIND_SUB_NODE                 FindSubNode;
   FDT_CLIENT_FIND_NEXT_SUB_NODE            FindNextSubNode;
+  FDT_CLIENT_FIND_PROPERTY                 FindProperty;
+  FDT_CLIENT_FIND_NEXT_PROPERTY            FindNextProperty;
   FDT_CLIENT_FIND_NODE_BY_PHANDLE          FindNodeByPHandle;
+  FDT_CLIENT_GET_PARENT_NODE               GetParentNode;
+  FDT_CLIENT_FIND_ALIAS_FOR_NODE           FindAliasForNode;
 };
 
 extern EFI_GUID gFdtClientProtocolGuid;

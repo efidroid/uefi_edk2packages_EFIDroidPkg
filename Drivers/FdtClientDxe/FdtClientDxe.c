@@ -58,6 +58,40 @@ GetNodeProperty (
 STATIC
 EFI_STATUS
 EFIAPI
+GetNodePropertyByOffset (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   Offset,
+  OUT CONST VOID              **Prop,
+  OUT UINT32                  *PropSize OPTIONAL,
+  OUT CONST CHAR8             **PropName OPTIONAL
+  )
+{
+  INT32 Len;
+  const struct fdt_property *FdtProp;
+
+  ASSERT (mDeviceTreeBase != NULL);
+  ASSERT (Prop != NULL);
+
+  FdtProp = fdt_get_property_by_offset (mDeviceTreeBase, Offset, &Len);
+  if (FdtProp == NULL) {
+    return EFI_NOT_FOUND;
+  }
+  *Prop = FdtProp->data;
+
+  if (PropSize != NULL) {
+    *PropSize = fdt32_to_cpu(FdtProp->len);
+  }
+
+  if (PropName != NULL) {
+    *PropName = fdt_string(mDeviceTreeBase, fdt32_to_cpu(FdtProp->nameoff));
+  }
+
+  return EFI_SUCCESS;
+}
+
+STATIC
+EFI_STATUS
+EFIAPI
 SetNodeProperty (
   IN  FDT_CLIENT_PROTOCOL     *This,
   IN  INT32                   Node,
@@ -76,6 +110,26 @@ SetNodeProperty (
   }
 
   return EFI_SUCCESS;
+}
+
+STATIC
+BOOLEAN
+EFIAPI
+HasNodeProperty (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   Node,
+  IN  CONST CHAR8             *PropertyName
+  )
+{
+  EFI_STATUS     Status;
+  CONST VOID     *Prop;
+  UINT32         PropSize;
+
+  Status = GetNodeProperty(This, Node, PropertyName, &Prop, &PropSize);
+  if (EFI_ERROR(Status))
+    return FALSE;
+
+  return TRUE;
 }
 
 STATIC
@@ -346,6 +400,46 @@ FindSubNode (
 STATIC
 EFI_STATUS
 EFIAPI
+FindProperty (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   ParentNode,
+  OUT INT32                   *Node
+  )
+{
+  INT32 Offset;
+
+  Offset = fdt_first_property_offset(mDeviceTreeBase, ParentNode);
+  if (Offset < 0)
+    return EFI_NOT_FOUND;
+
+  *Node = Offset;
+
+  return EFI_SUCCESS;
+}
+
+STATIC
+EFI_STATUS
+EFIAPI
+FindNextProperty (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   PrevNode,
+  OUT INT32                   *Node
+  )
+{
+  INT32 Offset;
+
+  Offset = fdt_next_property_offset(mDeviceTreeBase, PrevNode);
+  if (Offset < 0)
+    return EFI_NOT_FOUND;
+
+  *Node = Offset;
+
+  return EFI_SUCCESS;
+}
+
+STATIC
+EFI_STATUS
+EFIAPI
 FindNodeByPHandle (
   IN  FDT_CLIENT_PROTOCOL     *This,
   IN  UINT32                  PHandleValue,
@@ -382,9 +476,76 @@ FindNodeByPHandle (
   return EFI_NOT_FOUND;
 }
 
+STATIC
+EFI_STATUS
+EFIAPI
+GetParentNode (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   ChildNode,
+  OUT INT32                   *Node
+  )
+{
+  INT32 Offset;
+
+  Offset = fdt_parent_offset(mDeviceTreeBase, ChildNode);
+  if (Offset < 0)
+    return EFI_NOT_FOUND;
+
+  *Node = Offset;
+
+  return EFI_SUCCESS;
+}
+
+STATIC
+EFI_STATUS
+EFIAPI
+FindAliasForNode (
+  IN  FDT_CLIENT_PROTOCOL     *This,
+  IN  INT32                   Node,
+  OUT CONST CHAR8             **Alias
+  )
+{
+  EFI_STATUS   Status;
+  EFI_STATUS   FindPropStatus;
+  INT32        AliasOffset;
+  INT32        PropertyOffset;
+  CONST CHAR8  *PropertyValue;
+  CONST CHAR8  *PropertyName;
+  UINT32       PropertySize;
+  INT32        Ret;
+  CHAR8        NodePath[4096];
+
+  AliasOffset = fdt_path_offset(mDeviceTreeBase, "/aliases");
+  if (AliasOffset < 0)
+    return EFI_NOT_FOUND;
+
+  Ret = fdt_get_path(mDeviceTreeBase, Node, NodePath, ARRAY_SIZE(NodePath));
+  if (Ret != 0)
+    return EFI_DEVICE_ERROR;
+
+  for (FindPropStatus = FindProperty(mDeviceTreeBase, AliasOffset, &PropertyOffset);
+       !EFI_ERROR (FindPropStatus);
+       FindPropStatus = FindNextProperty(mDeviceTreeBase, PropertyOffset, &PropertyOffset))
+  {
+    Status = GetNodePropertyByOffset (mDeviceTreeBase, PropertyOffset, (CONST VOID **)&PropertyValue, &PropertySize, &PropertyName);
+    if (EFI_ERROR (Status)) {
+      continue;
+    }
+
+    if (!AsciiStrnCmp(NodePath, PropertyValue, PropertySize)) {
+      *Alias = PropertyName;
+      return EFI_SUCCESS;
+    }
+  }
+
+  return EFI_NOT_FOUND;
+}
+
 STATIC FDT_CLIENT_PROTOCOL mFdtClientProtocol = {
   GetNodeProperty,
+  GetNodePropertyByOffset,
   SetNodeProperty,
+  HasNodeProperty,
   FindCompatibleNode,
   FindNextCompatibleNode,
   FindCompatibleNodeProperty,
@@ -394,7 +555,11 @@ STATIC FDT_CLIENT_PROTOCOL mFdtClientProtocol = {
   GetOrInsertChosenNode,
   FindSubNode,
   FindNextSubNode,
+  FindProperty,
+  FindNextProperty,
   FindNodeByPHandle,
+  GetParentNode,
+  FindAliasForNode,
 };
 
 STATIC
