@@ -8,6 +8,8 @@
   QcomPlatformClockInitLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomPlatformClockInitLib/QcomPlatformClockInitLib.inf
   QcomPlatformUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomPlatformUartDmLib/QcomPlatformUartDmLib.inf
   QcomPlatformDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomPlatformDisplayLib/QcomPlatformDisplayLib.inf
+  QcomPlatformMmcLib|EFIDroidPkg/Qcom/Library/FdtPlatformMmcLib/QcomPlatformMmcLib.inf
+  QcomPlatformMmcClockOverrideLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomPlatformMmcClockOverrideLib/QcomPlatformMmcClockOverrideLib.inf
 
   # target
   QcomTargetBoardLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomTargetBoardLib/QcomTargetBoardLib.inf
@@ -138,6 +140,15 @@
   gQcomTokenSpaceGuid.PcdGpioTlmmDrvBit|6
   gQcomTokenSpaceGuid.PcdGpioTlmmPullBit|0
   gQcomTokenSpaceGuid.PcdGpioTlmmNumFunctions|12
+
+  gQcomTokenSpaceGuid.PcdSdccMciHcMode|0x00000078
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlStatusReg|0x000000DC
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlMaskReg|0x000000E0
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlClearReg|0x000000E4
+  gQcomTokenSpaceGuid.PcdSdccHcPwrctlCtlReg|0x000000E8
+  gQcomTokenSpaceGuid.PcdMmcSdhciDdrCfgVal|0x80040870 # DDR_CFG_DLY_VAL
+  gQcomTokenSpaceGuid.PcdMmcSdc1HdrvPullCtlOffset|0x00002044
+  gQcomTokenSpaceGuid.PcdMmcSdc2HdrvPullCtlOffset|0x00002048
 
 [Components.common]
   EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemDxe.inf
