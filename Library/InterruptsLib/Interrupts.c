@@ -44,12 +44,18 @@ InterruptsLibIrqHandler (
   IN  EFI_SYSTEM_CONTEXT          SystemContext
   )
 {
+  EFI_TPL     OriginalTPL;
+
   // get handler entry
   HANDLER_ENTRY* Entry = GetInterruptHandlerEntry ((UINTN)Source);
   ASSERT (Entry);
 
+  OriginalTPL = gBS->RaiseTPL (TPL_HIGH_LEVEL);
+
   // call handler, ignore the return value because we don't support threads
   Entry->Handler (Entry->Arg);
+
+  gBS->RestoreTPL (OriginalTPL);
 
   // signal eoi
   mInterrupt->EndOfInterrupt (mInterrupt, Source);
