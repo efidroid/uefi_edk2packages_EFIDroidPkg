@@ -203,6 +203,9 @@ void fbcon_putc(char c)
 	if (cur_pos->x == 0 && (unsigned char)c == ' ')
 		return;
 
+	BOOLEAN intstate = ArmGetInterruptState();
+	ArmDisableInterrupts();
+
 	pixels = config->base;
 	pixels += cur_pos->y * ((config->bpp / 8) * FONT_HEIGHT * config->width);
 	pixels += cur_pos->x * scale_factor * ((config->bpp / 8) * (FONT_WIDTH + 1));
@@ -214,6 +217,9 @@ void fbcon_putc(char c)
 	if (cur_pos->x >= (int)(max_pos.x / scale_factor))
 		goto newline;
 
+	if (intstate)
+		ArmEnableInterrupts();
+
 	return;
 
 newline:
@@ -224,6 +230,9 @@ newline:
 		fbcon_scroll_up();
 	} else
 		fbcon_flush();
+
+	if (intstate)
+		ArmEnableInterrupts();
 }
 
 void fbcon_setup(struct fbcon_config *_config)
