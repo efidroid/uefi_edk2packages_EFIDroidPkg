@@ -84,7 +84,10 @@ static void fbcon_drawglyph(char *pixels, uint32_t paint, unsigned stride,
 				else
 				{
 					for (j = 0; j < scale_factor; j++) {
-						pixels = pixels + bpp;
+						for (k = 0; k < bpp; k++) {
+							*pixels = (unsigned char) 0x00;
+							pixels++;
+						}
 					}
 				}
 				data >>= 1;
@@ -112,7 +115,10 @@ static void fbcon_drawglyph(char *pixels, uint32_t paint, unsigned stride,
 				else
 				{
 					for (j = 0; j < scale_factor; j++) {
-						pixels = pixels + bpp;
+						for (k = 0; k < bpp; k++) {
+							*pixels = (unsigned char) 0x00;
+							pixels++;
+						}
 					}
 				}
 				data >>= 1;
