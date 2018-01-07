@@ -57,15 +57,17 @@ BOOLEAN platform_is_msm8994(VOID)
 BOOLEAN platform_is_msm8992(VOID)
 {
   BOOLEAN ret;
-
   UINT32 platform = gBoard->board_platform_id();
+
   switch (platform) {
   case MSM8992:
   case APQ8092:
     ret = TRUE;
-  break;
+    break;
+
   default:
     ret = FALSE;
+    break;
   }
 
   return ret;
