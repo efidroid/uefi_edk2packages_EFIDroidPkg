@@ -27,10 +27,10 @@ struct _QCOM_BOARD_PROTOCOL {
   board_hardware_id_t       board_hardware_id;
   board_hardware_subtype_t  board_hardware_subtype;
   board_foundry_id_t        board_foundry_id;
-  board_chip_serial_t       board_chip_serial_t;
+  board_chip_serial_t       board_chip_serial;
   board_pmic_info_t         board_pmic_info;
   board_pmic_target_t       board_pmic_target;
-  board_soc_version_t       board_soc_version_t;
+  board_soc_version_t       board_soc_version;
   board_get_hw_platform_name_t  board_get_hw_platform_name;
 };
 
