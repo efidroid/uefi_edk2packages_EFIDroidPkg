@@ -7,7 +7,6 @@
   # platform
   QcomPlatformClockInitLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformClockInitLib/QcomPlatformClockInitLib.inf
   QcomPlatformUartDmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformUartDmLib/QcomPlatformUartDmLib.inf
-  QcomPlatformGpioTlmmLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformGpioTlmmLib/QcomPlatformGpioTlmmLib.inf
   QcomPlatformDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDisplayLib/QcomPlatformDisplayLib.inf
   QcomPlatformDisplayMinimalLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDisplayLib/QcomPlatformDisplayMinimalLib.inf
   QcomPlatformMmcLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformMmcLib/QcomPlatformMmcLib.inf
@@ -45,7 +44,7 @@
   SmemLib|EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemImplLib.inf
   BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardImplLib.inf
   ClockLib|EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockImplLib.inf
-  GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmImplLib.inf
+  GpioTlmmLib|EFIDroidGPLPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmImplLib.inf
   SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiImplLib.inf
   Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921ImplLib.inf
 
@@ -74,7 +73,7 @@
   SmemLib|EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemLib.inf
   BoardLib|EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardLib.inf
   ClockLib|EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockLib.inf
-  GpioTlmmLib|EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmLib.inf
+  GpioTlmmLib|EFIDroidGPLPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmLib.inf
   SsbiLib|EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiLib.inf
   Pm8921Lib|EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Lib.inf
   I2cQupLib|EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupLib.inf
@@ -112,14 +111,14 @@
 
   gQcomTokenSpaceGuid.PcdGpioTlmmIoOffset|0x1004
   gQcomTokenSpaceGuid.PcdGpioTlmmIoElementSize|0x10
+  gQcomTokenSpaceGuid.PcdGpioTlmmCtlOffset|0x1000
+  gQcomTokenSpaceGuid.PcdGpioTlmmCtlElementSize|0x10
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgOffset|0x1008
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrCfgElementSize|0x10
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusOffset|0x100c
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusElementSize|0x10
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetOffset|0x400
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrTargetElementSize|0x4
-
-  gQcomTokenSpaceGuid.PcdGpioTlmmInBit|0
 
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrEnableBit|0
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrStatusBit|0
@@ -132,11 +131,19 @@
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionBit|2
   gQcomTokenSpaceGuid.PcdGpioTlmmIntrDetectionWidth|1
 
+  gQcomTokenSpaceGuid.PcdGpioTlmmInBit|0
+  gQcomTokenSpaceGuid.PcdGpioTlmmOutBit|1
+  gQcomTokenSpaceGuid.PcdGpioTlmmOeBit|9
+  gQcomTokenSpaceGuid.PcdGpioTlmmMuxBit|2
+  gQcomTokenSpaceGuid.PcdGpioTlmmDrvBit|6
+  gQcomTokenSpaceGuid.PcdGpioTlmmPullBit|0
+  gQcomTokenSpaceGuid.PcdGpioTlmmNumFunctions|11
+
 [Components.common]
   EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemDxe.inf
   EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardDxe.inf
   EFIDroidPkg/Qcom/Drivers/ClockDxe/ClockDxe.inf
-  EFIDroidPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmDxe.inf
+  EFIDroidGPLPkg/Qcom/Drivers/GpioTlmmDxe/GpioTlmmDxe.inf
   EFIDroidGPLPkg/Qcom/Drivers/GpioTlmmInterruptDxe/GpioTlmmInterruptDxe.inf
   EFIDroidPkg/Qcom/Drivers/SsbiDxe/SsbiDxe.inf
   EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
