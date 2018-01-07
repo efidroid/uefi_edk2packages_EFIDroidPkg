@@ -17,6 +17,7 @@ STATIC QCOM_CLOCK_PROTOCOL mInternalClock = {
   clk_set_parent,
   clk_get_parent,
   clk_get_set_enable,
+  clk_reset,
 };
 
 RETURN_STATUS

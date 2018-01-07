@@ -16,6 +16,7 @@ typedef int (EFIAPI *clk_set_rate_t)(struct clk *clk, unsigned long rate);
 typedef int (EFIAPI *clk_set_parent_t)(struct clk *clk, struct clk *parent);
 typedef struct clk *(EFIAPI *clk_get_parent_t)(struct clk *clk);
 typedef int (EFIAPI *clk_get_set_enable_t)(char *id, unsigned long rate, bool enable);
+typedef int (EFIAPI *clk_reset_t)(struct clk *clk, enum clk_reset_action);
 
 struct _QCOM_CLOCK_PROTOCOL {
   clk_get_t             clk_get;
@@ -26,6 +27,7 @@ struct _QCOM_CLOCK_PROTOCOL {
   clk_set_parent_t      clk_set_parent;
   clk_get_parent_t      clk_get_parent;
   clk_get_set_enable_t  clk_get_set_enable;
+  clk_reset_t           clk_reset;
 };
 
 extern EFI_GUID gQcomClockProtocolGuid;
