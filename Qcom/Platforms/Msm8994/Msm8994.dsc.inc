@@ -10,6 +10,7 @@
   QcomPlatformDisplayLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomPlatformDisplayLib/QcomPlatformDisplayLib.inf
   QcomPlatformMmcLib|EFIDroidPkg/Qcom/Library/FdtPlatformMmcLib/QcomPlatformMmcLib.inf
   QcomPlatformMmcClockOverrideLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomPlatformMmcClockOverrideLib/QcomPlatformMmcClockOverrideLib.inf
+  QcomPlatformUsbLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomPlatformUsbLib/QcomPlatformUsbLib.inf
 
   # target
   QcomTargetBoardLib|EFIDroidPkg/Qcom/Platforms/Msm8994/Library/QcomTargetBoardLib/QcomTargetBoardLib.inf
@@ -150,6 +151,19 @@
   gQcomTokenSpaceGuid.PcdMmcSdc1HdrvPullCtlOffset|0x00002044
   gQcomTokenSpaceGuid.PcdMmcSdc2HdrvPullCtlOffset|0x00002048
 
+  gQcomTokenSpaceGuid.PcdUsb30Ee1Irq|163
+  gQcomTokenSpaceGuid.PcdUsb30Base|0xF9200000
+  gQcomTokenSpaceGuid.PcdUsb30ScratchBase|0xF92F8800
+  gQcomTokenSpaceGuid.PcdUsb30QmpPhyBase|0xF9B38000
+  gQcomTokenSpaceGuid.PcdUsb2PhyBase|0xF9B39000
+  gQcomTokenSpaceGuid.PcdUsb2GccPhyBcr|0xFC4004B8
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortPowerDownOffset|0x000000B4
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortUtmiCtrl2Offset|0x000000C4
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune1Offset|0x00000080
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune2Offset|0x00000084
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune3Offset|0x00000088
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune4Offset|0x0000008C
+
 [Components.common]
   EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemDxe.inf
   EFIDroidPkg/Qcom/Drivers/SmemPtableDxe/SmemPtableDxe.inf
@@ -162,3 +176,4 @@
   EFIDroidPkg/Qcom/Drivers/ScmDxe/ScmDxe.inf
   EFIDroidPkg/Qcom/Drivers/QpnpWledDxe/QpnpWledDxe.inf
   EFIDroidPkg/Qcom/Drivers/SmdRpmDxe/RpmDxe.inf
+  EFIDroidPkg/Qcom/Drivers/UsbDxe/UsbDxe.inf
