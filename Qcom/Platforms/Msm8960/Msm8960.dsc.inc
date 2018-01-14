@@ -67,6 +67,7 @@
   PlatformDxeInitLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/PlatformDxeInitLib/PlatformDxeInitLib.inf
   QcomDxeTimerLib|EFIDroidPkg/Qcom/Library/QcomDGTDxeTimerLib/QcomDGTDxeTimerLib.inf
   QcomPlatformDxeTimerLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformDxeTimerLib/QcomPlatformDxeTimerLib.inf
+  QcomPlatformUsbLib|EFIDroidPkg/Qcom/Platforms/Msm8960/Library/QcomPlatformUsbLib/QcomPlatformUsbLib.inf
 
 [LibraryClasses.common.DXE_DRIVER, LibraryClasses.common.UEFI_APPLICATION, LibraryClasses.common.UEFI_DRIVER]
   # protocol libs
@@ -139,6 +140,9 @@
   gQcomTokenSpaceGuid.PcdGpioTlmmPullBit|0
   gQcomTokenSpaceGuid.PcdGpioTlmmNumFunctions|11
 
+  gQcomTokenSpaceGuid.PcdUsbHsBase|0x12500000
+  gQcomTokenSpaceGuid.PcdUsbHsIrq|132
+
 [Components.common]
   EFIDroidPkg/Qcom/Drivers/SmemDxe/SmemDxe.inf
   EFIDroidPkg/Qcom/Drivers/BoardDxe/BoardDxe.inf
@@ -149,3 +153,4 @@
   EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
   EFIDroidPkg/Qcom/Drivers/MMCHSDxe/MMCHS.inf
   EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupDxe.inf
+  EFIDroidPkg/Qcom/Drivers/UsbDxe/UsbDxe.inf

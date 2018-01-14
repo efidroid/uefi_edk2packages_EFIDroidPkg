@@ -28,3 +28,4 @@ READ_LOCK_STATUS   = TRUE
   INF EFIDroidPkg/Qcom/Drivers/Pm8921Dxe/Pm8921Dxe.inf
   INF EFIDroidPkg/Qcom/Drivers/MMCHSDxe/MMCHS.inf
   INF EFIDroidPkg/Qcom/Drivers/I2cQupDxe/I2cQupDxe.inf
+  INF EFIDroidPkg/Qcom/Drivers/UsbDxe/UsbDxe.inf
