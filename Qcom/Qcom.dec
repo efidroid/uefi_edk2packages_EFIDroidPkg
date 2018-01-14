@@ -168,6 +168,22 @@
   # misc
   gQcomTokenSpaceGuid.PcdGicSpiStart|0|UINT64|0x00000200
 
+  # UsbDxe
+  gQcomTokenSpaceGuid.PcdUsb30Ee1Irq|0|UINT64|0x00000300
+  gQcomTokenSpaceGuid.PcdUsb30Base|0|UINT64|0x00000301
+  gQcomTokenSpaceGuid.PcdUsb30ScratchBase|0|UINT64|0x00000302
+  gQcomTokenSpaceGuid.PcdUsb30QmpPhyBase|0|UINT64|0x00000303
+  gQcomTokenSpaceGuid.PcdUsb2PhyBase|0|UINT64|0x00000305
+  gQcomTokenSpaceGuid.PcdUsb2GccPhyBcr|0|UINT64|0x00000306
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortPowerDownOffset|0|UINT64|0x00000307
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortUtmiCtrl2Offset|0|UINT64|0x00000308
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune1Offset|0|UINT64|0x00000309
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune2Offset|0|UINT64|0x0000030a
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune3Offset|0|UINT64|0x0000030b
+  gQcomTokenSpaceGuid.PcdUsb2PhyPortTune4Offset|0|UINT64|0x0000030c
+  gQcomTokenSpaceGuid.PcdUsbHsBase|0|UINT64|0x0000030d
+  gQcomTokenSpaceGuid.PcdUsbHsIrq|0|UINT64|0x0000030e
+
 [PcdsFeatureFlag.common]
   # MMCHSDxe
   gQcomTokenSpaceGuid.PcdMmcAdmSupport|FALSE|BOOLEAN|0x00010001
