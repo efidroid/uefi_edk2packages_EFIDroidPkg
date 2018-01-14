@@ -352,6 +352,9 @@
   #
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetNxForStack|TRUE
 
+  gEmbeddedTokenSpaceGuid.PcdAndroidFastbootUsbVendorId|0x18d1
+  gEmbeddedTokenSpaceGuid.PcdAndroidFastbootUsbProductId|0xd00d
+
 [PcdsFixedAtBuild.ARM]
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuMemorySize|40
 
