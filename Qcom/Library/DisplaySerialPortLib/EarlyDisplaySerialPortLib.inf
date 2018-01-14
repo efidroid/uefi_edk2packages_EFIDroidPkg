@@ -14,6 +14,7 @@
   IoLib
   FbConLib
   QcomTargetDisplayLib
+  HobLib
 
 [Packages]
   ArmPkg/ArmPkg.dec
