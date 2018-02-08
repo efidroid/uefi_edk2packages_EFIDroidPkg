@@ -6,10 +6,10 @@
 void apq8064_ext_3p3V_enable(void)
 {
 	/* Configure GPIO for output */
-	gGpioTlmm->gpio_tlmm_config(77, 0, GPIO_OUTPUT, GPIO_NO_PULL, GPIO_8MA, GPIO_ENABLE);
-
-	/* Output High */
-	gGpioTlmm->gpio_set(77, 2);
+	gGpioTlmm->SetFunction(77, 0);
+	gGpioTlmm->SetDriveStrength(77, 8);
+	gGpioTlmm->SetPull(77, GPIO_PULL_NONE);
+	gGpioTlmm->DirectionOutput(77, 1);
 }
 
 /* Returns 1 if target supports continuous splash screen. */
