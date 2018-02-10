@@ -45,9 +45,8 @@ READ_LOCK_CAP      = TRUE
 READ_LOCK_STATUS   = TRUE
 
   APRIORI DXE {
-    # first, install the PCD driver and call DxeInit
+    # first, install the PCD driver
     INF MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
-    INF EFIDroidPkg/Drivers/DxeInit/DxeInit.inf
 
     # next, install cpu protocol and enable the interrupt controller
     INF ArmPkg/Drivers/CpuDxe/CpuDxe.inf
@@ -56,15 +55,10 @@ READ_LOCK_STATUS   = TRUE
     # next, setup the FDT client and setup all memory regions
     INF EFIDroidPkg/Drivers/FdtClientDxe/FdtClientDxe.inf
     INF EFIDroidPkg/Drivers/HighMemDxe/HighMemDxe.inf
-
-    # finally, call DxeInitPostGic
-    INF EFIDroidPkg/Drivers/DxeInit/DxeInitPostGic.inf
   }
 
   INF MdeModulePkg/Core/Dxe/DxeMain.inf
   INF MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
-  INF EFIDroidPkg/Drivers/DxeInit/DxeInit.inf
-  INF EFIDroidPkg/Drivers/DxeInit/DxeInitPostGic.inf
 
   #
   # PI DXE Drivers producing Architectural Protocols (EFI Services)

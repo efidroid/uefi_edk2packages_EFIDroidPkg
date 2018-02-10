@@ -190,8 +190,6 @@
     <LibraryClasses>
       PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   }
-  EFIDroidPkg/Drivers/DxeInit/DxeInit.inf
-  EFIDroidPkg/Drivers/DxeInit/DxeInitPostGic.inf
 
   #
   # Architectural Protocols

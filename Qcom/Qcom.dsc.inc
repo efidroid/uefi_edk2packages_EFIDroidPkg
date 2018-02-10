@@ -13,9 +13,6 @@
   QcomPlatformMmcClockOverrideLib|EFIDroidPkg/Qcom/Library/QcomPlatformMmcClockOverrideLibNull/QcomPlatformMmcClockOverrideLibNull.inf
   QcomUsbPhyLib|EFIDroidPkg/Qcom/Library/QcomUsbPhyLib/QcomUsbPhyLib.inf
 
-[LibraryClasses.common.DXE_DRIVER]
-  ChipVendorDxeInitLib|EFIDroidPkg/Qcom/Library/ChipVendorDxeInitLib/ChipVendorDxeInitLib.inf
-
 [Components.common]
   EFIDroidPkg/Qcom/Drivers/TimerDxe/TimerDxe.inf
   !if $(DISPLAY_TYPE) != DISABLED && $(EARLYDEBUG_TYPE) != DISPLAY

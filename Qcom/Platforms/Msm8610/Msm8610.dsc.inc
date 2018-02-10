@@ -65,7 +65,6 @@
 !endif
 
 [LibraryClasses.common.DXE_DRIVER]
-  PlatformDxeInitLib|EFIDroidPkg/Qcom/Library/PlatformDxeInitLibNull/PlatformDxeInitLibNull.inf
   QcomDxeTimerLib|EFIDroidPkg/Qcom/Library/QTimerLib/QcomQTimerDxeTimerLib.inf
 
 [LibraryClasses.common.DXE_DRIVER, LibraryClasses.common.UEFI_APPLICATION, LibraryClasses.common.UEFI_DRIVER]
