@@ -75,7 +75,7 @@ void target_display_init(void)
     uint32_t pipe_base = left_pipe;
 
     // dump format
-    config.base = (void *) readl(pipe_base + PIPE_SSPP_SRC0_ADDR);
+    config.base = (void *) (UINTN) readl(pipe_base + PIPE_SSPP_SRC0_ADDR);
     config.width = readl(pipe_base + PIPE_SSPP_SRC_YSTRIDE)/3;
     config.height = readl(pipe_base + PIPE_SSPP_SRC_IMG_SIZE)>>16;
     config.stride = config.width;

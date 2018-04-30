@@ -127,9 +127,9 @@ enum pmic_arb_chnl_return_values{
 };
 
 int spmi_init(void);
-unsigned int pmic_arb_write_cmd(struct pmic_arb_cmd *cmd,
+UINTN pmic_arb_write_cmd(struct pmic_arb_cmd *cmd,
 	struct pmic_arb_param *param);
-unsigned int pmic_arb_read_cmd(struct pmic_arb_cmd *cmd,
+UINTN pmic_arb_read_cmd(struct pmic_arb_cmd *cmd,
 	struct pmic_arb_param *param);
 
 #endif

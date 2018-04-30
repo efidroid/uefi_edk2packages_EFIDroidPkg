@@ -17,7 +17,7 @@ VOID LibQcomPlatformMmcClockConfig(UINT32 interface, UINT32 freq)
   CHAR8 sdc_clk[64];
   UINTN rate;
 
-  snprintf(sdc_clk, 64, "sdc%u_clk", interface);
+  AsciiSPrint(sdc_clk, 64, "sdc%u_clk", interface);
 
   switch(freq)
   {

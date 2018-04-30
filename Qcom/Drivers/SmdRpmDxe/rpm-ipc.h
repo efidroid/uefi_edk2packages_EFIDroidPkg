@@ -49,7 +49,7 @@ typedef struct
 {
 	uint32_t type;
 	uint32_t len;
-} rpm_gen_hdr;
+} __attribute__((packed)) rpm_gen_hdr;
 
 typedef struct
 {
@@ -65,7 +65,7 @@ typedef struct
 	uint32_t resourceType;
 	uint32_t resourceId;
 	uint32_t dataLength;
-}rpm_req_hdr;
+} __attribute__((packed)) rpm_req_hdr;
 
 typedef struct
 {
@@ -81,7 +81,7 @@ typedef struct
 } rpm_cmd;
 
 typedef rpm_cmd rpm_ack_msg;
-int rpm_send_data(uint32_t *data, uint32_t len, msg_type type);
+INTN rpm_send_data(uint32_t *data, uint32_t len, msg_type type);
 void rpm_clk_enable(uint32_t *data, uint32_t len);
 
 void fill_kvp_object(kvp_data **kdata, uint32_t *data, uint32_t len);

@@ -225,7 +225,7 @@ void clock_lib2_vote_clk_disable(struct clk *c)
 }
 
 /* Reset clock */
-static int __clock_lib2_branch_clk_reset(uint32_t bcr_reg, enum clk_reset_action action)
+static int __clock_lib2_branch_clk_reset(void *bcr_reg, enum clk_reset_action action)
 {
 	uint32_t reg;
 	int ret = 0;
@@ -268,5 +268,5 @@ int clock_lib2_branch_clk_reset(struct clk *c, enum clk_reset_action action)
 	if (!bclk)
 		return 0;
 
-	return __clock_lib2_branch_clk_reset((uint32_t)bclk->bcr_reg, action);
+	return __clock_lib2_branch_clk_reset(bclk->bcr_reg, action);
 }

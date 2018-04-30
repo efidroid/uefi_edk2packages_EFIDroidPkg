@@ -321,6 +321,7 @@ STATIC EFI_STATUS usb_init(VOID)
     mUsbIf.udc_request_queue   = usb30_udc_request_queue;
     mUsbIf.max_usb_bulk_size   = MAX_USBSS_BULK_SIZE;
   }
+#ifdef MDE_CPU_ARM
   else if (!StrCmp(mUdcDevice.t_usb_if->controller, L"ci"))
   {
     /* initialize udc functions to use the default chipidea controller */
@@ -337,6 +338,7 @@ STATIC EFI_STATUS usb_init(VOID)
     mUsbIf.udc_request_queue   = udc_request_queue;
     mUsbIf.max_usb_bulk_size   = MAX_USBFS_BULK_SIZE;
   }
+#endif
   else {
     Status = EFI_UNSUPPORTED;
     goto fail_unsupported_controller;

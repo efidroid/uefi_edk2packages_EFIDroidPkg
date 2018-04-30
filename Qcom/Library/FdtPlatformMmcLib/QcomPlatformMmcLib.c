@@ -10,7 +10,7 @@ VOID LibQcomPlatformMmcClockInit(UINT32 interface)
   CHAR8 clk_name[64];
   INTN ret;
 
-  snprintf(clk_name, sizeof(clk_name), "sdc%u_iface_clk", interface);
+  AsciiSPrint(clk_name, sizeof(clk_name), "sdc%u_iface_clk", interface);
 
   /* enable interface clock */
   ret = gClock->clk_get_set_enable(clk_name, 0, 1);
@@ -28,7 +28,7 @@ VOID LibQcomPlatformMmcClockConfig(UINT32 interface, UINT32 freq)
 
   freq = LibQcomPlatformMmcTranslateClockRate(freq);
 
-  snprintf(clk_name, sizeof(clk_name), "sdc%u_core_clk", interface);
+  AsciiSPrint(clk_name, sizeof(clk_name), "sdc%u_core_clk", interface);
 
   ret = gClock->clk_get_set_enable(clk_name, freq, 1);
   if(ret)

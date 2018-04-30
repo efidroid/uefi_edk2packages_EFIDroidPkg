@@ -7,6 +7,8 @@
 #include <Library/MallocLib.h>
 
 #define CPOOL_HEAD_SIGNATURE   SIGNATURE_32('C','p','h','d')
+#define PTR_TO_POOL_HEAD(Ptr) (((VOID*)(Ptr)) - sizeof(CPOOL_HEAD))
+#define IS_ALIGNED(addr, size)      (((UINTN) (addr) & (size - 1)) == 0)
 
 typedef enum {
   ALLOCTYPE_POOL,
@@ -18,8 +20,6 @@ typedef struct {
   UINTN                 Size;
   UINTN                 Boundary;
   ALLOCATION_TYPE       Type;
-
-  UINT8 Data[0];
 } CPOOL_HEAD;
 
 VOID *memalign(UINTN Boundary, UINTN Size)
@@ -68,7 +68,13 @@ VOID *memalign(UINTN Boundary, UINTN Size)
     Head->Type      = Type;
 
     // Return a pointer to the data
-    RetVal          = (VOID*) Head->Data;
+    RetVal          = (VOID*) BaseMemory + HeadSize;
+
+    if (!IS_ALIGNED(RetVal, Boundary)) {
+      DEBUG((DEBUG_ERROR, " BaseMem: %p, Head: %p, Returns %p, Boundary %u, Size %u\n", BaseMemory, Head, RetVal, Boundary, Size));
+      DEBUG((DEBUG_ERROR, " HeadSize: %u, soph: %u\n", HeadSize, sizeof(CPOOL_HEAD)));
+      ASSERT(0);
+    }
     DEBUG((DEBUG_POOL, " Head: %p, Returns %p\n", Head, RetVal));
   }
 
@@ -100,7 +106,7 @@ VOID free(VOID *Ptr)
   VOID         *BaseMemory;
 
   if (Ptr != NULL) {
-    Head = BASE_CR(Ptr, CPOOL_HEAD, Data);
+    Head = PTR_TO_POOL_HEAD(Ptr);
     ASSERT(Head != NULL);
     DEBUG((DEBUG_POOL, "free(%p): Head: %p\n", Ptr, Head));
 
@@ -132,7 +138,7 @@ VOID *realloc(VOID *Ptr, UINTN NewSize) {
 
   // Find out the size of the OLD memory region
   if (Ptr != NULL) {
-    Head = BASE_CR (Ptr, CPOOL_HEAD, Data);
+    Head = PTR_TO_POOL_HEAD (Ptr);
     ASSERT (Head != NULL);
     if (Head->Signature != CPOOL_HEAD_SIGNATURE) {
       DEBUG((DEBUG_ERROR, "ERROR realloc(0x%p): Signature is 0x%8X, expected 0x%8X\n",

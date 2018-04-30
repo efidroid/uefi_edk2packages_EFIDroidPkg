@@ -495,7 +495,7 @@ static struct branch_clk gcc_usb30_pipe_clk = {
 };
 
 static struct reset_clk gcc_usb30_phy_reset = {
-	.bcr_reg = (uint32_t )USB30_PHY_BCR,
+	.bcr_reg = (uint32_t *) USB30_PHY_BCR,
 
 	.c = {
 		.dbg_name = "usb30_phy_reset",

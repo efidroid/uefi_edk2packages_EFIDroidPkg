@@ -22,14 +22,14 @@ LibQcomPlatformI2cQupBlspClockConfig (
   char clk_name[64];
   struct clk *qup_clk;
 
-  snprintf(clk_name, sizeof(clk_name), "qup%08x_ahb_iface_clk", QupBase);
+  AsciiSPrint(clk_name, sizeof(clk_name), "qup%08x_ahb_iface_clk", QupBase);
   ret = gClock->clk_get_set_enable(clk_name, 0, 1);
   if (ret) {
     DEBUG((DEBUG_ERROR, "Failed to enable %a clock\n", clk_name));
     return EFI_DEVICE_ERROR;
   }
 
-  snprintf(clk_name, sizeof(clk_name), "gcc_qup%08x_i2c_apps_clk", QupBase);
+  AsciiSPrint(clk_name, sizeof(clk_name), "gcc_qup%08x_i2c_apps_clk", QupBase);
   qup_clk = gClock->clk_get(clk_name);
   if (!qup_clk) {
     DEBUG((DEBUG_ERROR, "Failed to get %a\n", clk_name));
@@ -125,7 +125,7 @@ LibQcomPlatformI2cQupAddBusses (
       UINT32 DriveStrength;
       GPIO_PULL Pull;
       BOOLEAN SetPull = TRUE;
-      INTN PinCtrlParentNode;
+      INT32 PinCtrlParentNode;
       UINT32 PinFunction;
       UINT32 NumPins;
       CONST UINT32 *FdtPinArray;

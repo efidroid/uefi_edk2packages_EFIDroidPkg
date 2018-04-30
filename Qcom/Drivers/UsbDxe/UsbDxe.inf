@@ -12,9 +12,10 @@
   usb30_udc.c
   usb30_wrapper.c
 
-  hsusb.c
-
   Usb.c
+
+[Sources.ARM]
+  hsusb.c
 
 [LibraryClasses]
   DebugLib

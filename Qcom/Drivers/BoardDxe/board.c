@@ -345,6 +345,6 @@ size_t board_get_hw_platform_name(void *buf, uint32_t buf_size)
 	if (buf_size < strlen(hw_platform[hw_id]) + 1)
 		return 1;
 
-	return snprintf(buf, strlen(hw_platform[hw_id]) + 1,
+	return AsciiSPrint(buf, strlen(hw_platform[hw_id]) + 1,
 		"%s\n", hw_platform[hw_id]);
 }

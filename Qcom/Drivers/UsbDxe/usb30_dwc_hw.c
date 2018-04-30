@@ -125,8 +125,8 @@ void dwc_ep_cmd_start_transfer(dwc_dev_t *dev, uint8_t ep_phy_num)
 	dwc_ep_cmd_t ep_cmd;
 	dwc_ep_t *ep = &dev->ep[DWC_EP_PHY_TO_INDEX(ep_phy_num)];
 
-	uint32_t td_addr_low  = (uint32_t) ep->trb;
-	uint32_t td_addr_high = (uint32_t) 0x0;
+	uint32_t td_addr_low  = lower_32_bits((uintptr_t)ep->trb);
+	uint32_t td_addr_high = upper_32_bits((uintptr_t)ep->trb);
 
 	/* transfer descriptor (aka TRB list) address must be on 16 byte boundary.*/
 	ASSERT((td_addr_low  & 0xF) == 0);
@@ -380,8 +380,8 @@ void dwc_event_init(dwc_dev_t *dev)
 	/* snps 8.2.2 */
 
 	/* event buffer address */
-	REG_WRITEI(dev, GEVNTADRLO, 0, (uint32_t) dev->event_buf.buf);
-	REG_WRITEI(dev, GEVNTADRHI, 0, 0x0);
+	REG_WRITEI(dev, GEVNTADRLO, 0, lower_32_bits((uintptr_t)dev->event_buf.buf));
+	REG_WRITEI(dev, GEVNTADRHI, 0, upper_32_bits((uintptr_t)dev->event_buf.buf));
 
 	/* set buffer size. assuming interrupt is always needed on new event,
 	 * bit 31 is not set.

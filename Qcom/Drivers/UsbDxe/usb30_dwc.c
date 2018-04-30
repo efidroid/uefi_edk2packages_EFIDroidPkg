@@ -1779,8 +1779,8 @@ static int dwc_request_queue(dwc_dev_t     *dev,
 	{
 		memset(trb, 0, sizeof(dwc_trb_t));
 
-		REG_WRITE_FIELD_LOCAL(&trb->f1, TRB_F1, PTR_LOW,  (uint32_t) data_ptr);
-		REG_WRITE_FIELD_LOCAL(&trb->f2, TRB_F2, PTR_HIGH, 0x0);
+		REG_WRITE_FIELD_LOCAL(&trb->f1, TRB_F1, PTR_LOW,  lower_32_bits((uintptr_t)data_ptr));
+		REG_WRITE_FIELD_LOCAL(&trb->f2, TRB_F2, PTR_HIGH, upper_32_bits((uintptr_t)data_ptr));
 		REG_WRITE_FIELD_LOCAL(&trb->f3, TRB_F3, BUFSIZ,   transfer_len);
 		REG_WRITE_FIELD_LOCAL(&trb->f4, TRB_F4, LST,      0x1);
 		REG_WRITE_FIELD_LOCAL(&trb->f4, TRB_F4, CHN,      0x0);
@@ -1799,8 +1799,8 @@ static int dwc_request_queue(dwc_dev_t     *dev,
 		/* reserve 1 trb for pad/zero-length pkt */
 		uint32_t trb_available = ep->trb_count - 1;
 		uint32_t max_bytes_per_trb;
-		uint32_t offset;
-		uint32_t trb_len = 0;
+		uintptr_t offset;
+		uintptr_t trb_len = 0;
 
 		/* snps 7.2 table 7-1. applies only to older versions of the controller:
 		 * - data_ptr in first TRB can be aligned to byte
@@ -1821,7 +1821,7 @@ static int dwc_request_queue(dwc_dev_t     *dev,
 				/* first trb: limit the transfer length in this TRB such that
 				 * the next trb data_ptr will be aligned to master bus width.
 				 */
-				offset = ((uint32_t) data_ptr) & (DWC_MASTER_BUS_WIDTH - 1);
+				offset = ((uintptr_t) data_ptr) & (DWC_MASTER_BUS_WIDTH - 1);
 				trb_len = (transfer_len <= max_bytes_per_trb) ?
 									transfer_len : (max_bytes_per_trb - offset);
 			}
@@ -1831,8 +1831,8 @@ static int dwc_request_queue(dwc_dev_t     *dev,
 									transfer_len : max_bytes_per_trb;
 			}
 
-			REG_WRITE_FIELD_LOCAL(&trb->f1, TRB_F1, PTR_LOW,  (uint32_t) data_ptr);
-			REG_WRITE_FIELD_LOCAL(&trb->f2, TRB_F2, PTR_HIGH, 0x0);
+			REG_WRITE_FIELD_LOCAL(&trb->f1, TRB_F1, PTR_LOW,  lower_32_bits((uintptr_t)data_ptr));
+			REG_WRITE_FIELD_LOCAL(&trb->f2, TRB_F2, PTR_HIGH, upper_32_bits((uintptr_t)data_ptr));
 			REG_WRITE_FIELD_LOCAL(&trb->f3, TRB_F3, BUFSIZ,   trb_len);
 			REG_WRITE_FIELD_LOCAL(&trb->f4, TRB_F4, LST,      0x0);
 			REG_WRITE_FIELD_LOCAL(&trb->f4, TRB_F4, CHN,      0x1);
@@ -1901,8 +1901,8 @@ static int dwc_request_queue(dwc_dev_t     *dev,
 			memset(trb, 0, sizeof(dwc_trb_t));
 			memset(ep->zlp_buf, 0, DWC_ZLP_BUF_SIZE);
 
-			REG_WRITE_FIELD_LOCAL(&trb->f1, TRB_F1, PTR_LOW,  (uint32_t) ep->zlp_buf);
-			REG_WRITE_FIELD_LOCAL(&trb->f2, TRB_F2, PTR_HIGH, 0x0);
+			REG_WRITE_FIELD_LOCAL(&trb->f1, TRB_F1, PTR_LOW,  lower_32_bits((uintptr_t)ep->zlp_buf));
+			REG_WRITE_FIELD_LOCAL(&trb->f2, TRB_F2, PTR_HIGH, upper_32_bits((uintptr_t)ep->zlp_buf));
 			REG_WRITE_FIELD_LOCAL(&trb->f3, TRB_F3, BUFSIZ,   pad_len);
 			REG_WRITE_FIELD_LOCAL(&trb->f4, TRB_F4, LST,      0x1);
 			REG_WRITE_FIELD_LOCAL(&trb->f4, TRB_F4, CHN,      0x0);

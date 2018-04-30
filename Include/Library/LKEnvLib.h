@@ -10,15 +10,17 @@
 #include <Library/CacheMaintenanceLib.h>
 #include <Library/ArmLib.h>
 
-typedef INT8 int8_t;
+typedef INT8  int8_t;
 typedef INT16 int16_t;
 typedef INT32 int32_t;
 typedef INT64 int64_t;
+typedef INTN  intptr_t;
 
-typedef UINT8 uint8_t;
+typedef UINT8  uint8_t;
 typedef UINT16 uint16_t;
 typedef UINT32 uint32_t;
 typedef UINT64 uint64_t;
+typedef UINTN  uintptr_t;
 
 typedef UINTN size_t;
 typedef BOOLEAN bool;
@@ -26,6 +28,7 @@ typedef UINTN addr_t;
 typedef UINTN paddr_t;
 
 #define UINT_MAX MAX_UINTN
+#define UINT32_MAX MAX_UINT32
 
 #define writel(v, a) MmioWrite32((UINTN)(a), (UINT32)(v))
 #define readl(a) MmioRead32((UINTN)(a))
@@ -75,8 +78,6 @@ typedef UINTN paddr_t;
 #define CACHE_LINE (ArmDataCacheLineLength())
 #define IS_CACHE_LINE_ALIGNED(addr)  !((UINTN) (addr) & (CACHE_LINE - 1))
 
-#define snprintf(s, n, fmt, ...) ((int)AsciiSPrint((s), (n), (fmt), ##__VA_ARGS__))
-
 /* debug levels */
 #define CRITICAL DEBUG_ERROR
 #define ALWAYS DEBUG_ERROR
@@ -115,5 +116,8 @@ typedef UINTN paddr_t;
 #define arch_invalidate_cache_range(start, len) InvalidateDataCacheRange ((VOID *)(UINTN)(start), (UINTN)(len));
 
 #define __ALWAYS_INLINE __attribute__ ((always_inline))
+
+#define upper_32_bits(n) ((UINT32)(((n) >> 16) >> 16))
+#define lower_32_bits(n) ((UINT32)(n))
 
 #endif

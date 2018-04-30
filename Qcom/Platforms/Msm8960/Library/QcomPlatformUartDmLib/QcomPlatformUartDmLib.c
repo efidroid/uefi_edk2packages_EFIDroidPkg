@@ -12,10 +12,10 @@ VOID LibQcomPlatformUartDmClockConfig(UINT8 id)
   CHAR8 gsbi_uart_clk_id[64];
   CHAR8 gsbi_p_clk_id[64];
 
-  snprintf(gsbi_uart_clk_id, 64,"gsbi%u_uart_clk", id);
+  AsciiSPrint(gsbi_uart_clk_id, 64,"gsbi%u_uart_clk", id);
   gClock->clk_get_set_enable(gsbi_uart_clk_id, 1843200, 1);
 
-  snprintf(gsbi_p_clk_id, 64,"gsbi%u_pclk", id);
+  AsciiSPrint(gsbi_p_clk_id, 64,"gsbi%u_pclk", id);
   gClock->clk_get_set_enable(gsbi_p_clk_id, 0, 1);
 }
 

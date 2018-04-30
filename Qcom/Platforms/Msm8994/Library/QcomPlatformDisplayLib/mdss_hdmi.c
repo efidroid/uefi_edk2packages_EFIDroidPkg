@@ -800,9 +800,9 @@ void mdss_hdmi_get_vic(char *buf)
 	uint32_t ret = mdss_hdmi_get_timing_info(&tinfo, mdss_hdmi_video_fmt);
 
 	if (ret)
-		snprintf(buf, HDMI_VIC_STR_MAX, "%d", HDMI_VFRMT_UNKNOWN);
+		AsciiSPrint(buf, HDMI_VIC_STR_MAX, "%d", HDMI_VFRMT_UNKNOWN);
 	else
-		snprintf(buf, HDMI_VIC_STR_MAX, "%d", tinfo.video_format);
+		AsciiSPrint(buf, HDMI_VIC_STR_MAX, "%d", tinfo.video_format);
 
 }
 

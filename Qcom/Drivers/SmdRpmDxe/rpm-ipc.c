@@ -48,7 +48,7 @@ void free_kvp_object(kvp_data **kdata)
 		free(*kdata);
 }
 
-int rpm_send_data(uint32_t *data, uint32_t len, msg_type type)
+INTN rpm_send_data(uint32_t *data, uint32_t len, msg_type type)
 {
 	return rpm_smd_send_data(data, len, type);
 }

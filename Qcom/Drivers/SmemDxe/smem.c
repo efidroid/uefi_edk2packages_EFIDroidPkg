@@ -39,7 +39,7 @@
  * SMEM info for SMEM Size and Phy_addr from the other bytes.
  */
 
-static uint32_t smem_get_base_addr(void)
+static UINTN smem_get_base_addr(void)
 {
 	struct smem_addr_info *smem_info = NULL;
 
@@ -47,7 +47,7 @@ static uint32_t smem_get_base_addr(void)
 	if(smem_info && (smem_info->identifier == SMEM_TARGET_INFO_IDENTIFIER))
 		return smem_info->phy_addr;
 	else
-		return (UINT32)PcdGet64(PcdMsmSharedBase);
+		return (UINTN)PcdGet64(PcdMsmSharedBase);
 }
 
 /* buf MUST be 4byte aligned, and len MUST be a multiple of 8. */
@@ -57,13 +57,13 @@ unsigned smem_read_alloc_entry(smem_mem_type_t type, void *buf, int len)
 	unsigned *dest = buf;
 	unsigned src;
 	unsigned size;
-	uint32_t smem_addr = 0;
+	UINTN    smem_addr = 0;
 	struct smem *smem;
 
 	smem_addr = smem_get_base_addr();
 	smem = (struct smem *)smem_addr;
 
-	if (((len & 0x3) != 0) || (((unsigned)buf & 0x3) != 0))
+	if (((len & 0x3) != 0) || (((UINTN)buf & 0x3) != 0))
 		return 1;
 
 	if (type < SMEM_FIRST_VALID_TYPE || type > SMEM_LAST_VALID_TYPE)
@@ -90,7 +90,7 @@ unsigned smem_read_alloc_entry(smem_mem_type_t type, void *buf, int len)
 void* smem_get_alloc_entry(smem_mem_type_t type, uint32_t* size)
 {
 	struct smem_alloc_info *ainfo = NULL;
-	uint32_t smem_addr = 0;
+	UINTN smem_addr = 0;
 	struct smem *smem;
 	uint32_t base_ext = 0;
 	uint32_t offset = 0;
@@ -112,7 +112,7 @@ void* smem_get_alloc_entry(smem_mem_type_t type, uint32_t* size)
 
 	if(base_ext)
 	{
-		ret = (void*)base_ext + offset;
+		ret = (void*) (UINTN) (base_ext + offset);
 	}
 	else
 	{
@@ -130,13 +130,13 @@ smem_read_alloc_entry_offset(smem_mem_type_t type, void *buf, int len,
 	unsigned *dest = buf;
 	unsigned src;
 	unsigned size = len;
-	uint32_t smem_addr = 0;
+	UINTN    smem_addr = 0;
 	struct smem *smem;
 
 	smem_addr = smem_get_base_addr();
 	smem = (struct smem *)smem_addr;
 
-	if (((len & 0x3) != 0) || (((unsigned)buf & 0x3) != 0))
+	if (((len & 0x3) != 0) || (((UINTN)buf & 0x3) != 0))
 		return 1;
 
 	if (type < SMEM_FIRST_VALID_TYPE || type > SMEM_LAST_VALID_TYPE)
