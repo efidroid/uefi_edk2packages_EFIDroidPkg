@@ -29,8 +29,10 @@ VOID LibQcomTargetMmcSdhciInit(INIT_SLOT_CB InitSlot)
        FindNodeStatus = FdtClient->FindNextCompatibleNode (FdtClient, "qcom,sdhci-msm", Node, &Node))
   {
     struct mmc_config_data config = {0};
+    INT32 TmpNode;
     CONST UINT32  *FdtU32;
     CONST CHAR8   *FdtChar8;
+    CONST CHAR8   *TmpChar8;
     CONST UINT32  *FdtPinCtrlArray;
     UINTN NumPinCtrls;
     UINT32 tlmm_reg = 0;
@@ -41,6 +43,8 @@ VOID LibQcomTargetMmcSdhciInit(INIT_SLOT_CB InitSlot)
     UINT32 cmd_pull_off;
     UINT32 data_pull_off;
     UINT32 rclk_pull_off;
+    UINT32 InterruptCells;
+    UINT32 InterruptOffset;
     UINT8 clk_drv;
     UINT8 cmd_drv;
     UINT8 dat_drv;
@@ -100,26 +104,129 @@ VOID LibQcomTargetMmcSdhciInit(INIT_SLOT_CB InitSlot)
 
     // get regs
     Status = FdtClient->GetNodeProperty (FdtClient, Node, "reg", (CONST VOID **)&FdtU32, &PropertySize);
-    if (EFI_ERROR (Status) || PropertySize != sizeof(*FdtU32)*4) {
+    if (EFI_ERROR (Status)) {
+      DEBUG((DEBUG_INFO, "FDT read error: \"reg\"\n"));
+      continue;
+    }
+    // get reg names
+    Status = FdtClient->GetNodeProperty(FdtClient, Node, "reg-names", (CONST VOID **)&FdtChar8, NULL);
+    if (EFI_ERROR(Status)) {
+      DEBUG((DEBUG_INFO, "FDT read error: \"reg-names\"\n"));
       continue;
     }
 
+    config.sdhc_base = 0;
+    config.pwrctl_base = 0;
+
     // get base addresses
-    config.sdhc_base = SwapBytes32 (FdtU32[0]);
-    config.pwrctl_base = SwapBytes32 (FdtU32[2]);
+    Index = 0;
+    for (TmpChar8 = FdtChar8; *TmpChar8; TmpChar8 += 1 + AsciiStrLen(TmpChar8)) {
+      if (AsciiStrnCmp("hc_mem", TmpChar8, 6) == 0) {
+        config.sdhc_base = SwapBytes32(FdtU32[Index * 2]);
+      }
+      else if (AsciiStrnCmp("core_mem", TmpChar8, 8) == 0) {
+        config.pwrctl_base = SwapBytes32(FdtU32[Index * 2]);
+      }
+      else {
+        DEBUG((DEBUG_INFO, "Unhandled register: \"%a\" = 0x%08X\n", TmpChar8, SwapBytes32(FdtU32[Index * 2])));
+      }
+      //not handled: "cmdq_mem"
+      Index++;
+    }
+
+    if (config.sdhc_base == 0) {
+      DEBUG((DEBUG_INFO, "sdhc_base cannot be NULL\n"));
+      continue;
+    }
+
+    if (config.pwrctl_base == 0) {
+      DEBUG((DEBUG_INFO, "pwrctl_base cannot be NULL\n"));
+      continue;
+    }
+
     DEBUG ((DEBUG_INFO, "sdhc_base: %x\n", config.sdhc_base));
     DEBUG ((DEBUG_INFO, "pwrctl_base: %x\n", config.pwrctl_base));
 
-    // get interrupts
-    Status = FdtClient->GetNodeProperty (FdtClient, Node, "interrupts", (CONST VOID **)&FdtU32, &PropertySize);
-    if (EFI_ERROR (Status) || PropertySize != sizeof(*FdtU32)*6) {
+    // find interrupt parent
+    for (TmpNode = Node; !FdtClient->HasNodeProperty(FdtClient, TmpNode, "interrupt-parent"); Status = FdtClient->GetParentNode(FdtClient, TmpNode, &TmpNode)) {
+      if (EFI_ERROR(Status))
+        break;
+    }
+    if (EFI_ERROR(Status)) {
+      DEBUG((DEBUG_INFO, "Could not find interrupt-parent\n"));
       continue;
     }
 
-    // get power irq
-    config.pwr_irq = PcdGet64(PcdGicSpiStart) + SwapBytes32 (FdtU32[4]);
-    DEBUG ((DEBUG_INFO, "pwr_irq: %d\n", config.pwr_irq));
+    // get PHandle to interrupt-parent
+    Status = FdtClient->GetNodeProperty(FdtClient, TmpNode, "interrupt-parent", (CONST VOID **)&FdtU32, &PropertySize);
+    if (EFI_ERROR(Status) || PropertySize != sizeof(*FdtU32)) {
+      DEBUG((DEBUG_INFO, "FDT read error: \"interrupt-parent\"\n"));
+      continue;
+    }
 
+    // get actual interrupt-parent node
+    Status = FdtClient->FindNodeByPHandle(FdtClient, SwapBytes32(*FdtU32), &TmpNode);
+    if (EFI_ERROR(Status)) {
+      DEBUG((DEBUG_INFO, "FDT node not accessible\n"));
+      continue;
+    }
+
+    // read #interrupt-cells
+    Status = FdtClient->GetNodeProperty(FdtClient, TmpNode, "#interrupt-cells", (CONST VOID **)&FdtU32, &PropertySize);
+    if (EFI_ERROR(Status) || PropertySize != sizeof(*FdtU32)) {
+      DEBUG((DEBUG_INFO, "FDT read error: \"#interrupt-cells\"\n"));
+      continue;
+    }
+    InterruptCells = SwapBytes32(*FdtU32);
+
+    switch (InterruptCells) {
+    case 1:
+      InterruptOffset = 0;
+      break;
+    case 3:
+      InterruptOffset = 1;
+      break;
+    default:
+      DEBUG((DEBUG_INFO, "#interrupt-cells value not supported: 0x%08X\n", InterruptCells));
+      continue;
+    }
+
+    DEBUG((DEBUG_INFO, "#interrupt-cells: 0x%08X; offset: 0x%08X\n", InterruptCells, InterruptOffset));
+
+    // get interrupts
+    Status = FdtClient->GetNodeProperty (FdtClient, Node, "interrupts", (CONST VOID **)&FdtU32, &PropertySize);
+    if (EFI_ERROR (Status) || (PropertySize/sizeof(*FdtU32) % InterruptCells) != 0) {
+      DEBUG((DEBUG_INFO, "FDT read error \"interrupts\"\n"));
+      continue;
+    }
+
+    // get interrupt-names
+    Status = FdtClient->GetNodeProperty(FdtClient, Node, "interrupt-names", (CONST VOID **)&FdtChar8, NULL);
+    if (EFI_ERROR(Status)) {
+      DEBUG((DEBUG_INFO, "FDT read error: \"interrupt-names\"\n"));
+    }
+
+    config.pwr_irq = 0;
+
+    // get power irq
+    Index = 0;
+    for (TmpChar8 = FdtChar8; *TmpChar8; TmpChar8 += 1 + AsciiStrLen(TmpChar8)) {
+      if (AsciiStrnCmp(TmpChar8, "pwr_irq", 7) == 0) {
+        config.pwr_irq = PcdGet64(PcdGicSpiStart) + SwapBytes32(FdtU32[(Index * InterruptCells) + InterruptOffset]);
+      }
+      else {
+        DEBUG((DEBUG_INFO, "Unhandled interrupt: \"%a\" = 0x%08X\n", TmpChar8, SwapBytes32(FdtU32[(Index * InterruptCells) + InterruptOffset])));
+      }
+      // not handled: hc_irq, status_irq
+      Index++;
+    }
+
+    if (config.pwr_irq == 0) {
+      DEBUG((DEBUG_INFO, "pwr_irq cannot be NULL\n"));
+      continue;
+    }
+
+    DEBUG ((DEBUG_INFO, "pwr_irq: %d\n", config.pwr_irq));
     config.hs200_support = 0;
     config.hs400_support = 0;
     config.use_io_switch = 0;
@@ -127,12 +234,11 @@ VOID LibQcomTargetMmcSdhciInit(INIT_SLOT_CB InitSlot)
     // get speed mode
     Status = FdtClient->GetNodeProperty(FdtClient, Node, "qcom,bus-speed-mode", (CONST VOID **)&FdtChar8, &PropertySize);
     if (!EFI_ERROR (Status)) {
-      for (FdtChar8 = FdtChar8; FdtChar8 < FdtChar8 + PropertySize && *FdtChar8;
-         FdtChar8 += 1 + AsciiStrLen (FdtChar8)) {
-        if (AsciiStrnCmp ("HS400", FdtChar8, 5) == 0) {
+      for (TmpChar8 = FdtChar8; *TmpChar8; TmpChar8 += 1 + AsciiStrLen(TmpChar8)) {
+        if (AsciiStrnCmp ("HS400", TmpChar8, 5) == 0) {
           config.hs400_support = 1;
         }
-        else if (AsciiStrnCmp ("HS200", FdtChar8, 5) == 0) {
+        else if (AsciiStrnCmp ("HS200", TmpChar8, 5) == 0) {
           config.hs200_support = 1;
         }
       }
@@ -170,12 +276,30 @@ VOID LibQcomTargetMmcSdhciInit(INIT_SLOT_CB InitSlot)
         break;
       }
 
+      // switch to config subnode if it exists (new FDT format)
+      Status = FdtClient->FindSubNode(FdtClient, PinCtrlNode, &TmpNode);
+      if (!EFI_ERROR(Status)) {
+        DEBUG((DEBUG_INFO, "Found config subnode\n"));
+        PinCtrlNode = TmpNode;
+      }
+
       // get label
       Status = FdtClient->GetNodeProperty(FdtClient, PinCtrlParentNode, "label", (CONST VOID **)&FdtChar8, NULL);
       if (EFI_ERROR (Status)) {
-        IsError = TRUE;
-        break;
+        Status = FdtClient->GetNodeProperty(FdtClient, PinCtrlNode, "pins", (CONST VOID **)&FdtChar8, NULL);
+        if (EFI_ERROR(Status)) {
+          DEBUG((DEBUG_INFO, "FDT read error: cannot get node label\n"));
+          IsError = TRUE;
+          break;
+        }
       }
+
+      /*
+       * If devices with config for multiple SDC pins in the same node appear,
+       * loop through them here, and handle all of them properly instead of
+       * ignoring all but the first one
+       */
+
       DEBUG((DEBUG_ERROR, "label: %a\n", FdtChar8));
 
       // get pull
